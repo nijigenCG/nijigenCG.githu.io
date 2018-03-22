@@ -89,7 +89,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/03/22/0-Create-Your-Blog/2.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/22/0-Create-Your-Blog/3.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/22/0-Create-Your-Blog/4.jpg">
-<meta property="og:updated_time" content="2018-03-22T09:49:33.544Z">
+<meta property="og:updated_time" content="2018-03-22T10:14:45.826Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初、使用hexo+github进行blog构建">
 <meta name="twitter:description" content="使用GitHub和hexo博客打造工具可轻松完成博客部署，git上相关blog模板工具众多，总能找到你想要的模板。 同时你也可以自己手动打造前端页面。 这篇文章将详细将如何打造自己的hexo+github Blog Welcome to [cg Blog](https://nijigencg.github.io/)!  Quick Start说白了，就是把github当作服务器托管你的页面代码，利">
@@ -189,7 +189,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -199,7 +199,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -263,7 +263,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-22T16:19:31+08:00">
                 2018-03-22
@@ -334,31 +334,26 @@ Welcome to [cg Blog](https://nijigencg.github.io/)!
 </code></pre><img src="/2018/03/22/0-Create-Your-Blog/4.jpg" title="HEXO主页">
 <h3 id="三、配置hexo书写hello-word！"><a href="#三、配置hexo书写hello-word！" class="headerlink" title="三、配置hexo书写hello word！"></a>三、配置hexo书写hello word！</h3><pre><code>进入你的blog文件夹source&gt;-_posts。改文件夹下的md文件就是你写blog的地方。
 md文件可用文本编辑器（推荐微软VS Code）打开。
-</code></pre><p>  相关文档<br><a href="http://wowubuntu.com/markdown/#precode" target="_blank" rel="noopener">1.MarkDown语法</a><br><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">2.HEXO</a>! </p>
-<h3 id="四、部署"><a href="#四、部署" class="headerlink" title="四、部署"></a>四、部署</h3><pre><code>hexo generate
-hexo deploy
+随便敲几行，保存，
+按照之前的hexo g，hexo s 生成页面，开启服务，看看你的页面。
+</code></pre><p>  更多的hexo及md语法请看相关文档<br><a href="http://wowubuntu.com/markdown/#precode" target="_blank" rel="noopener">1.MarkDown语法</a><br><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">2.HEXO</a>! </p>
+<h3 id="四、部署到远端"><a href="#四、部署到远端" class="headerlink" title="四、部署到远端"></a>四、部署到远端</h3><pre><code>到目前为止，本地已经配好，如何发布到Git上，并通过互联网访问呢？
+找到blog文件加的根目录下的_config.yml文件，用文本编辑器打开。
+在最下面配置（冒号后有个空格！）
+    deploy:
+        type: git
+        repository: git@github.com:nijigenCG/nijigenCG.github.io.git
+        branch: master
+repository里面的nijigenCG还成你的git用户名即可
+配置完成后，到blog文件夹根目录。输入
+    hexo generate
+    hexo deploy
+配置完成！！
+通过
+    https://nijigenCG.github.io
+即可访问
 </code></pre><h3 id="五、高级玩法（待续。。。）"><a href="#五、高级玩法（待续。。。）" class="headerlink" title="五、高级玩法（待续。。。）"></a>五、高级玩法（待续。。。）</h3><pre><code>5.0更换主题
 5.1添加图片视频等
-[官方文档]
-1.创建资源文件夹：对于那些想要更有规律地提供图片和其他资源以及想要将他们的资源分布在各个文章上的人来说，Hexo也提供了更组织化的方式来管理资源。这个稍微有些复杂但是管理资源非常方便的功能可以通过将 config.yml 文件中的 post_asset_folder 选项设为 true 来打开。
-    _config.yml
-    post_asset_folder: true
-当资源文件管理功能打开后，Hexo将会在你每一次通过 hexo new [layout] &lt;title&gt; 命令创建新文章时自动创建一个文件夹。这个资源文件夹将会有与这个 markdown 文件一样的名字。将所有与你的文章有关的资源放在这个关联文件夹中之后，你可以通过相对路径来引用它们，这样你就得到了一个更简单而且方便得多的工作流。
-当你打开文章资源文件夹功能后，你把一个 example.jpg 图片放在了你的资源文件夹中，如果通过使用相对路径的常规 markdown 语法 ![](/example.jpg) ，它将 不会 出现在首页上。（但是它会在文章中按你期待的方式工作）
-
-正确的引用图片方式是使用下列的标签插件而不是 markdown ：
-
-{% asset_img example.jpg This is an example image %}
-通过这种方式，图片将会同时出现在文章和主页以及归档页中。
-
-
-1 把主页配置文件_config.yml 里的post_asset_folder:这个选项设置为true
-2 在你的hexo目录下执行这样一句话npm install hexo-asset-image --save，这是下载安装一个可以上传本地图片的插件，来自dalao：dalao的git
-3 等待一小段时间后，再运行hexo n &quot;xxxx&quot;来生成md博文时，/source/_posts文件夹内除了xxxx.md文件还有一个同名的文件夹
-4 最后在xxxx.md中想引入图片时，先把图片复制到xxxx这个文件夹中，然后只需要在xxxx.md中按照markdown的格式引入图片：
-![你想输入的替代文字](xxxx/图片名.jpg)
-注意： xxxx是这个md文件的名字，也是同名文件夹的名字。只需要有文件夹名字即可，不需要有什么绝对路径。你想引入的图片就只需要放入xxxx这个文件夹内就好了，很像引用相对路径。
-5 最后检查一下，hexo g生成页面后，进入public\2017\02\26\index.html文件中查看相关字段，可以发现，html标签内的语句是&lt;img src=&quot;2017/02/26/xxxx/图片名.jpg&quot;&gt;，而不是&lt;img src=&quot;xxxx/图片名.jpg&gt;。这很重要，关乎你的网页是否可以真正加载你想插入的图片。
 </code></pre>
       
     </div>
@@ -429,10 +424,10 @@ hexo deploy
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Inhaltsverzeichnis
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Übersicht
+            Overview
           </li>
         </ul>
       
@@ -453,7 +448,7 @@ hexo deploy
                 <a href="/archives/">
               
                   <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">Artikel</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -489,7 +484,7 @@ hexo deploy
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、github操作"><span class="nav-number">1.1.</span> <span class="nav-text">一、github操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、node-npm-gitBash安装"><span class="nav-number">1.2.</span> <span class="nav-text">二、node npm gitBash安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、配置hexo书写hello-word！"><span class="nav-number">1.3.</span> <span class="nav-text">三、配置hexo书写hello word！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、部署"><span class="nav-number">1.4.</span> <span class="nav-text">四、部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、高级玩法（待续。。。）"><span class="nav-number">1.5.</span> <span class="nav-text">五、高级玩法（待续。。。）</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、github操作"><span class="nav-number">1.1.</span> <span class="nav-text">一、github操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、node-npm-gitBash安装"><span class="nav-number">1.2.</span> <span class="nav-text">二、node npm gitBash安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、配置hexo书写hello-word！"><span class="nav-number">1.3.</span> <span class="nav-text">三、配置hexo书写hello word！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、部署到远端"><span class="nav-number">1.4.</span> <span class="nav-text">四、部署到远端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、高级玩法（待续。。。）"><span class="nav-number">1.5.</span> <span class="nav-text">五、高级玩法（待续。。。）</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -519,7 +514,7 @@ hexo deploy
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
