@@ -294,7 +294,7 @@ blockquote {
 img {
   display: block;
   margin: auto;
-  max-width: 50%;
+  max-width: 100%;
   height: auto;
 }
 hr {
@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #cb1b3b;
+  background: #ffe8ff;
 }
 .links-of-blogroll {
   font-size: 13px;
