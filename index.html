@@ -247,7 +247,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/22/0-Create-Your-Blog/" itemprop="url">使用hexo+github进行blog构建</a></h1>
+                <a class="post-title-link" href="/2018/03/22/0-Create-Your-Blog/" itemprop="url">初、使用hexo+github进行blog构建</a></h1>
         
 
         <div class="post-meta">
@@ -299,14 +299,42 @@
       
         
           
-            <p>使用GitHub和hexo博客打造工具可轻松完成博客部署，git上相关blog模板工具众多，总能找到你想要的模板。同时你也可以自己手动打造前端页面。<br>这篇文章将详细将如何打造自己的hexo+github Blog<br>Welcome to <a href="https://nijigencg.github.io/" target="_blank" rel="noopener">cg Blog</a>! </p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="一、github操作"><a href="#一、github操作" class="headerlink" title="一、github操作"></a>一、github操作</h3><pre><code>首先你需要Github。注册你的[Github](https://github.com/)
-{% asset_img 1.jpg 这是一个新的博客的图片的说明 %}
-</code></pre><h3 id="二、node-npm-gitBash安装"><a href="#二、node-npm-gitBash安装" class="headerlink" title="二、node npm gitBash安装"></a>二、node npm gitBash安装</h3><pre><code>安装
-</code></pre><h3 id="三、配置hexo书写hello-word！"><a href="#三、配置hexo书写hello-word！" class="headerlink" title="三、配置hexo书写hello word！"></a>三、配置hexo书写hello word！</h3><pre><code>相关文档 [HEXO](https://hexo.io/zh-cn/docs/)! 
-</code></pre><h3 id="四、部署"><a href="#四、部署" class="headerlink" title="四、部署"></a>四、部署</h3><pre><code>hexo generate
+            <pre><code>使用GitHub和hexo博客打造工具可轻松完成博客部署，git上相关blog模板工具众多，总能找到你想要的模板。
+同时你也可以自己手动打造前端页面。
+这篇文章将详细将如何打造自己的hexo+github Blog
+Welcome to [cg Blog](https://nijigencg.github.io/)! 
+</code></pre><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><pre><code>说白了，就是把github当作服务器托管你的页面代码，利用hexo生成代码，
+并push到git上，通过域名访问就能看到你的Blog
+</code></pre><h3 id="一、github操作"><a href="#一、github操作" class="headerlink" title="一、github操作"></a>一、github操作</h3><pre><code>首先你需要Github。注册你的[Github](https://github.com/)。并为自己取一个帅气的名字！
+点击Repositories&gt;-New，建立你的Blog存放仓库。
+</code></pre><img src="/2018/03/22/0-Create-Your-Blog/1.png" title="Blog代码仓库建立">
+<pre><code>命名blog仓库，需要保证两个圈的名字是一致的。不一致blog域名会访问不到你的gitblog的！
+</code></pre><img src="/2018/03/22/0-Create-Your-Blog/2.png" title="Blog仓库命名">
+<pre><code>命名完成后，按下图设置你的GitPage。
+</code></pre><img src="/2018/03/22/0-Create-Your-Blog/3.png" title="GitPage设置">
+<pre><code>设置完成后，你就可以点开page链接看到自己主页的原始样子了~
+</code></pre><h3 id="二、node-npm-gitBash安装"><a href="#二、node-npm-gitBash安装" class="headerlink" title="二、node npm gitBash安装"></a>二、node npm gitBash安装</h3><pre><code>接下来，我们需要hexo帮助我们制作页面！
+我们需要下载两个东西：
+1.[Git下载](https://gitforwindows.org/) 简单说就是用来将你的代码上传下载到git的工具。
+    直接下载下一步下一步完成安装。
+2.[node.js下载](https://nodejs.org/en/download/) hexo通过npm安装。所以我们需要再Windows上安装npm；
+    直接下载下一步下一步完成安装。
+3.使用npm安装Hexo
+    npm install -g hexo
+    a)输入hexo -v，检查hexo是否安装成功
+    b)建立你的blog文件夹并进入，在此右键，打开GitBashHere
+    c)hexo init，初始化该文件夹
+    d)输入hexo g，(生成页面)体验Hexo
+    e)输入hexo s，开启服务器，访问该网址
+    f)如果你不想再看，可按Ctrl+C结束该服务。
+</code></pre><img src="/2018/03/22/0-Create-Your-Blog/4.jpg" title="HEXO主页">
+<h3 id="三、配置hexo书写hello-word！"><a href="#三、配置hexo书写hello-word！" class="headerlink" title="三、配置hexo书写hello word！"></a>三、配置hexo书写hello word！</h3><pre><code>进入你的blog文件夹source&gt;-_posts。改文件夹下的md文件就是你写blog的地方。
+md文件可用文本编辑器（推荐微软VS Code）打开。
+</code></pre><p>  相关文档<br><a href="http://wowubuntu.com/markdown/#precode" target="_blank" rel="noopener">1.MarkDown语法</a><br><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">2.HEXO</a>! </p>
+<h3 id="四、部署"><a href="#四、部署" class="headerlink" title="四、部署"></a>四、部署</h3><pre><code>hexo generate
 hexo deploy
-</code></pre><h3 id="五、高级玩法（待续。。。）"><a href="#五、高级玩法（待续。。。）" class="headerlink" title="五、高级玩法（待续。。。）"></a>五、高级玩法（待续。。。）</h3><pre><code>5.1添加图片视频等
+</code></pre><h3 id="五、高级玩法（待续。。。）"><a href="#五、高级玩法（待续。。。）" class="headerlink" title="五、高级玩法（待续。。。）"></a>五、高级玩法（待续。。。）</h3><pre><code>5.0更换主题
+5.1添加图片视频等
 [官方文档]
 1.创建资源文件夹：对于那些想要更有规律地提供图片和其他资源以及想要将他们的资源分布在各个文章上的人来说，Hexo也提供了更组织化的方式来管理资源。这个稍微有些复杂但是管理资源非常方便的功能可以通过将 config.yml 文件中的 post_asset_folder 选项设为 true 来打开。
     _config.yml
