@@ -181,7 +181,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -191,7 +191,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -228,7 +228,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/22/1-Create-Your-OwnBlog/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/22/0-Create-Your-Blog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Chen Gong">
@@ -247,7 +247,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/22/1-Create-Your-OwnBlog/" itemprop="url">使用hexo+github进行blog构建</a></h1>
+                <a class="post-title-link" href="/2018/03/22/0-Create-Your-Blog/" itemprop="url">使用hexo+github进行blog构建</a></h1>
         
 
         <div class="post-meta">
@@ -257,9 +257,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-22T15:47:19+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-22T16:19:31+08:00">
                 2018-03-22
               </time>
             
@@ -300,9 +300,34 @@
         
           
             <p>使用GitHub和hexo博客打造工具可轻松完成博客部署，git上相关blog模板工具众多，总能找到你想要的模板。同时你也可以自己手动打造前端页面。<br>这篇文章将详细将如何打造自己的hexo+github Blog<br>Welcome to <a href="https://nijigencg.github.io/" target="_blank" rel="noopener">cg Blog</a>! </p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="一、github操作"><a href="#一、github操作" class="headerlink" title="一、github操作"></a>一、github操作</h3><pre><code>首先你需要Github
-</code></pre><h3 id="二、node-npm安装"><a href="#二、node-npm安装" class="headerlink" title="二、node npm安装"></a>二、node npm安装</h3><h3 id="三、配置hexo"><a href="#三、配置hexo" class="headerlink" title="三、配置hexo"></a>三、配置hexo</h3><pre><code>相关文档 [HEXO](https://hexo.io/zh-cn/docs/)! 
-</code></pre><h3 id="四、部署"><a href="#四、部署" class="headerlink" title="四、部署"></a>四、部署</h3><h3 id="五、高级玩法（待续。。。）"><a href="#五、高级玩法（待续。。。）" class="headerlink" title="五、高级玩法（待续。。。）"></a>五、高级玩法（待续。。。）</h3>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="一、github操作"><a href="#一、github操作" class="headerlink" title="一、github操作"></a>一、github操作</h3><pre><code>首先你需要Github。注册你的[Github](https://github.com/)
+{% asset_img 1.jpg 这是一个新的博客的图片的说明 %}
+</code></pre><h3 id="二、node-npm-gitBash安装"><a href="#二、node-npm-gitBash安装" class="headerlink" title="二、node npm gitBash安装"></a>二、node npm gitBash安装</h3><pre><code>安装
+</code></pre><h3 id="三、配置hexo书写hello-word！"><a href="#三、配置hexo书写hello-word！" class="headerlink" title="三、配置hexo书写hello word！"></a>三、配置hexo书写hello word！</h3><pre><code>相关文档 [HEXO](https://hexo.io/zh-cn/docs/)! 
+</code></pre><h3 id="四、部署"><a href="#四、部署" class="headerlink" title="四、部署"></a>四、部署</h3><pre><code>hexo generate
+hexo deploy
+</code></pre><h3 id="五、高级玩法（待续。。。）"><a href="#五、高级玩法（待续。。。）" class="headerlink" title="五、高级玩法（待续。。。）"></a>五、高级玩法（待续。。。）</h3><pre><code>5.1添加图片视频等
+[官方文档]
+1.创建资源文件夹：对于那些想要更有规律地提供图片和其他资源以及想要将他们的资源分布在各个文章上的人来说，Hexo也提供了更组织化的方式来管理资源。这个稍微有些复杂但是管理资源非常方便的功能可以通过将 config.yml 文件中的 post_asset_folder 选项设为 true 来打开。
+    _config.yml
+    post_asset_folder: true
+当资源文件管理功能打开后，Hexo将会在你每一次通过 hexo new [layout] &lt;title&gt; 命令创建新文章时自动创建一个文件夹。这个资源文件夹将会有与这个 markdown 文件一样的名字。将所有与你的文章有关的资源放在这个关联文件夹中之后，你可以通过相对路径来引用它们，这样你就得到了一个更简单而且方便得多的工作流。
+当你打开文章资源文件夹功能后，你把一个 example.jpg 图片放在了你的资源文件夹中，如果通过使用相对路径的常规 markdown 语法 ![](/example.jpg) ，它将 不会 出现在首页上。（但是它会在文章中按你期待的方式工作）
+
+正确的引用图片方式是使用下列的标签插件而不是 markdown ：
+
+{% asset_img example.jpg This is an example image %}
+通过这种方式，图片将会同时出现在文章和主页以及归档页中。
+
+
+1 把主页配置文件_config.yml 里的post_asset_folder:这个选项设置为true
+2 在你的hexo目录下执行这样一句话npm install hexo-asset-image --save，这是下载安装一个可以上传本地图片的插件，来自dalao：dalao的git
+3 等待一小段时间后，再运行hexo n &quot;xxxx&quot;来生成md博文时，/source/_posts文件夹内除了xxxx.md文件还有一个同名的文件夹
+4 最后在xxxx.md中想引入图片时，先把图片复制到xxxx这个文件夹中，然后只需要在xxxx.md中按照markdown的格式引入图片：
+![你想输入的替代文字](xxxx/图片名.jpg)
+注意： xxxx是这个md文件的名字，也是同名文件夹的名字。只需要有文件夹名字即可，不需要有什么绝对路径。你想引入的图片就只需要放入xxxx这个文件夹内就好了，很像引用相对路径。
+5 最后检查一下，hexo g生成页面后，进入public\2017\02\26\index.html文件中查看相关字段，可以发现，html标签内的语句是&lt;img src=&quot;2017/02/26/xxxx/图片名.jpg&quot;&gt;，而不是&lt;img src=&quot;xxxx/图片名.jpg&gt;。这很重要，关乎你的网页是否可以真正加载你想插入的图片。
+</code></pre>
           
         
       
@@ -384,7 +409,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-name">Artikel</span>
                 </a>
               </div>
             
@@ -434,7 +459,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
