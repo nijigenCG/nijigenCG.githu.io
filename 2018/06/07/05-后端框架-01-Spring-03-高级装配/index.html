@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="-Spring," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Spring.profile实现开发、测试和生产环境的配置和切换为开发和测试和生产环境做不同的配置，可用到profileXML中如下 1234567891011121314151617&amp;lt;!-- 开发环境配置文件 --&amp;gt;&amp;lt;beans profile=&quot;development&quot;&amp;gt;    &amp;lt;context:property-placeholder        locati">
+<meta name="keywords" content="-Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="05-后端框架-01 Spring -03 IOC 高级装配">
+<meta property="og:url" content="http://yoursite.com/2018/06/07/05-后端框架-01-Spring-03-高级装配/index.html">
+<meta property="og:site_name" content="CGの开发万事屋">
+<meta property="og:description" content="Spring.profile实现开发、测试和生产环境的配置和切换为开发和测试和生产环境做不同的配置，可用到profileXML中如下 1234567891011121314151617&amp;lt;!-- 开发环境配置文件 --&amp;gt;&amp;lt;beans profile=&quot;development&quot;&amp;gt;    &amp;lt;context:property-placeholder        locati">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-09T07:19:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="05-后端框架-01 Spring -03 IOC 高级装配">
+<meta name="twitter:description" content="Spring.profile实现开发、测试和生产环境的配置和切换为开发和测试和生产环境做不同的配置，可用到profileXML中如下 1234567891011121314151617&amp;lt;!-- 开发环境配置文件 --&amp;gt;&amp;lt;beans profile=&quot;development&quot;&amp;gt;    &amp;lt;context:property-placeholder        locati">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/07/05-后端框架-01-Spring-03-高级装配/"/>
+
+
+
+
+
+  <title>05-后端框架-01 Spring -03 IOC 高级装配 | CGの开发万事屋</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CGの开发万事屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">欢迎来到黑铁酒吧，哦不，CG的万事屋(●'◡'●)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/07/05-后端框架-01-Spring-03-高级装配/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">05-后端框架-01 Spring -03 IOC 高级装配</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-07T06:32:04+08:00">
+                2018-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/05-后端框架-01-Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">-05.后端框架-01.Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spring-profile实现开发、测试和生产环境的配置和切换"><a href="#Spring-profile实现开发、测试和生产环境的配置和切换" class="headerlink" title="Spring.profile实现开发、测试和生产环境的配置和切换"></a>Spring.profile实现开发、测试和生产环境的配置和切换</h1><p>为开发和测试和生产环境做不同的配置，可用到profile<br>XML中如下</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 开发环境配置文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">profile</span>=<span class="string">"development"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:property-placeholder</span></span></span><br><span class="line"><span class="tag">        <span class="attr">location</span>=<span class="string">"classpath*:common/*.properties, classpath*:development/*.properties"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 测试环境配置文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">profile</span>=<span class="string">"test"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:property-placeholder</span></span></span><br><span class="line"><span class="tag">        <span class="attr">location</span>=<span class="string">"classpath*:common/*.properties, classpath*:test/*.properties"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 生产环境配置文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">profile</span>=<span class="string">"production"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:property-placeholder</span></span></span><br><span class="line"><span class="tag">        <span class="attr">location</span>=<span class="string">"classpath*:common/*.properties, classpath*:production/*.properties"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>javaConfig中如下</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceConfig</span></span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@Profile</span>(<span class="string">"production"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">jndiDataSource</span><span class="params">()</span></span>&#123;</span><br><span class="line">        JndiObjectFactoryBean jofb=<span class="keyword">new</span> JndiObjectFactoryBean();</span><br><span class="line">        jofb.setJndiName(<span class="string">"jndi/iDS"</span>);</span><br><span class="line">        jofb.setResourceRef(<span class="keyword">true</span>);</span><br><span class="line">        jofb.setProxyInterface(xxx.class);</span><br><span class="line">        <span class="keyword">return</span> (DataSource) jofb.getObject();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h1 id="Spring-条件注解"><a href="#Spring-条件注解" class="headerlink" title="Spring 条件注解"></a>Spring 条件注解</h1><p>一个或多个bean只有在应用的类路径下包含特定的库时才创建。或者希望某个bean只有当另外某个特定的bean也声明了之<br>后才会创建,这种时候@Conditional可以实现。</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用@Conditional注解，符合Linux条件就实例化LinuxListService,符合Windows条件就实例化WindowsListService</span></span><br><span class="line"><span class="meta">@Configuration</span>  </span><br><span class="line"><span class="meta">@ComponentScan</span>(basePackages=<span class="string">"com.cg.conditional"</span>)  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConditionConfig</span> </span>&#123;  </span><br><span class="line">    <span class="meta">@Bean</span>  </span><br><span class="line">    <span class="meta">@Conditional</span>(LinuxCondition.class)  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListService <span class="title">linuxListService</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LinuxListService();  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="meta">@Bean</span>  </span><br><span class="line">    <span class="meta">@Conditional</span>(WindowsCondition.class)  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListService <span class="title">windowsListService</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> WindowsListService();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="comment">//判定OS的条件类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinuxCondition</span> <span class="keyword">implements</span> <span class="title">Condition</span> </span>&#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(ConditionContext context, AnnotatedTypeMetadata metadata)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> context.getEnvironment().getProperty(<span class="string">"os.name"</span>).contains(<span class="string">"Linux"</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WindowsCondition</span> <span class="keyword">implements</span> <span class="title">Condition</span> </span>&#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(ConditionContext context, AnnotatedTypeMetadata metadata)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> context.getEnvironment().getProperty(<span class="string">"os.name"</span>).contains(<span class="string">"Windows"</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h1 id="bean的作用域"><a href="#bean的作用域" class="headerlink" title="bean的作用域"></a>bean的作用域</h1><p>在默认情况下，Spring应用上下文中所有bean都是作为以单例（singleton）的形式创建的。</p>
+<p>Spring定义了多种作用域，可以基于这些作用域创建bean，包括：</p>
+<ul>
+<li>单例（Singleton）：在整个应用中，只创建bean的一个实例。</li>
+<li>原型（Prototype）：每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例。</li>
+<li>会话（Session）：在Web应用中，为每个会话创建一个bean实例。</li>
+<li>请求（Rquest）：在Web应用中，为每个请求创建一个bean实例。</li>
+</ul>
+<p>只需要在类上加注解@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) 或者在xml中添加scope属性</p>
+<h2 id="session作用域"><a href="#session作用域" class="headerlink" title="session作用域"></a>session作用域</h2><p>在电商应用中，可能会有一个bean代表用户的购物车。如果购物车是单例的话，那么将会导致所有的用户都会向同一个购物车中添加商品。另一方面，如果购物车是Prototype，那么在应用中某一个地方往购物车中添加商品，在应用的另外一个地方可能就不可用了，Session作用域是最为合适的；这会创建多个ShoppingCart bean的实例，但是对于给定的会话只会创建一个实例，在当前会话相关的操作中，这个bean实际上相当于单例的。</p>
+<h1 id="IOC实现源码"><a href="#IOC实现源码" class="headerlink" title="IOC实现源码"></a>IOC实现源码</h1><p>底层最基本的无非就是读取配置–根据配置实例化–调用实例化的对象。</p>
+<ol>
+<li>DefaultListableBeanFactory 位于beans.surpport下。是spring加载注册bean的默认实现，XmlBeanFactory对DefaultListableBeanFactory进行了扩展，用于从xml中读取</li>
+<li>XmlBeanDefinitionReader 位于beans.xml下。是spring读取xml的重要功能。流程就是：通过继承自AbstractBeanDefinitionReader，使用ResourceLoader讲资源文件路径转为Resource文件—-通过DocumentLoader对Resource转换，换位Document文件—-通过DefaultBeanDefinitionDocumentReader（ implment BeanDefinitionDocumentReader（beans\factory\xml\BeanDefinitionDocumentReader）） 中的方法对Document进行解析（BeanDefinitionParserDelegate）</li>
+</ol>
+<h2 id="XmlFactoryBean"><a href="#XmlFactoryBean" class="headerlink" title="XmlFactoryBean"></a>XmlFactoryBean</h2><p>BeanFactory bf = new XmlBeanFactory(new ClassPathResource(“beanFactory.xml”));<br>包含两部 1.获取Resource资源 2.读取Resource</p>
+<h3 id="Resource接口获取Resource资源"><a href="#Resource接口获取Resource资源" class="headerlink" title="Resource接口获取Resource资源"></a>Resource接口获取Resource资源</h3><p>调用XmlBeanFactory构造器构造Resource资源文件的实例对象，有了Resource对象后就可以进行XmlBeanFactory初始化。<br>spring配置文件通过读取ClassPathResource（实现了core\io\Resource interface）进行封装。</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Resource接口抽象Spring内部底层资源URL、File等</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Resource</span> <span class="keyword">extends</span> <span class="title">InputStreamSource</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">exists</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isReadable</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isOpen</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">URL <span class="title">getURL</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function">URI <span class="title">getURI</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function">File <span class="title">getFile</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="title">contentLength</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="title">lastModified</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function">Resource <span class="title">createRelative</span><span class="params">(String var1)</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function">String <span class="title">getFilename</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">getDescription</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">InputStreamSource</span> </span>&#123;</span><br><span class="line">    <span class="comment">//封装任何可以返回InputStream的类，比如File，Classpath，ByteArray</span></span><br><span class="line">    <span class="function">InputStream <span class="title">getInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>实现Resource接口的类有如下：UrlResource、InputStreamResource、FileSystemResource、ClassPathResource<br>有了Resource接口，便可以对所有资源文件进行统一处理；<br>ClassPathResource通过class或者classLoader提供的底层方法调用。FileSystemResource则直接使用FileInputStream对文件实例化。均返回InputStream用于操作</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ClassPathResource通过class或者classLoader提供的底层方法调用</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> InputStream <span class="title">getInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    InputStream is;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.clazz != <span class="keyword">null</span>) &#123;</span><br><span class="line">        is = <span class="keyword">this</span>.clazz.getResourceAsStream(<span class="keyword">this</span>.path);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.classLoader != <span class="keyword">null</span>) &#123;</span><br><span class="line">        is = <span class="keyword">this</span>.classLoader.getResourceAsStream(<span class="keyword">this</span>.path);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        is = ClassLoader.getSystemResourceAsStream(<span class="keyword">this</span>.path);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (is == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> FileNotFoundException(<span class="keyword">this</span>.getDescription() + <span class="string">" cannot be opened because it does not exist"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> is;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//FileSystemResource则直接使用FileInputStream对文件实例化</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> InputStream <span class="title">getInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> FileInputStream(<span class="keyword">this</span>.file);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="XmlBeanDefinitionReader读取Resource"><a href="#XmlBeanDefinitionReader读取Resource" class="headerlink" title="XmlBeanDefinitionReader读取Resource"></a>XmlBeanDefinitionReader读取Resource</h3><p>XmlBeanFactory中</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">XmlBeanFactory</span><span class="params">(Resource resource, BeanFactory parentBeanFactory)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(parentBeanFactory);</span><br><span class="line">    <span class="comment">//真正加载的方法。loadBeanDefinitions是XmlBeanDefinitionReader的方法</span></span><br><span class="line">    <span class="keyword">this</span>.reader.loadBeanDefinitions(resource);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h2 id="获取document，解析注册"><a href="#获取document，解析注册" class="headerlink" title="获取document，解析注册"></a>获取document，解析注册</h2><h2 id="默认标签解析"><a href="#默认标签解析" class="headerlink" title="默认标签解析"></a>默认标签解析</h2><h2 id="自定义标签解析"><a href="#自定义标签解析" class="headerlink" title="自定义标签解析"></a>自定义标签解析</h2><h2 id="bean加载"><a href="#bean加载" class="headerlink" title="bean加载"></a>bean加载</h2><h2 id="容器功能扩展"><a href="#容器功能扩展" class="headerlink" title="容器功能扩展"></a>容器功能扩展</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="Chen Gong 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># -Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/07/01javaSE-03Collecetion/" rel="next" title="03、Collecetion 源码图解分析">
+                <i class="fa fa-chevron-left"></i> 03、Collecetion 源码图解分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/08/11-大数据-01-ElasticSearch-1介绍及应用场景/" rel="prev" title="11-大数据-01-ElasticSearch-1 快速入门">
+                11-大数据-01-ElasticSearch-1 快速入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Chen Gong</p>
+              <p class="site-description motion-element" itemprop="description">java 学习 Spring Cloud 微服务 图解源码 陈功</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-profile实现开发、测试和生产环境的配置和切换"><span class="nav-number">1.</span> <span class="nav-text">Spring.profile实现开发、测试和生产环境的配置和切换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-条件注解"><span class="nav-number">2.</span> <span class="nav-text">Spring 条件注解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bean的作用域"><span class="nav-number">3.</span> <span class="nav-text">bean的作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#session作用域"><span class="nav-number">3.1.</span> <span class="nav-text">session作用域</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IOC实现源码"><span class="nav-number">4.</span> <span class="nav-text">IOC实现源码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XmlFactoryBean"><span class="nav-number">4.1.</span> <span class="nav-text">XmlFactoryBean</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Resource接口获取Resource资源"><span class="nav-number">4.1.1.</span> <span class="nav-text">Resource接口获取Resource资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XmlBeanDefinitionReader读取Resource"><span class="nav-number">4.1.2.</span> <span class="nav-text">XmlBeanDefinitionReader读取Resource</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取document，解析注册"><span class="nav-number">4.2.</span> <span class="nav-text">获取document，解析注册</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认标签解析"><span class="nav-number">4.3.</span> <span class="nav-text">默认标签解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义标签解析"><span class="nav-number">4.4.</span> <span class="nav-text">自定义标签解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bean加载"><span class="nav-number">4.5.</span> <span class="nav-text">bean加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器功能扩展"><span class="nav-number">4.6.</span> <span class="nav-text">容器功能扩展</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Gong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

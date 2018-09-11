@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="-redis," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在早先的web后端中，表设计和功能开发构成了日常工作的绝大部分，所有的后端人员都在试图让一切的用&amp;gt;户操作落入CRUD的抽象范畴里(比如 Restful)，然而CRUD怎么会满足我们的抽象需求呢。自从memcached和redis在被大量引入后端开发之后，我们可以看到，后端人员在对数据的理解上有了大量&amp;gt;的改变，我们不再单单把数据视为RDBMS里面的一行，而是围绕着业务本身对数据进行了分">
+<meta name="keywords" content="-redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="01 redis-01 准备及入门">
+<meta property="og:url" content="http://yoursite.com/2018/05/14/04-数据库-02 NoSql-01 redis-01 准备及入门/index.html">
+<meta property="og:site_name" content="CGの开发万事屋">
+<meta property="og:description" content="在早先的web后端中，表设计和功能开发构成了日常工作的绝大部分，所有的后端人员都在试图让一切的用&amp;gt;户操作落入CRUD的抽象范畴里(比如 Restful)，然而CRUD怎么会满足我们的抽象需求呢。自从memcached和redis在被大量引入后端开发之后，我们可以看到，后端人员在对数据的理解上有了大量&amp;gt;的改变，我们不再单单把数据视为RDBMS里面的一行，而是围绕着业务本身对数据进行了分">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-24T01:44:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="01 redis-01 准备及入门">
+<meta name="twitter:description" content="在早先的web后端中，表设计和功能开发构成了日常工作的绝大部分，所有的后端人员都在试图让一切的用&amp;gt;户操作落入CRUD的抽象范畴里(比如 Restful)，然而CRUD怎么会满足我们的抽象需求呢。自从memcached和redis在被大量引入后端开发之后，我们可以看到，后端人员在对数据的理解上有了大量&amp;gt;的改变，我们不再单单把数据视为RDBMS里面的一行，而是围绕着业务本身对数据进行了分">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/14/04-数据库-02 NoSql-01 redis-01 准备及入门/"/>
+
+
+
+
+
+  <title>01 redis-01 准备及入门 | CGの开发万事屋</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CGの开发万事屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">欢迎来到黑铁酒吧，哦不，CG的万事屋(●'◡'●)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/04-数据库-02 NoSql-01 redis-01 准备及入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">01 redis-01 准备及入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T18:57:39+08:00">
+                2018-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/04-数据库-02-NoSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">-04.数据库-02.NoSQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>在早先的web后端中，表设计和功能开发构成了日常工作的绝大部分，所有的后端人员都在试图让一切的用&gt;户操作落入CRUD的抽象范畴里(比如 Restful)，然而CRUD怎么会满足我们的抽象需求呢。<br>自从memcached和redis在被大量引入后端开发之后，我们可以看到，后端人员在对数据的理解上有了大量&gt;的改变，我们不再单单把数据视为RDBMS里面的一行，而是围绕着业务本身对数据进行了分类。最明显的&gt; &gt; 是，状态数据的引入，在开发中，我们将用户的部分信息，视为一个用户的状态，在状态数据的基础上，让用户的行为变成状态迁移的触发，在表现上看我们让用户的信息存储到redis和memcached 里就是最RDMBS不能有效满足我们的抽象需求的一次改进。<br>从狂热的Nosql到Nosql和RDBMS的共存，代表了后端开发人员对数据这一个方式的新理解，而传统的行存储到列存储，到监控常用的基于时间序列的数据库都开始进入了我们的视野。<br>几年来，大量的开发者，开始将用户产生的数据进行了更详细的归类，不再是rdbms一刀切的方式， 我们会详细地划分出用户的状态数据落入到Nosql，将用户的操作数据落入到RDBMS(表述不一定全，但在类似于订单支付之类的具有幂等性要求的操作中要求事务的完备等)，将用户的行为统计落入时间序列数据库， 将用户的大量相关资源(如头像图片)将会落入到我们的对象存储中。在后端开发的手册里，数据格式的多样性成为了必须考虑的问题。</p>
+</blockquote>
+<h1 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h1><p>redis是一种key-value存储系统，采用c编写，由vmware主持开发。<br>特性：</p>
+<pre><code>1.支持存储的value类型包括string，list，set，zset。支持push/pop、add/remove 及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。
+2.数据缓存在内存中，Redis 会周期性的把更新的数据写入磁盘。可以使用截图的方式，将内存中的数据不断写入磁盘；或使用类似MySQL的日志方式，记录每次更新的日志。前者性能较高，但是可能会引起一定程度的数据丢失；后者相反）
+3.实现了master-slave(主从)同步，将数据同步到多台从库上，高可用
+4.提供了各类语言的api接口
+</code></pre><h2 id="为什么要用keyvalue-数据库"><a href="#为什么要用keyvalue-数据库" class="headerlink" title="为什么要用keyvalue 数据库"></a>为什么要用keyvalue 数据库</h2><p>互联网服务带来的就是大量的数据吞吐量，单台服务器或者几台服务器远远不能满足这些数据处理的<br>需求。抛弃RDBMS，采用key-value 形式的存储，这样可以极大的增强系统的可扩展性（scalability），如果要处理的数据持续增大，多加机器就可以了。</p>
+<p>对于RDBMS，一般几百个并发的查询就可以让它很吃力了，而一个Key-Value Store，可以很轻松的支持上千的并发查询。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>缓存（数据查询、短连接、新闻内容、商品内容等等）</li>
+<li>分布式集群架构中的session分离</li>
+<li>聊天室的在线好友列表</li>
+<li>任务队列（秒杀、抢购、12306等等）</li>
+<li>应用排行榜</li>
+<li>网站访问统计</li>
+<li>数据过期处理（可以精确到毫秒）</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>以cent 为例。cent 最小化安装后需要安装gcc才能编译</p>
+<p>1.download。</p>
+<pre><code>$ wget http://download.redis.io/releases/redis-4.0.9.tar.gz
+$ tar xzf redis-4.0.9.tar.gz
+$ cd redis-4.0.9
+$ make
+</code></pre><p>如果make时报如下错误：</p>
+<pre><code>zmalloc.h:50:31: error: jemalloc/jemalloc.h: No such file or directory
+</code></pre><p>jemalloc重载了Linux下的ANSI C的malloc和free函数</p>
+<pre><code>make MALLOC=libc
+</code></pre><p>2.make之后，会出现一句提示</p>
+<pre><code>Hint: To run &apos;make test&apos; is a good idea ;)
+</code></pre><p>解决办法是用yum安装tcl8.5</p>
+<pre><code>yum install tcl
+</code></pre><p>3.启动服务，默认端口6379</p>
+<p>   src/redis-server<br>4.新开session连接</p>
+<pre><code>src/redis-cli
+</code></pre><p>5.上面这种启动，如果关闭session，则redis也关闭了<br>将源码报下redis.conf文件拷贝到bin目录下<br>    cp redis.conf /bin<br>修改conf，将daemonize改为yes<br>重启redis<br>    src/redis-server redis.conf<br>关闭<br>    redis-cli shutdown</p>
+<p>6.启动客户端命令</p>
+<pre><code>启动客户端命令：[root@root bin]# ./redis-cli -h 127.0.0.1 -p 6379
+-h：指定访问的redis服务器的ip地址
+-p：指定访问的redis服务器的port端口
+</code></pre><p>7.可以使用开源软件RedisDesktopManager图形界面管理</p>
+<p>8.配置<br>整个配置文件一共1023行，但绝大部分都是注释，其中比较关键的配置项如下(不是说其他配置不重要)</p>
+<pre><code>port 6479                        --设置Redis端口
+requirepass 123456               --设置Redis密码
+
+# bind 127.0.0.1
+--需要注释掉此IP绑定
+protected-mode no
+--需要设置为no，否则其他IP地址无法连接此Redis，默认为yes
+daemonize yes
+--设置后台启动
+pidfile /var/run/redis_6579.pid
+--设置PID进程文件路径
+logfile &quot;/npfyCacheRedisLog.log&quot;
+--Redis日志文件路径，默认不记录日志
+databases 16
+--创建多少个数据库实例，默认16(db0-db15)
+dir /opt/redis-6479/rdbFiles/
+--持久化的数据文件存放位置
+maxclients 10000
+--最大客户端连接数，默认10000
+maxmemory 8589934592
+--设置Redis最大占用的内存（单位：字节）
+</code></pre><h1 id="Java程序通过Jedis连接"><a href="#Java程序通过Jedis连接" class="headerlink" title="Java程序通过Jedis连接"></a>Java程序通过Jedis连接</h1><p>官方推荐使用Jedis，支持java操作。<br>新建一个spring boot项目，pom引入jedis<br>jedis</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Jedis jedis=<span class="keyword">new</span> Jedis(<span class="string">"127.0.0.1"</span>,<span class="number">6379</span>);</span><br><span class="line"><span class="keyword">for</span>(Integer i=<span class="number">0</span>;i&lt;<span class="number">1000000</span>;i++)&#123;</span><br><span class="line">    jedis.del(<span class="string">"s"</span>+i);</span><br><span class="line">&#125;</span><br><span class="line">String res=jedis.get(<span class="string">"s2"</span>);</span><br><span class="line">jedis.close();</span><br></pre></td></tr></table></figure>
+</code></pre><p>jedisPool</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">JedisPool jedisPool=<span class="keyword">new</span> JedisPool(<span class="string">"127.0.0.1"</span>,<span class="number">6379</span>);</span><br><span class="line">Jedis jedis=jedisPool.getResource();</span><br><span class="line"><span class="keyword">for</span>(Integer i=<span class="number">0</span>;i&lt;<span class="number">1000000</span>;i++)&#123;</span><br><span class="line">    jedis.del(<span class="string">"s"</span>+i);</span><br><span class="line">&#125;</span><br><span class="line">String res=jedis.get(<span class="string">"s2"</span>);</span><br><span class="line">System.out.println(res);</span><br><span class="line">jedis.close();</span><br><span class="line">jedisPool.close();</span><br></pre></td></tr></table></figure>
+</code></pre><h1 id="Redis基本数据类型"><a href="#Redis基本数据类型" class="headerlink" title="Redis基本数据类型"></a>Redis基本数据类型</h1><h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ol>
+<li><p>set</p>
+<p> set test 1323</p>
+</li>
+<li><p>get</p>
+<p> get test</p>
+</li>
+<li><p>getset 取值并赋值</p>
+<p> getset test cg<br> get test</p>
+</li>
+<li><p>设置多个值</p>
+<p> mset aa 12 bb dsa cc dsa dd gd</p>
+</li>
+<li><p>del</p>
+<p> del test</p>
+</li>
+<li><p>数值增减 递减</p>
+<p> incr [key]  |   decr[key]<br> incr ggkey  |   decr ggkey<br> 让当前键值递增，并返回递增后的值</p>
+</li>
+<li><p>增加指定整数</p>
+<p> INCRBY [key] [increment]    |     DECRBY key decrement<br> incrby ggkey 3              |     decrby ggkey 3</p>
+</li>
+<li><p>append</p>
+<p> set ggkey hello<br> append ggkey “ world!”<br> get ggkey</p>
+</li>
+<li><p>获取字符串长度，如果键不存在则返回0</p>
+<p> strlen ggkey</p>
+</li>
+<li><p>自增主键（商品编号、订单号采用string的递增数字特性）</p>
+<p>INCR items:id</p>
+</li>
+</ol>
+<h2 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h2><p>假设有User对象以JSON序列化的形式存储到Redis中，User对象有id，username、password、age、name等属性，存储的过程如下：<br>保存、更新：<br>User对象—-json(string)—–redis<br>如果在业务上只是更新age属性，其他的属性并不做更新我应该怎么做呢？如果仍然采用上边的方法在传输、处理时会造成资源浪费。</p>
+<p>Hash叫散列类型，它提供了字段和字段值的映射<br>         |—-username—-  superZhang<br>         |—-pwd     —-  123456<br>User—–|—-name    —-  张三<br>         |—-age     —-  22</p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><ol>
+<li><p>赋值：HSET命令不区分插入和更新操作，当执行插入操作时HSET命令返回1，当执行更新操作时返回0。</p>
+<p> #一次只能设置一个字段值<br> hset user username zhangsan<br> #一次能设置多个字段值<br> hmset user age 20 username lisi<br> #字段不存在时赋值，类似HSET，区别在于如果字段存在，该命令不执行任何操作<br> hsetnx user age 30  如果user中没有age字段则设置age值为30，否则不做任何操作</p>
+</li>
+<li><p>取值</p>
+<p> #一次只能获取一个字段值<br> hget user username<br> #获取多个字段<br> hmget user age username<br> #获取所有<br> hgetall user</p>
+</li>
+<li><p>删除字段</p>
+<p> #删除一个或多个字段，返回被删除字段个数<br> hdel user age<br> hdel user age name</p>
+</li>
+<li><p>增加数字</p>
+<p> #用户年龄加2<br> hincrby user age 2<br> #判断字段是否存在<br> hexists user age</p>
+</li>
+<li><p>只获取字段名或字段值</p>
+<p> hmset user age 20 name zhangsan<br> hkeys user<br> hvals user</p>
+</li>
+<li><p>获取字段数量</p>
+<p> hlen user</p>
+</li>
+</ol>
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>redis里list分arrayList和LinkedList</p>
+<ol>
+<li><p>增加元素,返回增加个数</p>
+<p> #左增加<br> lpush cglist 112 3 dsad<br> #右增加<br> rpush cglist 14 5 6 dsa 43</p>
+</li>
+<li><p>查看列表</p>
+<p> #获取列表中的某一片段，将返回start、stop之间的所有元素（包含两端的元素），索引从0开始。<br> lrange cglist 0 6   //获取下标0-6的元素<br> lrange cglist 0 -1  //获取下标从0到最后一个的元素</p>
+</li>
+<li><p>弹出元素：LPOP命令从列表左边弹出一个元素，会分两步完成：第一步是将列表左边的元素从列表中移除，第二步是返回被移除的元素值。</p>
+<p> lpop cglist 2</p>
+</li>
+<li><p>获取长度</p>
+<p> llen cglist</p>
+</li>
+<li><p>删除 ：删除列表中前count个值为value的元素</p>
+<p> 当count&gt;0时， LREM会从列表左边开始删除。<br> 当count&lt;0时，LREM会从列表后边开始删除。<br> 当count=0时，LREM删除所有值为value的元素。<br> lrem cglist 3 0</p>
+</li>
+<li><p>获取指定位置值</p>
+<p> lindex cglist 2   //索引为2的值</p>
+</li>
+<li><p>指定索引位置的值</p>
+<p> lset cglist 2 dsadsfwre</p>
+</li>
+<li><p>截取</p>
+<p> ltrim cglist 2 4</p>
+</li>
+<li><p>插入</p>
+<p> #在第一个dsa值之后插入ggg<br> linsert cglist after ggg dsa</p>
+</li>
+<li><p>从一个列表转移到另一个列表</p>
+<p>rpoplpush cglist newlist</p>
+</li>
+<li><p>应用</p>
+<p>LPUSH items:comment:1001 ‘{“id”:1,”name”:”商品不错，很好！！”,”date”:1430295077289}’</p>
+</li>
+</ol>
+<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><h2 id="Sortedset"><a href="#Sortedset" class="headerlink" title="Sortedset"></a>Sortedset</h2><h1 id="Keys命令"><a href="#Keys命令" class="headerlink" title="Keys命令"></a>Keys命令</h1><h1 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h1><h1 id="Redis主从复制"><a href="#Redis主从复制" class="headerlink" title="Redis主从复制"></a>Redis主从复制</h1><h1 id="Redis集群"><a href="#Redis集群" class="headerlink" title="Redis集群"></a>Redis集群</h1><h1 id="Jedis连接集群"><a href="#Jedis连接集群" class="headerlink" title="Jedis连接集群"></a>Jedis连接集群</h1>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="Chen Gong 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># -redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/10/06-大后端-05架构-02微服务-01Spring-Cloud-10-Sleuth/" rel="next" title="02微服务-01Spring-Cloud-10-Sleuth">
+                <i class="fa fa-chevron-left"></i> 02微服务-01Spring-Cloud-10-Sleuth
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/14/04-数据库-02 NoSql-01 redis-02 常用命令及高级特性/" rel="prev" title="01 redis-02 常用命令及高级特性">
+                01 redis-02 常用命令及高级特性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Chen Gong</p>
+              <p class="site-description motion-element" itemprop="description">java 学习 Spring Cloud 微服务 图解源码 陈功</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Start"><span class="nav-number">1.</span> <span class="nav-text">Start</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要用keyvalue-数据库"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要用keyvalue 数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景"><span class="nav-number">1.2.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.3.</span> <span class="nav-text">安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java程序通过Jedis连接"><span class="nav-number">2.</span> <span class="nav-text">Java程序通过Jedis连接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis基本数据类型"><span class="nav-number">3.</span> <span class="nav-text">Redis基本数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#String"><span class="nav-number">3.1.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hash"><span class="nav-number">3.2.</span> <span class="nav-text">Hash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">3.3.</span> <span class="nav-text">命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">3.4.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set"><span class="nav-number">3.5.</span> <span class="nav-text">Set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sortedset"><span class="nav-number">3.6.</span> <span class="nav-text">Sortedset</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Keys命令"><span class="nav-number">4.</span> <span class="nav-text">Keys命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis持久化"><span class="nav-number">5.</span> <span class="nav-text">Redis持久化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis主从复制"><span class="nav-number">6.</span> <span class="nav-text">Redis主从复制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis集群"><span class="nav-number">7.</span> <span class="nav-text">Redis集群</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Jedis连接集群"><span class="nav-number">8.</span> <span class="nav-text">Jedis连接集群</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Gong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="java 学习 Spring Cloud 微服务 图解源码 陈功">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CGの开发万事屋">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="CGの开发万事屋">
+<meta property="og:description" content="java 学习 Spring Cloud 微服务 图解源码 陈功">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CGの开发万事屋">
+<meta name="twitter:description" content="java 学习 Spring Cloud 微服务 图解源码 陈功">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/"/>
+
+
+
+
+
+  <title>CGの开发万事屋</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CGの开发万事屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">欢迎来到黑铁酒吧，哦不，CG的万事屋(●'◡'●)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/11/0-lenovo-01-hybris开发/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/11/0-lenovo-01-hybris开发/" itemprop="url">提升hybris开发效率的几点小措施</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-11T11:29:52Z">
+                2018-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/0-玩儿-01-hybris相关/" itemprop="url" rel="index">
+                    <span itemprop="name">-0.玩儿 -01.hybris相关</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>hybris编译启动耗时巨大，可采取下面几种小措施提高一下效率；采取下面集中措施可以实现基本接近普通web开发的调试速度，并且附赠提高代码质量的好处。<br>以下采用browse项目，开发环境使用IDEA为例。</p>
+<h2 id="1-使用IDE热部署"><a href="#1-使用IDE热部署" class="headerlink" title="1.使用IDE热部署"></a>1.使用IDE热部署</h2><p>主要操作：本地ant clean all 编译一次，然后启动IDEA ，选择build whole project操作，然后调试代码时，修改一行代码，仅需要reCompile 当前类即可看到生效的结果，不必要重新编译重启项目；<br>具体操作：</p>
+<h3 id="1-1-一次编译项目"><a href="#1-1-一次编译项目" class="headerlink" title="1.1 一次编译项目"></a>1.1 一次编译项目</h3><p>本地运行命令行 </p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ant clean all</span><br></pre></td></tr></table></figure>
+<p>运行后，可以看到，编译完成的class文件在web-inf下。<img src="/2018/09/11/0-lenovo-01-hybris开发/1.png"></p>
+<h3 id="1-2-IDEA设置然后编译"><a href="#1-2-IDEA设置然后编译" class="headerlink" title="1.2 IDEA设置然后编译"></a>1.2 IDEA设置然后编译</h3><ul>
+<li>为IDEA装hybris插件<img src="/2018/09/11/0-lenovo-01-hybris开发/2.png"> </li>
+<li>插件安装后import项目，选择hybris，然后接下来的步骤均默认下一步下一步</li>
+<li>设置编译设置，修改内存大小为4096，打开并行编译<img src="/2018/09/11/0-lenovo-01-hybris开发/4.png"> </li>
+<li><p>setting-hybris，去掉勾选</p>
+<img src="/2018/09/11/0-lenovo-01-hybris开发/5.png"> 
+</li>
+<li><p>直接build项目</p>
+<img src="/2018/09/11/0-lenovo-01-hybris开发/3.png"> 
+</li>
+</ul>
+<p>build项目时可能会有如下问题，需要一一解决</p>
+<h3 id="1-3-IDEA-build过程问题解决"><a href="#1-3-IDEA-build过程问题解决" class="headerlink" title="1.3 IDEA build过程问题解决"></a>1.3 IDEA build过程问题解决</h3><p>项目中有一些不规范或错误的代码，build时会报错，需要手动修改一下（大概有3-4处错误）；<br>以browse项目代码为例，有几处编译错误需要解决</p>
+<ul>
+<li><p>ProductFeedXmlCreator/第80行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = Logger.getLogger(ProductFeedXmlCreatorTest.class.getName());</span><br><span class="line"><span class="comment">//改为</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = Logger.getLogger(ProductFeedXmlCreator.class.getName());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>B2BPunchOutQuoteFacadeImpl/390行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> AbstractOrderEntryModel targetEntry = getModelService().clone(orignEntry, entryClazz);</span><br><span class="line"><span class="comment">//改为</span></span><br><span class="line"><span class="keyword">final</span> AbstractOrderEntryModel targetEntry = (AbstractOrderEntryModel)getModelService().clone(orignEntry, entryClazz);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PriceTierController/428行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (HSSFWorkbook workbook = <span class="keyword">new</span> HSSFWorkbook(file.getInputStream()))</span><br><span class="line"><span class="comment">//new HSSFWorkbook没有实现autoclose接口，改为</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    HSSFWorkbook workbook = <span class="keyword">new</span> HSSFWorkbook(file.getInputStream());</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>编译报错的问题解决后，便可以顺利编译完成</p>
+<img src="/2018/09/11/0-lenovo-01-hybris开发/6.png"> 
+<h3 id="1-4-热编译"><a href="#1-4-热编译" class="headerlink" title="1.4 热编译"></a>1.4 热编译</h3><p>编译完成后，启动项目；调试程序时，修改了代码，仅需要从新编译修改的类即可以及生效；如下图<br><img src="/2018/09/11/0-lenovo-01-hybris开发/7.png"> </p>
+<h2 id="2-单元测试"><a href="#2-单元测试" class="headerlink" title="2.单元测试"></a>2.单元测试</h2><p>对写的代码进行单元测试，可以采用objensis 插件，屏蔽hybris的基类。实现对代码的单元测试。<br>目前</p>
+<h2 id="3-屏蔽启动"><a href="#3-屏蔽启动" class="headerlink" title="3.屏蔽启动"></a>3.屏蔽启动</h2><p>server.xml 可屏蔽不启动的模块</p>
+<h2 id="4-redis开启，及屏蔽本地https操作"><a href="#4-redis开启，及屏蔽本地https操作" class="headerlink" title="4.redis开启，及屏蔽本地https操作"></a>4.redis开启，及屏蔽本地https操作</h2><p>开启redis，加快运行速度；<br>阻止本地https，本地页面调试速度加载更快</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/13/05-后端框架-01-Spring-04-AOP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/13/05-后端框架-01-Spring-04-AOP/" itemprop="url">05-后端框架-01 Spring -04 AOP</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T16:32:16Z">
+                2018-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/05-后端框架-01-Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">-05.后端框架-01.Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>如果没有电表，也没有人来查看用电量，假设现在由户主来联系电力公司并报告自己的用电量。<br>监控用电量是一个很重要的功能，但并不是大多数家重点关注的问题。所有家庭实际上所关注的可能是打扫等事项。从家庭的角度来看，监控房屋的用电量是一个被动事件。<br>软件系统中的一些功能就像我们家里的电表一样。这些功能需要用到应用程序的多个地方，但是我们又不想在每个点都明确调用它们。日志、安全和事务管理的确都很重要，但它们是否为应用对象主动参与的行为呢？<br>如果让应用对象只关注于自己所针对的业务领域问题，而其他方面的问题由其他应用对象来处理，这会不会更好呢？<br>把这些横切关注点与业务逻辑相分离正是面向切面编程（AOP）所要解决的问题。</p>
+<h1 id="基本的概念"><a href="#基本的概念" class="headerlink" title="基本的概念"></a>基本的概念</h1><ul>
+<li>通知（Advice）：</li>
+</ul>
+<p>抄表员记录用电量是抄表员的主要工作。类似地，切面也有目标——它必须要完成的工作。在AOP术语中，切面的工作被称为通知。<br>就是 <strong>对方法添加的扩展新方法</strong><br>Spring切面可以应用5种类型的通知：<br>前置通知（Before）：在目标方法被调用之前调用通知功能；<br>后置通知（After）：在目标方法完成之后调用通知，此时不会关心方法的输出是什么；<br>返回通知（After-returning）：在目标方法成功执行之后调用通知；<br>异常通知（After-throwing）：在目标方法抛出异常后调用通知；<br>环绕通知（Around）：通知包裹了被通知的方法，在被通知的方法调用之前和调用之后执行自定义的行为。</p>
+<ul>
+<li>连接点（Join point）</li>
+</ul>
+<p>电力公司为多个住户提供服务，甚至可能是整个城市。每家都有一个电表，这些电表上的数字都需要读取，因此每家都是抄表员的潜在目标。抄表员也许能够读取各种类型的设备，但是为了完成他的工作，他的目标应该房屋内所安装的电表。<br>同样，应用可能也有数以千计的时机应用通知。这些时机被称为连接点。连接点是在应用执行过程中能够插入切面的一个点。<br>在spring中就是 <strong>被拦截的那个方法</strong></p>
+<ul>
+<li>切点（Poincut）</li>
+</ul>
+<p>如果让一位抄表员访问电力公司所服务的所有住户，那肯定是不现实的。实际上，电力公司为每一个抄表员都分别指定某一块区域的住户。类似地，一个切面并不需要通知应用的所有连接点。切点有助于缩小切面所通知的连接点的范围。<br>比如对方法进行拦截增强，该方法就是切入点</p>
+<ul>
+<li>切面（Aspect）</li>
+</ul>
+<p>当抄表员开始一天的工作时，他知道自己要做的事情（报告用电量）和从哪些房屋收集信息。因此，他知道要完成工作所需要的一切东西。切面是通知和切点的结合。<br>通知和切点共同定义了切面的全部内容——它是什么，在何时和何处完成其功能。</p>
+<ul>
+<li>引入（Introduction）</li>
+</ul>
+<p>引入允许我们向现有的类添加新方法或属性。例如，我们可以创建一个Auditable通知类，该类记录了对象最后一次修改时的状态。这很简单，只需一个方法，setLastModified(Date)，和一个实例变量来保存这个状态。然后，这个新方法和实例变量就可以被引入到现有的类中，从而可以在无需修改这些现有的类的情况下，让它们具有新的行为和状态。</p>
+<ul>
+<li>织入（Weaving）</li>
+</ul>
+<p>织入是把切面应用到目标对象并创建新的代理对象的过程。切面在指定的连接点被织入到目标对象中。在目标对象的生命周期里有多个点可以进行织入：编译期：切面在目标类编译时被织入。这种方式需要特殊的编译器。连接点是程序执行过程中能够应用通知的所有点；切点定义了通知被应用的具体位置（在哪些连接点）。其中关键的概念是切点定义了哪些连接点会得到通知。</p>
+<h1 id="使用-AspectJ注解写切面"><a href="#使用-AspectJ注解写切面" class="headerlink" title="使用@AspectJ注解写切面"></a>使用@AspectJ注解写切面</h1><h1 id="为AspectJ切面注入依赖"><a href="#为AspectJ切面注入依赖" class="headerlink" title="为AspectJ切面注入依赖"></a>为AspectJ切面注入依赖</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/11-大数据-01-ElasticSearch-1介绍及应用场景/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/08/11-大数据-01-ElasticSearch-1介绍及应用场景/" itemprop="url">11-大数据-01-ElasticSearch-1 快速入门</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-08T14:10:16Z">
+                2018-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/11-大数据-01-ElasticSearch-1介绍及应用场景入门/" itemprop="url" rel="index">
+                    <span itemprop="name">-11-大数据-01-ElasticSearch-1介绍及应用场景入门</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Elasticsearch是一个实时分布式搜索和分析引擎，用于全文搜索、结构化搜索、分析以及将这三者混合使用。<br>大部分数据库在提取可用知识方面显得异常无能。的确，它们能够通过时间戳或者精确匹配做过滤，但是它们能够进行全文搜索，处理同义词和根据相关性给文档打分吗？它们能根据同一份数据生成分析和聚合的结果吗？最重要的是，它们在没有大量工作进程（线程）的情况下能做到对数据的实时处理吗？<br>这就是Elasticsearch存在的理由：Elasticsearch鼓励你浏览并利用你的数据，而不是让它烂在数据库里，因为在数据库里实在太难查询了。</p>
+<h1 id="什么是搜索"><a href="#什么是搜索" class="headerlink" title="什么是搜索"></a>什么是搜索</h1><p>谷歌、垂直搜索（站内搜索，比如淘宝搜索，新浪新闻搜索，微博搜索）、OA系统等功能搜索</p>
+<h1 id="用数据库搜索会咋样？"><a href="#用数据库搜索会咋样？" class="headerlink" title="用数据库搜索会咋样？"></a>用数据库搜索会咋样？</h1><p>关键词搜索？’%关键词%’ 一条一条取匹配，全表扫描，无论怎么做都慢。而且死板，无法关联联想查询</p>
+<h1 id="全文搜索和Lucene"><a href="#全文搜索和Lucene" class="headerlink" title="全文搜索和Lucene"></a>全文搜索和Lucene</h1><p>Lucene 是一个高效的，基于Java 的全文检索库。<br>我们生活中的数据总体分为两种：<strong>结构化数据</strong> 和 <strong>非结构化数据</strong> 。</p>
+<ul>
+<li>结构化数据： 指具有固定格式或有限长度的数据，如数据库，元数据等。</li>
+<li>非结构化数据： 指不定长或无固定格式的数据，如邮件，word文档等。</li>
+</ul>
+<p>按照数据的分类，搜索也分为两种：</p>
+<ul>
+<li>对结构化数据的搜索 ：如对数据库的搜索，用SQL语句。再如对元数据的搜索，如利用windows搜索对文件名，类型，修改时间进行搜索等。</li>
+<li>对非结构化数据的搜索 ：如利用windows的搜索也可以搜索文件内容，Linux下的grep命令，再如用Google和百度可以搜索大量内容数据。</li>
+</ul>
+<p>非结构化数据搜索</p>
+<ul>
+<li>顺序扫描法：一个一个匹配</li>
+<li>全文检索(Full-text Search) ：这种先建立索引，再对索引进行搜索。从非结构化数据中提取出的然后重新组织的信息，我们称之索引</li>
+</ul>
+<img src="/2018/06/08/11-大数据-01-ElasticSearch-1介绍及应用场景/1.png" title="一个粗糙的倒排索引示例图">
+<h1 id="Elasticsearch及功能"><a href="#Elasticsearch及功能" class="headerlink" title="Elasticsearch及功能"></a>Elasticsearch及功能</h1><p>Elasticsearch基于Apache Lucene的开源搜索引擎，Lucene只是一个库（包含有各种算法）。对Lucene进行了封装，通过rest api发送请求。想要使用它，你必须使用Java来作为开发语言并将其直接集成到你的应用中，提供了许多合理的缺省值，并对初学者隐藏了复杂的搜索引擎理论。它开箱即用（安装即可使用），只需很少的学习既可在生产环境中使用。</p>
+<p>场景：</p>
+<ul>
+<li>分布式：海量数据分散到多台服务器储存检索</li>
+<li>数据分析：最近一个月访问前3的新闻板块等</li>
+<li>BI系统：商业智能，ELK进行数据可视化</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>分布式文档储存引擎</li>
+<li>分布式搜索分析引擎</li>
+<li>支持PB级别的数据</li>
+<li>可伸缩扩展</li>
+</ul>
+<h1 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h1><ol>
+<li>Near Realtime：近实时，写入数据到可以被搜索有一个小延迟1s左右，基于es执行搜索和分析可达到秒级</li>
+<li>Cluster：集群，包含多个节点，每个节点属于哪个集群通过一个配置进行决定</li>
+<li>Node：节点，节点会自动组成一个集群</li>
+<li>Documents：文档，es的最小数据单元，通常用json数据表示。每个Index下的type中都可以存储多个document，一个document有多个filed  （相当于行）</li>
+</ol>
+<p>{<br>    “product_id”:”1”,<br>    “product_name”:”牙膏”,<br>    “product_desc”:”美白”<br>}</p>
+<ol>
+<li>Index：索引，一个Index存有多个type。 （相当于数据库）</li>
+<li>Type：index的逻辑上的数据分类  （相当于表）</li>
+<li>Shard： 横向扩展，提高吞吐量</li>
+<li>replica：数据副本，提高可用性</li>
+</ol>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/07/05-后端框架-01-Spring-03-高级装配/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/07/05-后端框架-01-Spring-03-高级装配/" itemprop="url">05-后端框架-01 Spring -03 IOC 高级装配</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-06T22:32:04Z">
+                2018-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/05-后端框架-01-Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">-05.后端框架-01.Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Spring-profile实现开发、测试和生产环境的配置和切换"><a href="#Spring-profile实现开发、测试和生产环境的配置和切换" class="headerlink" title="Spring.profile实现开发、测试和生产环境的配置和切换"></a>Spring.profile实现开发、测试和生产环境的配置和切换</h1><p>为开发和测试和生产环境做不同的配置，可用到profile<br>XML中如下</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 开发环境配置文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">profile</span>=<span class="string">"development"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:property-placeholder</span></span></span><br><span class="line"><span class="tag">        <span class="attr">location</span>=<span class="string">"classpath*:common/*.properties, classpath*:development/*.properties"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 测试环境配置文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">profile</span>=<span class="string">"test"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:property-placeholder</span></span></span><br><span class="line"><span class="tag">        <span class="attr">location</span>=<span class="string">"classpath*:common/*.properties, classpath*:test/*.properties"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 生产环境配置文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">profile</span>=<span class="string">"production"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:property-placeholder</span></span></span><br><span class="line"><span class="tag">        <span class="attr">location</span>=<span class="string">"classpath*:common/*.properties, classpath*:production/*.properties"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>javaConfig中如下</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceConfig</span></span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@Profile</span>(<span class="string">"production"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">jndiDataSource</span><span class="params">()</span></span>&#123;</span><br><span class="line">        JndiObjectFactoryBean jofb=<span class="keyword">new</span> JndiObjectFactoryBean();</span><br><span class="line">        jofb.setJndiName(<span class="string">"jndi/iDS"</span>);</span><br><span class="line">        jofb.setResourceRef(<span class="keyword">true</span>);</span><br><span class="line">        jofb.setProxyInterface(xxx.class);</span><br><span class="line">        <span class="keyword">return</span> (DataSource) jofb.getObject();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h1 id="Spring-条件注解"><a href="#Spring-条件注解" class="headerlink" title="Spring 条件注解"></a>Spring 条件注解</h1><p>一个或多个bean只有在应用的类路径下包含特定的库时才创建。或者希望某个bean只有当另外某个特定的bean也声明了之<br>后才会创建,这种时候@Conditional可以实现。</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用@Conditional注解，符合Linux条件就实例化LinuxListService,符合Windows条件就实例化WindowsListService</span></span><br><span class="line"><span class="meta">@Configuration</span>  </span><br><span class="line"><span class="meta">@ComponentScan</span>(basePackages=<span class="string">"com.cg.conditional"</span>)  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConditionConfig</span> </span>&#123;  </span><br><span class="line">    <span class="meta">@Bean</span>  </span><br><span class="line">    <span class="meta">@Conditional</span>(LinuxCondition.class)  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListService <span class="title">linuxListService</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LinuxListService();  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="meta">@Bean</span>  </span><br><span class="line">    <span class="meta">@Conditional</span>(WindowsCondition.class)  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListService <span class="title">windowsListService</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> WindowsListService();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="comment">//判定OS的条件类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinuxCondition</span> <span class="keyword">implements</span> <span class="title">Condition</span> </span>&#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(ConditionContext context, AnnotatedTypeMetadata metadata)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> context.getEnvironment().getProperty(<span class="string">"os.name"</span>).contains(<span class="string">"Linux"</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WindowsCondition</span> <span class="keyword">implements</span> <span class="title">Condition</span> </span>&#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(ConditionContext context, AnnotatedTypeMetadata metadata)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> context.getEnvironment().getProperty(<span class="string">"os.name"</span>).contains(<span class="string">"Windows"</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h1 id="bean的作用域"><a href="#bean的作用域" class="headerlink" title="bean的作用域"></a>bean的作用域</h1><p>在默认情况下，Spring应用上下文中所有bean都是作为以单例（singleton）的形式创建的。</p>
+<p>Spring定义了多种作用域，可以基于这些作用域创建bean，包括：</p>
+<ul>
+<li>单例（Singleton）：在整个应用中，只创建bean的一个实例。</li>
+<li>原型（Prototype）：每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例。</li>
+<li>会话（Session）：在Web应用中，为每个会话创建一个bean实例。</li>
+<li>请求（Rquest）：在Web应用中，为每个请求创建一个bean实例。</li>
+</ul>
+<p>只需要在类上加注解@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) 或者在xml中添加scope属性</p>
+<h2 id="session作用域"><a href="#session作用域" class="headerlink" title="session作用域"></a>session作用域</h2><p>在电商应用中，可能会有一个bean代表用户的购物车。如果购物车是单例的话，那么将会导致所有的用户都会向同一个购物车中添加商品。另一方面，如果购物车是Prototype，那么在应用中某一个地方往购物车中添加商品，在应用的另外一个地方可能就不可用了，Session作用域是最为合适的；这会创建多个ShoppingCart bean的实例，但是对于给定的会话只会创建一个实例，在当前会话相关的操作中，这个bean实际上相当于单例的。</p>
+<h1 id="IOC实现源码"><a href="#IOC实现源码" class="headerlink" title="IOC实现源码"></a>IOC实现源码</h1><p>底层最基本的无非就是读取配置–根据配置实例化–调用实例化的对象。</p>
+<ol>
+<li>DefaultListableBeanFactory 位于beans.surpport下。是spring加载注册bean的默认实现，XmlBeanFactory对DefaultListableBeanFactory进行了扩展，用于从xml中读取</li>
+<li>XmlBeanDefinitionReader 位于beans.xml下。是spring读取xml的重要功能。流程就是：通过继承自AbstractBeanDefinitionReader，使用ResourceLoader讲资源文件路径转为Resource文件—-通过DocumentLoader对Resource转换，换位Document文件—-通过DefaultBeanDefinitionDocumentReader（ implment BeanDefinitionDocumentReader（beans\factory\xml\BeanDefinitionDocumentReader）） 中的方法对Document进行解析（BeanDefinitionParserDelegate）</li>
+</ol>
+<h2 id="XmlFactoryBean"><a href="#XmlFactoryBean" class="headerlink" title="XmlFactoryBean"></a>XmlFactoryBean</h2><p>BeanFactory bf = new XmlBeanFactory(new ClassPathResource(“beanFactory.xml”));<br>包含两部 1.获取Resource资源 2.读取Resource</p>
+<h3 id="Resource接口获取Resource资源"><a href="#Resource接口获取Resource资源" class="headerlink" title="Resource接口获取Resource资源"></a>Resource接口获取Resource资源</h3><p>调用XmlBeanFactory构造器构造Resource资源文件的实例对象，有了Resource对象后就可以进行XmlBeanFactory初始化。<br>spring配置文件通过读取ClassPathResource（实现了core\io\Resource interface）进行封装。</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Resource接口抽象Spring内部底层资源URL、File等</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Resource</span> <span class="keyword">extends</span> <span class="title">InputStreamSource</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">exists</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isReadable</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isOpen</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">URL <span class="title">getURL</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function">URI <span class="title">getURI</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function">File <span class="title">getFile</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="title">contentLength</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="title">lastModified</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function">Resource <span class="title">createRelative</span><span class="params">(String var1)</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function">String <span class="title">getFilename</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">getDescription</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">InputStreamSource</span> </span>&#123;</span><br><span class="line">    <span class="comment">//封装任何可以返回InputStream的类，比如File，Classpath，ByteArray</span></span><br><span class="line">    <span class="function">InputStream <span class="title">getInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>实现Resource接口的类有如下：UrlResource、InputStreamResource、FileSystemResource、ClassPathResource<br>有了Resource接口，便可以对所有资源文件进行统一处理；<br>ClassPathResource通过class或者classLoader提供的底层方法调用。FileSystemResource则直接使用FileInputStream对文件实例化。均返回InputStream用于操作</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ClassPathResource通过class或者classLoader提供的底层方法调用</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> InputStream <span class="title">getInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    InputStream is;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.clazz != <span class="keyword">null</span>) &#123;</span><br><span class="line">        is = <span class="keyword">this</span>.clazz.getResourceAsStream(<span class="keyword">this</span>.path);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.classLoader != <span class="keyword">null</span>) &#123;</span><br><span class="line">        is = <span class="keyword">this</span>.classLoader.getResourceAsStream(<span class="keyword">this</span>.path);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        is = ClassLoader.getSystemResourceAsStream(<span class="keyword">this</span>.path);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (is == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> FileNotFoundException(<span class="keyword">this</span>.getDescription() + <span class="string">" cannot be opened because it does not exist"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> is;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//FileSystemResource则直接使用FileInputStream对文件实例化</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> InputStream <span class="title">getInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> FileInputStream(<span class="keyword">this</span>.file);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="XmlBeanDefinitionReader读取Resource"><a href="#XmlBeanDefinitionReader读取Resource" class="headerlink" title="XmlBeanDefinitionReader读取Resource"></a>XmlBeanDefinitionReader读取Resource</h3><p>XmlBeanFactory中</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">XmlBeanFactory</span><span class="params">(Resource resource, BeanFactory parentBeanFactory)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(parentBeanFactory);</span><br><span class="line">    <span class="comment">//真正加载的方法。loadBeanDefinitions是XmlBeanDefinitionReader的方法</span></span><br><span class="line">    <span class="keyword">this</span>.reader.loadBeanDefinitions(resource);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h2 id="获取document，解析注册"><a href="#获取document，解析注册" class="headerlink" title="获取document，解析注册"></a>获取document，解析注册</h2><h2 id="默认标签解析"><a href="#默认标签解析" class="headerlink" title="默认标签解析"></a>默认标签解析</h2><h2 id="自定义标签解析"><a href="#自定义标签解析" class="headerlink" title="自定义标签解析"></a>自定义标签解析</h2><h2 id="bean加载"><a href="#bean加载" class="headerlink" title="bean加载"></a>bean加载</h2><h2 id="容器功能扩展"><a href="#容器功能扩展" class="headerlink" title="容器功能扩展"></a>容器功能扩展</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/07/01javaSE-03Collecetion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/07/01javaSE-03Collecetion/" itemprop="url">03、Collecetion 源码图解分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-06T18:41:53Z">
+                2018-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/01-JavaSE/" itemprop="url" rel="index">
+                    <span itemprop="name">-01.JavaSE</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>author：ChenGong</p>
+<p>集合作为Java中相对很重要的东西，工作使用频率相当高，不了解集合的内部原理，使用集合如同操作黑箱，出了bug，你都不知道怎么回事，比如HashMap高并发死循环的问题。为了搞透集合，尝试详细通过源码图解Java各种常用集合的数据结构及问题，有问题的地方请指教</p>
+<h1 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h1><p>集合，Java中集合有大概两种接口，一个是Collection，另一个就是Map。Collection下演绎出List Set Queue等；Map下演绎出HashMap、LinkedHashMap、TreeMap、Hashtable等。<br>新手学习集合一般就用用ArrayList，HashMap。对其数据结构及其不了解，运用场景也不知作何选择，这篇<br>长文就准备解剖Java的集合!</p>
+<h2 id="一、Map接口"><a href="#一、Map接口" class="headerlink" title="一、Map接口"></a>一、Map接口</h2><p>Map接口下有各种实现类，如HashMap、LinkedHashMap、TreeMap、Hashtable等，最常用的当然还是<br>HashMap了，先从HashMap开始.</p>
+<h3 id="1-HashMap"><a href="#1-HashMap" class="headerlink" title="1)HashMap"></a>1)HashMap</h3><p>首先需要建立一下HashMap是什么样的数据结构！Lets Begin！想想一下场景，比如“白痴”超市用10辆卡<br>车去进货，假如物品全部不分类，一股脑rua进卡车。等卸货时，日用品部门，食品部门要去拿货上架，问<br>题来了，卡车里的货物杂乱。日用品部门要去找肥皂，需要一个一个卡车去找，那么时间复杂度十分可观。</p>
+<p>“白痴”超市的经理总结了下问题，觉得要按货物大致类别进行分类运送，有专门放衣服的车，有专门放日<br>用品的车，那么找东西花的时间就可以大大缩短了。</p>
+<p>HashMap也是用到这种简单的思路，HashMap作为一种数据结构，像数组和链表一样用于常规的增删改查，<br>在存数据的时(put)并不是随便乱放，而是会先做一次类似“分类”（hash算法计算出hashCode）的操作再<br>存储，一旦“分类”存储之后，下次取(get)的时候就可以直接找到根据key值进行哈希算法定位数组下标位<br>置，大大缩短查找的时间。最理想的时间复杂度为O（1）.<br>我们知道数组在执行查、改的效率很高，而增、删(不是尾部)的效率低，链表相反，HashMap则是把这两<br>者结合起来。</p>
+<p>要弄清楚HashMap的get过程、put过程、数组扩容问题、多线程死循环、解决高并发等问题，我们需要一<br>些基本的知识准备接下那，我们聊聊这一些准备知识。</p>
+<h4 id="a）准备姿势"><a href="#a）准备姿势" class="headerlink" title="a）准备姿势"></a>a）准备姿势</h4><p>1）<strong>HashMap数据结构</strong><br>下面来看HashMap的源码图解<br><img src="/2018/06/07/01javaSE-03Collecetion/1.jpg" title="HashMap结构"><br><img src="/2018/06/07/01javaSE-03Collecetion/2.jpg" title="HashMap内部Node结构"></p>
+<p>HashMap 实例化后，会自动初始化一个数组，默认是16个长度的数组。数组中每个“槽位”中存放“黄色方<br>块”(key/value实例)，一个“槽位”可存放很多个“黄色方块”，“黄色方块”之间通过“指针”（next）进行联系，这一连串的“黄色方块”就组成了—-链表。<br>我们再来看单个“黄色方块”的结构，“黄色方块”内部包含key-value（我们存放在map中的键值对），next指<br>向（指向下一个“黄色方块”），hash值（定位数组下标的东西）。<br>好了，以上就是HashMap的基本数据结构啦。</p>
+<pre><code>注：JDK7“槽位”中如果有多个“黄色方块”，他们以_单向链表_的形式存在；
+    JDK8“槽位”中如果有多个“黄色方块”，假如该“黄色方块”数量多于8个，则会以_红黑树_的数据结构
+    进行储存。
+为什么会有这样的优化呢。因为假如Hash算法设计得很糟糕，将产生大量的_哈希碰撞_(接下来会讲
+hash是什么)，导致一个“槽位”中存放有大量键值对。JDK7处理成单向连表时间复杂度最坏时会变
+为o（n），而JDK8采用红黑树的最坏时间复杂度为O(log n).
+我们能看到优化的结果，JDK7的HashMap 时间复杂度为o（1）-o（n）;
+而JDK8的HashMap 时间复杂度为o（1）-o（log n）;
+</code></pre><p>2）<strong>HashCode</strong><br>同样我们来举个例子。楼下快递投放点，有100的架子存放快递，<br><img src="/2018/06/07/01javaSE-03Collecetion/3.jpeg" title="快递架"><br>“白痴快递”的快递小哥来快递不做处理，来一件把一件依次放到架子上，当小区取名去找快递，好了，非洲脸黑的可能从头找到尾才找到自己包裹，于是投诉“白痴快递”，“白痴快递”退出来该小区市场。新来一家“聪明快递”快递小哥根据楼栋号讲100个架子进行分类，来了哪个楼的放哪个架子上，这样小区居民不用挨个找了，极大提高了效率。</p>
+<p>这个例子其实就是一个Hash算法的思路，每个小区居民都有自己的hashCode，如4栋李四hashCode就是4栋，5栋王五hashCode就是5栋（hashCode取决于你的hash算法怎么写）。在Java的Object中可以调用hashCode()方法获取对象hashCode，返回一个int值。</p>
+<p>那么问题来了，赵六万一也住4栋，赵六的hashCode也是4栋，这就是<em>哈希碰撞</em>。一个不合理的hash算法将产生大量碰撞。</p>
+<p>我们想一下吧，刚才说了JDK的HashMap内部是一个16位长的数组，假如来了100000个对象让这个map存储，那么不可避免会<em>哈希碰撞</em>，导致每个“槽位”存在大量键值对实例，这时候查找的复杂度将趋向于O(log n),这都是JDK8优化后的结果，对于JDK7的链表模式，将不可想象。<br>不要方，重点来了！16位数组不够用？那就来256位，还不够那就2048位。就是牺牲空间换取时间，我总能保证每个槽位中所含的节点降低。JDK的解决思路就是这样，当然实际更为复杂，c)篇将讲解HashMap是如何扩容，解决单个槽位储存过多Node的问题。</p>
+<p>3）<strong>负载因子Capacity&amp;阈值threshold</strong><br>阈值(threshold)<br>负载因子(Capacity)：规定什么时候扩容的一个东西。默认hashmap数组大小为16，存的键值对数量超过16则进行扩容，然而HashMap中并不是等数组满了(达到16)才扩容，它会存在一个阈值(threshold)，只要hashmap里的键值对大于等于这个阈值，那么就要进行扩容。阈值的计算公式：</p>
+<pre><code>阈值 = 当前数组长度✖负载因子
+threshold = lenght*Capacity
+</code></pre><p>JDK默认负载因子为0.75，这应该是开发人员考虑很多因素的结果，当然你也可以自己设置为1.</p>
+<pre><code>public HashMap(int initialCapacity, float loadFactor)  
+</code></pre><p>扩容就会有rehash，接下来看<br>4）<strong>reHash</strong><br>这里需要多考虑一下，即使扩容了，还是会有多个node存放在一个“槽位”里，同时还有很多“槽位”是空的，这样是不行的，所以我们需要对所有的元素进行再次hash计算，重新分配位置。避免多个方块公用一个槽位。具体原理实现将在c)篇讲解。<br><img src="/2018/06/07/01javaSE-03Collecetion/3.jpg" title="rehash"></p>
+<p>好了，以上就是HashMap的准备知识，接下来源码分析，高能。</p>
+<h4 id="b）HashMap构造源码分析"><a href="#b）HashMap构造源码分析" class="headerlink" title="b）HashMap构造源码分析"></a>b）HashMap构造源码分析</h4><p>1.JDK7<br>    回顾一下，HashMap首先会有自己的数组长度，然后有节点对象，负载因子。还会定义几种构造方法</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//HashMap里的数组</span></span><br><span class="line"><span class="keyword">transient</span> Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;</span><br><span class="line"><span class="comment">//Entry对象，存key、value、hash值以及下一个节点</span></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> K key;</span><br><span class="line">    V value;</span><br><span class="line">    Entry&lt;K,V&gt; next;</span><br><span class="line">    <span class="keyword">int</span> hash;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//默认数组大小16(移位运算)</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>；</span><br><span class="line"><span class="comment">//负载因子默认值</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>; </span><br><span class="line"><span class="comment">//当前存的键值对数量</span></span><br><span class="line"><span class="keyword">transient</span> <span class="keyword">int</span> size;</span><br><span class="line"><span class="comment">//阀值 = 数组大小 * 负载因子</span></span><br><span class="line"><span class="keyword">int</span> threshold;</span><br><span class="line"><span class="comment">//负载因子变量</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">float</span> loadFactor;</span><br><span class="line"></span><br><span class="line"><span class="comment">//默认new HashMap数组大小16，负载因子0.75</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(initialCapacity, DEFAULT_LOAD_FACTOR);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//可以指定数组大小和负载因子</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//省略一些逻辑判断</span></span><br><span class="line">    <span class="keyword">this</span>.loadFactor = loadFactor;</span><br><span class="line">    threshold = initialCapacity;</span><br><span class="line">    <span class="comment">//空方法</span></span><br><span class="line">    init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>2.JDK8 同JDK基本一致，不一致的如下</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//转为红黑树的长度</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TREEIFY_THRESHOLD = <span class="number">8</span>;</span><br><span class="line"><span class="comment">//JDK8中不再叫Entry，改叫Node，实际上还是继承于Entry</span></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">    <span class="keyword">final</span> K key;</span><br><span class="line">    V value;</span><br><span class="line">    Node&lt;K,V&gt; next;</span><br><span class="line">    <span class="comment">//内部类</span></span><br><span class="line">    Node(<span class="keyword">int</span> hash, K key, V value, Node&lt;K,V&gt; next) &#123;</span><br><span class="line">        <span class="keyword">this</span>.hash = hash;</span><br><span class="line">        <span class="keyword">this</span>.key = key;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">        <span class="keyword">this</span>.next = next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> K <span class="title">getKey</span><span class="params">()</span>        </span>&#123; <span class="keyword">return</span> key; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">getValue</span><span class="params">()</span>      </span>&#123; <span class="keyword">return</span> value; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> key + <span class="string">"="</span> + value; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Objects.hashCode(key) ^ Objects.hashCode(value);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">setValue</span><span class="params">(V newValue)</span> </span>&#123;</span><br><span class="line">        V oldValue = value;</span><br><span class="line">        value = newValue;</span><br><span class="line">        <span class="keyword">return</span> oldValue;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (o == <span class="keyword">this</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (o <span class="keyword">instanceof</span> Map.Entry) &#123;</span><br><span class="line">            Map.Entry&lt;?,?&gt; e = (Map.Entry&lt;?,?&gt;)o;</span><br><span class="line">            <span class="keyword">if</span> (Objects.equals(key, e.getKey()) &amp;&amp;</span><br><span class="line">                Objects.equals(value, e.getValue()))</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="b）hash值计算及存-put-取-get-过程源码分析"><a href="#b）hash值计算及存-put-取-get-过程源码分析" class="headerlink" title="b）hash值计算及存(put)取(get)过程源码分析"></a>b）hash值计算及存(put)取(get)过程源码分析</h4><p><strong>1.hash计算</strong><br>假如进行</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.put(<span class="string">"name"</span>,<span class="string">"lisi"</span>);</span><br></pre></td></tr></table></figure>
+</code></pre><p>jdk会拿到key=”name”，调用native方法对name进行hash计算，native本地方法计算hash值非常快。但是拿到的hash值是一个int类型的数，我们假如hash值为324852，那么这个hash值如何去对应到数组的下标？同时如何尽可能打乱hash值的不同让值更可能地散列？<br>为了解决这两个问题，jdk是如下方式对hash值进行位运算处理的。<br>    <strong>散列化</strong><br>hash值是32位的int类型，所以进行二进制位运算，将高16位与低16位进行异或运算。得到一个新的hash值，尽可能均匀分布（散列原理带学习=====(￣▽￣*)b），减少hash碰撞</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">key.hashCode() ^ (h &gt;&gt;&gt; <span class="number">16</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><p>   <strong>对应到数组下标</strong><br>假如数组为16位长度，如何将324852这个越界的下标值对应到16位数组下标去？<br>很简单就是取模嘛。。计算机中采用位运算速度更快</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(n-<span class="number">1</span>)&amp;hash   就是  hash % (n-<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><p>这里牵扯到一个问题，加入数组不是2次幂的长度，那么位运算会有问题，假如为15，那么（n-1）&amp;hash 计算14的二进制为 1110 末位为0！之前hash做了那么多工作为了保证更为均匀分布，现在末位为0，0与任何进行与运算都为0！会导致最后一位为1的永远放不了元素。所以数组必须要2次幂的长度，而扩容也需要2倍增长</p>
+<p>讲完原理看源码就很简单了</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//进行hash值位运算，使其能在数组中均匀分布</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h;</span><br><span class="line">    <span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//将运算好的对应到数组下标</span></span><br><span class="line"> <span class="function"><span class="keyword">final</span> V <span class="title">putVal</span><span class="params">(<span class="keyword">int</span> hash, K key, V value, <span class="keyword">boolean</span> onlyIfAbsent,</span></span></span><br><span class="line"><span class="function"><span class="params">               <span class="keyword">boolean</span> evict)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//计算下标，如果不为空则将Node加入到该下标</span></span><br><span class="line">    <span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="keyword">null</span>)</span><br><span class="line">            tab[i] = newNode(hash, key, value, <span class="keyword">null</span>);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p><strong>2.put get</strong><br>这部分分两部，JDK7的存取和JDK8的存取，难点在put。而put中的resize将放在下面讲解<br><strong>JDK7的存取过程</strong><br>我们先来看一张put的流程如图<br><img src="/2018/06/07/01javaSE-03Collecetion/4.jpg" title="put流程图"></p>
+<ul>
+<li>先判断key是否为空，如果为空则放到数组指针为0处。</li>
+<li>如果key不为空，则调用native方法先计算key的哈希值，拿到哈希值后，做扰动，确保更好的随机性，降低哈希碰撞。</li>
+</ul>
+<blockquote>
+<p>JDK8扰动做一次，做4次的话，多了可能边际效用也不大，为了效率考虑就改成一次。</p>
+</blockquote>
+<ul>
+<li>根据扰动后的哈希值和数组的长度，计算该存到下标的位置,使用 key 的 hash 值对数组长度进行取模</li>
+<li>找到下标位置的数组，进行添加操作，如果该位置hash值key值均相同，则替换；否则调用addEntry添加（添加时可能触发resize，c篇讲解）。</li>
+</ul>
+<p>put都搞清楚了，get就很简单了。</p>
+<pre><code>1 根据 key 计算 hash 值。
+2 找到相应的数组下标：hash &amp; (length – 1)。
+3 遍历该数组位置处的链表，直到找到相等(==或equals)的 key。
+</code></pre><p><strong>JDK8的存取过程</strong><br>JDK8的put过程相对于JDk7基本差不多。JDk7是先扩容后插入新值的，JDK8先插值再扩容。相比之前JDK8源码更简洁，但可读性差一点。<br>于是，我们看流程图<br><img src="/2018/06/07/01javaSE-03Collecetion/5.jpg" title="put流程图"></p>
+<h4 id="c）扩容resize-分析！难点在于transfer"><a href="#c）扩容resize-分析！难点在于transfer" class="headerlink" title="c）扩容resize()分析！难点在于transfer"></a>c）扩容resize()分析！难点在于transfer</h4><p>扩容是一个特别耗性能的操作，所以当程序员在使用HashMap的时候，估算map的大小，初始化的时候给一个大致的数值，避免map进行频繁的扩容。</p>
+<blockquote>
+<p>在阿里巴巴java编程规约也要求初始化hashMap大小。<br>简述一下原理，假设原理数组容量为2^n,扩容后为2^(n+1),上面分析了，元素下标位置和hash最后n位相关。扩容后table索引为后n+1位确定，</p>
+</blockquote>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = hash &amp; (<span class="number">2</span>^(n+<span class="number">1</span>)-<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>元素hash N+1位为0, 移动到原索引位置</li>
+<li>元素hash N+1位为1, 移动至原索引两倍位置</li>
+</ul>
+<p><strong>JDK7 resize transfer</strong> 来看下面图例和源码，相较JDK8简单</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable, <span class="keyword">boolean</span> rehash)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//获取新数组的长度</span></span><br><span class="line">    <span class="keyword">int</span> newCapacity = newTable.length;</span><br><span class="line">    <span class="comment">//遍历旧数组中的键值对</span></span><br><span class="line">    <span class="keyword">for</span> (Entry&lt;K,V&gt; e : table) &#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">null</span> != e) &#123;</span><br><span class="line">            Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">            <span class="keyword">if</span> (rehash) &#123;</span><br><span class="line">                e.hash = <span class="keyword">null</span> == e.key ? <span class="number">0</span> : hash(e.key);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//计算在新表中的索引，并到新数组中</span></span><br><span class="line">            <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</span><br><span class="line">            <span class="comment">/*将改位置的数组赋值给链表e的next，然后再把链表e放到数组该下标位置</span></span><br><span class="line"><span class="comment">            也就是将e加到链表头部</span></span><br><span class="line"><span class="comment">            会使得转移前后键值对的顺序颠倒*/</span></span><br><span class="line">            e.next = newTable[i];</span><br><span class="line">            newTable[i] = e;</span><br><span class="line">            e = next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><img src="/2018/06/07/01javaSE-03Collecetion/1.png" title="第一次循环">
+<img src="/2018/06/07/01javaSE-03Collecetion/2.png" title="第二次循环">
+<p><strong>JDK8 resize transfer</strong> 相对就复杂多了，把初始化和扩容合在一起了</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Node&lt;K,V&gt;[] resize() &#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    *下面主要是数组初始化过程</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="comment">//旧数组的引用</span></span><br><span class="line">    Node&lt;K,V&gt;[] oldTab = table;</span><br><span class="line">    <span class="comment">//旧数组长度</span></span><br><span class="line">    <span class="keyword">int</span> oldCap = (oldTab == <span class="keyword">null</span>) ? <span class="number">0</span> : oldTab.length;</span><br><span class="line">    <span class="comment">//旧数组阈值</span></span><br><span class="line">    <span class="keyword">int</span> oldThr = threshold;</span><br><span class="line">    <span class="comment">//新数组长度、新阈值</span></span><br><span class="line">    <span class="keyword">int</span> newCap, newThr = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (oldCap &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//极端情况，旧数组爆满了</span></span><br><span class="line">        <span class="keyword">if</span> (oldCap &gt;= MAXIMUM_CAPACITY) &#123;</span><br><span class="line">            <span class="comment">//阈值改成最大，放弃治疗直接返回旧数组</span></span><br><span class="line">            threshold = Integer.MAX_VALUE;</span><br><span class="line">            <span class="keyword">return</span> oldTab;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//扩容，这里采用左移运算左移1位，也就是旧数组*2</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ((newCap = oldCap &lt;&lt; <span class="number">1</span>) &lt; MAXIMUM_CAPACITY &amp;&amp;</span><br><span class="line">                oldCap &gt;= DEFAULT_INITIAL_CAPACITY)</span><br><span class="line">            <span class="comment">//同样新阈值也是旧阈值*2</span></span><br><span class="line">            newThr = oldThr &lt;&lt; <span class="number">1</span>; <span class="comment">// double threshold</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (oldThr &gt; <span class="number">0</span>) <span class="comment">// initial capacity was placed in threshold</span></span><br><span class="line">        newCap = oldThr;</span><br><span class="line">    <span class="comment">//初始化在这里</span></span><br><span class="line">    <span class="keyword">else</span> &#123;               <span class="comment">// zero initial threshold signifies using defaults</span></span><br><span class="line">        newCap = DEFAULT_INITIAL_CAPACITY;</span><br><span class="line">        newThr = (<span class="keyword">int</span>)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (newThr == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">float</span> ft = (<span class="keyword">float</span>)newCap * loadFactor;</span><br><span class="line">        newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (<span class="keyword">float</span>)MAXIMUM_CAPACITY ?</span><br><span class="line">                (<span class="keyword">int</span>)ft : Integer.MAX_VALUE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//更新阈值</span></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    *下面就是resize过程</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    threshold = newThr;</span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(&#123;<span class="string">"rawtypes"</span>,<span class="string">"unchecked"</span>&#125;)</span><br><span class="line">        <span class="comment">//创建新数组</span></span><br><span class="line">        Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])<span class="keyword">new</span> Node[newCap];</span><br><span class="line">    table = newTab;</span><br><span class="line">    <span class="keyword">if</span> (oldTab != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; oldCap; ++j) &#123;</span><br><span class="line">            Node&lt;K,V&gt; e;</span><br><span class="line">            <span class="keyword">if</span> ((e = oldTab[j]) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">//遍历旧数组，把原来的引用取消，方便垃圾回收</span></span><br><span class="line">                oldTab[j] = <span class="keyword">null</span>;</span><br><span class="line">                <span class="comment">//这个链只有一个节点，根据新数组长度计算在新表中的位置</span></span><br><span class="line">                <span class="keyword">if</span> (e.next == <span class="keyword">null</span>)</span><br><span class="line">                    newTab[e.hash &amp; (newCap - <span class="number">1</span>)] = e;</span><br><span class="line">                <span class="comment">//红黑树的处理</span></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (e <span class="keyword">instanceof</span> TreeNode)</span><br><span class="line">                    ((TreeNode&lt;K,V&gt;)e).split(<span class="keyword">this</span>, newTab, j, oldCap);</span><br><span class="line">                <span class="comment">//链表长度大于1，小于8的情况，下面高能，单独拿出来分析</span></span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// 进行链表复制</span></span><br><span class="line">                    <span class="comment">// 方法比较特殊： 它并没有重新计算元素在数组中的位置</span></span><br><span class="line">                    <span class="comment">// 而是采用了 原始位置加原数组长度的方法计算得到位置</span></span><br><span class="line">                    <span class="comment">//loHead用于存放下标不需要移动链表的头\loTail 用于存放下标不需要移动链表的next，作用就是一个指针</span></span><br><span class="line">                    Node&lt;K,V&gt; loHead = <span class="keyword">null</span>, loTail = <span class="keyword">null</span>;</span><br><span class="line">                    <span class="comment">//hiHead用于存放下标需要移动链表的头\hiTail 用于存放下标需要移动链表的next，作用就是一个指针</span></span><br><span class="line">                    Node&lt;K,V&gt; hiHead = <span class="keyword">null</span>, hiTail = <span class="keyword">null</span>;</span><br><span class="line">                    Node&lt;K,V&gt; next;</span><br><span class="line">                    <span class="keyword">do</span> &#123;</span><br><span class="line">                        next = e.next;</span><br><span class="line">                        <span class="comment">/* 注意：不是(e.hash &amp; (oldCap-1));而是(e.hash &amp; oldCap)</span></span><br><span class="line"><span class="comment">                         (e.hash &amp; oldCap) 得到的是 元素的在数组中的位置是否需要移动,示例如下</span></span><br><span class="line"><span class="comment">                         示例1：</span></span><br><span class="line"><span class="comment">                         e.hash=10     0000 1010</span></span><br><span class="line"><span class="comment">                         oldCap=16     0001 0000</span></span><br><span class="line"><span class="comment">                           &amp;   =0      0000 0000       比较高位的第一位 0</span></span><br><span class="line"><span class="comment">                        结论：元素位置在扩容后数组中的位置没有发生改变</span></span><br><span class="line"><span class="comment">                         示例2：</span></span><br><span class="line"><span class="comment">                         e.hash=17     0001 0001</span></span><br><span class="line"><span class="comment">                         oldCap=16     0001 0000</span></span><br><span class="line"><span class="comment">                           &amp;   =1      0001 0000      比较高位的第一位   1</span></span><br><span class="line"><span class="comment">                        结论：元素位置在扩容后数组中的位置发生了改变，新的下标位置是原下标位置+原数组长度</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">                         (e.hash &amp; (oldCap-1)) 得到的是下标位置,示例如下</span></span><br><span class="line"><span class="comment">                         e.hash=10     0000 1010</span></span><br><span class="line"><span class="comment">                         oldCap-1=15   0000 1111</span></span><br><span class="line"><span class="comment">                            &amp;  =10     0000 1010</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">                         e.hash=17     0001 0001</span></span><br><span class="line"><span class="comment">                         oldCap-1=15   0000 1111</span></span><br><span class="line"><span class="comment">                            &amp;  =1      0000 0001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">                        新下标位置</span></span><br><span class="line"><span class="comment">                         e.hash=17     0001 0001</span></span><br><span class="line"><span class="comment">                         newCap-1=31   0001 1111    newCap=32</span></span><br><span class="line"><span class="comment">                            &amp;  =17     0001 0001    1+oldCap = 1+16</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">                        元素在重新计算hash之后，因为n变为2倍，那么n-1的mask范围在高位多1bit(红色)，因此新的index就会发生这样的变化：</span></span><br><span class="line"><span class="comment">                         0000 0001-&gt;0001 0001</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">                         因此，我们在扩充HashMap的时候，不需要像JDK1.7的实现那样重新计算hash，只需要看看原来的hash值新增的那个bit是1还是0就好了，是0的话索引没变，是1的话索引变成“原索引+oldCap”</span></span><br><span class="line"><span class="comment">                         */</span></span><br><span class="line">                        <span class="keyword">if</span> ((e.hash &amp; oldCap) == <span class="number">0</span>) &#123;</span><br><span class="line">                            <span class="comment">// 如果原元素位置没有发生变化</span></span><br><span class="line">                            <span class="comment">//分析可知是相当于将链表原原本本移动到新数组位置</span></span><br><span class="line">                            <span class="keyword">if</span> (loTail == <span class="keyword">null</span>)</span><br><span class="line">                                loHead = e;</span><br><span class="line">                            <span class="keyword">else</span></span><br><span class="line">                                loTail.next = e;</span><br><span class="line">                            loTail = e;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="comment">//与上面同理，移动的是下标需要改变的链表</span></span><br><span class="line">                            <span class="keyword">if</span> (hiTail == <span class="keyword">null</span>)</span><br><span class="line">                                hiHead = e;</span><br><span class="line">                            <span class="keyword">else</span></span><br><span class="line">                                hiTail.next = e;</span><br><span class="line">                            hiTail = e;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">while</span> ((e = next) != <span class="keyword">null</span>);</span><br><span class="line">                    <span class="comment">//这一块就是 旧链表迁移新链表</span></span><br><span class="line">                    <span class="keyword">if</span> (loTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        loTail.next = <span class="keyword">null</span>;<span class="comment">// 将链表的尾节点 的next 设置为空</span></span><br><span class="line">                        newTab[j] = loHead;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (hiTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        hiTail.next = <span class="keyword">null</span>;<span class="comment">// 将链表的尾节点 的next 设置为空</span></span><br><span class="line">                        newTab[j + oldCap] = hiHead;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> newTab;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>总结：<br>1.8中 旧链表迁移新链表 链表元素相对位置没有变化; 实际是对对象的内存地址进行操作，由于是对象内存地址操作，实际上transfer这一步速度也比jdk7快；<br>1.7中  旧链表迁移新链表 如果在新表的数组索引位置相同，则链表元素会倒置（这也是jdk7 hashmap多线程死循环的根源，随后会讲）；</p>
+<h4 id="d）线程不安全的HashMap"><a href="#d）线程不安全的HashMap" class="headerlink" title="d）线程不安全的HashMap"></a>d）线程不安全的HashMap</h4><p>hashmap多线程下会造成hashmap死循环（JDK7）、put值无法保证等问题.再有多线程的情况下尽量使用ConcurrentHashMap。<br><strong>JDK7</strong> 情况<br>问题集中再transfer上面</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable, <span class="keyword">boolean</span> rehash)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//获取新数组的长度</span></span><br><span class="line">    <span class="keyword">int</span> newCapacity = newTable.length;</span><br><span class="line">    <span class="comment">//遍历旧数组中的键值对</span></span><br><span class="line">    <span class="keyword">for</span> (Entry&lt;K,V&gt; e : table) &#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">null</span> != e) &#123;</span><br><span class="line">            Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">            <span class="keyword">if</span> (rehash) &#123;</span><br><span class="line">                e.hash = <span class="keyword">null</span> == e.key ? <span class="number">0</span> : hash(e.key);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//计算在新表中的索引，并到新数组中</span></span><br><span class="line">            <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</span><br><span class="line">            e.next = newTable[i];</span><br><span class="line">            newTable[i] = e;</span><br><span class="line">            e = next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><blockquote>
+<p>下面实例摘自美团技术博客，配上自己的代码注释<br><img src="/2018/06/07/01javaSE-03Collecetion/6.jpg"><br><img src="/2018/06/07/01javaSE-03Collecetion/7.jpg"><br>这个时候形成了循环链表，假如我们get或者put的时候，hash碰撞到了下标为3的位置，就会进入循环链表，链表中没有null，会一直出不去，导致cpu占用100%！</p>
+</blockquote>
+<p><strong>JDK8</strong> 则修复了该缺陷，前面源码很好的能看出，jdk8全程是没有去修改链表的引用关系</p>
+<p>通过源码分析，Java7在多线程操作hashmap时可能引起死循环，原因是扩容转移后前后链表顺序倒置，在转移过程中修改了原来链表中节点的引用关系；Java8在同样的前提下并不会引起死循环，原因是扩容转移后前后链表顺序不变，保持之前节点的引用关系。<br>但是不是意味着Java8就可以把HashMap用在多线程中，因为put/get方法都没有加同步锁，多线程情况最容易出现的就是：无法保证上一秒put的值，下一秒get的时候还是原值，建议使用ConcurrentHashMap。</p>
+<h4 id="e）线程安全且高效的ConcurrentHashMap"><a href="#e）线程安全且高效的ConcurrentHashMap" class="headerlink" title="e）线程安全且高效的ConcurrentHashMap"></a>e）线程安全且高效的ConcurrentHashMap</h4><p>Concurrent翻译过来是并发的意思，字面理解它的作用是处理并发情况的 HashMap。多线程并发下 HashMap 是不安全的，常规思路就是给 HashMap 的 put 方法加锁(synchronized)，保证同一个时刻只允许一个线程拥有对 hashmap 有写的操作权限即可。然而假如线程操作耗时，占着茅坑半天不出来，其他需要操作该 hashmap 的线程就需要在门口排队半天，严重影响用户体验( <del>HashTable</del> 就是这么干的)<br>JDK7是采用的分段锁机制，不再讨论过时的，<br>来看看java8是怎么设计的，改用 CAS + synchronized 控制并发操作；</p>
+<h5 id="JDK6与JDK7中的实现"><a href="#JDK6与JDK7中的实现" class="headerlink" title="JDK6与JDK7中的实现"></a>JDK6与JDK7中的实现</h5><p>相比于对整个Map加锁的设计，分段锁大大的提高了高并发环境下的处理能力。但同时，由于不是对整个Map加锁，导致一些需要扫描整个Map的方法（如size(), containsValue()）需要使用特殊的实现，另外一些方法（如clear()）甚至放弃了对一致性的要求.<br>并发度可以理解为程序运行时能够同时更新ConccurentHashMap且不产生锁竞争的最大线程数，实际上就是ConcurrentHashMap中的分段锁个数，即Segment[]的数组长度。ConcurrentHashMap默认的并发度为16，但用户也可以在构造函数中设置并发度。当用户设置并发度时，<br>ConcurrentHashMap会使用大于等于该值的最小2幂指数作为实际并发度（假如用户设置并发度为17，实际并发度则为32）。<br>运行时通过将key的高n位（n = 32 – segmentShift）和并发度减1（segmentMask）做位与运算定位到所在的Segment。<br>segmentShift与segmentMask都是在构造过程中根据concurrency level被相应的计算出来。</p>
+<p>如果并发度设置的过小，会带来严重的锁竞争问题；<br>如果并发度设置的过大，原本位于同一个Segment内的访问会扩散到不同的Segment中，CPU cache命中率会下降，从而引起程序性能下降。</p>
+<h5 id="JDK8的实现"><a href="#JDK8的实现" class="headerlink" title="JDK8的实现"></a>JDK8的实现</h5><p>ConcurrentHashMap在JDK8中进行了巨大改动，弃了Segment（锁段）的概念，启用了CAS算法。它沿用了与它同时期的HashMap版本的思想，底层依然由“数组”+链表+红黑树的方式思想(JDK7与JDK8中HashMap的实现)，但是为了做到并发，又增加了很多辅助的类，例如TreeBin，Traverser等对象内部类。<br><strong>重要的属性</strong><br>首先来看几个重要的属性，与HashMap相同的就不再介绍了，这里重点解释一下sizeCtl这个属性。可以说它是ConcurrentHashMap中出镜率很高的一个属性，因为它是一个控制标识符，在不同的地方有不同用途，而且它的取值不同，也代表不同的含义。</p>
+<p>负数代表正在进行初始化或扩容操作<br>-1代表正在初始化<br>-N 表示有N-1个线程正在进行扩容操作<br>正数或0代表hash表还没有被初始化<br>这个数值表示初始化或下一次进行扩容的大小，这一点类似于扩容阈值的概念。还后面可以看到，它的值始终是当前ConcurrentHashMap容量的0.75倍，这与loadfactor是对应的。</p>
+<h3 id="2-HashTable辣鸡，废弃"><a href="#2-HashTable辣鸡，废弃" class="headerlink" title="2)HashTable辣鸡，废弃"></a>2)<del>HashTable辣鸡，废弃</del></h3><p><del>Hashtable</del>是遗留类，很多映射的常用功能与HashMap类似，不同的是它承自Dictionary类，并且是线程安全的，任一时间只有一个线程能写<del>Hashtable</del>，并发性不如ConcurrentHashMap，因为ConcurrentHashMap引入了分段锁（JDK8改为了CAS等算法不加锁）。<del>Hashtable</del>不建议在新代码中使用，不需要线程安全的场合可以用HashMap替换，需要线程安全的场合可以用ConcurrentHashMap替换。</p>
+<h3 id="3-LinkedHashMap-待续"><a href="#3-LinkedHashMap-待续" class="headerlink" title="3)LinkedHashMap   (待续)"></a>3)LinkedHashMap   (待续)</h3><h3 id="4-TreeHashMap-待续"><a href="#4-TreeHashMap-待续" class="headerlink" title="4)TreeHashMap   (待续)"></a>4)TreeHashMap   (待续)</h3><h2 id="二、Collection-gt-List-待续"><a href="#二、Collection-gt-List-待续" class="headerlink" title="二、Collection &gt;- List  (待续)"></a>二、Collection &gt;- List  (待续)</h2><p>注意点：遍历增删List<br>1、for循环遍历list</p>
+<pre><code>for(int i=0;i&lt;list.size();i++){
+    if(list.get(i).equals(&quot;del&quot;))
+        list.remove(i);
+}
+</code></pre><p> 　　这种方式的问题在于，删除某个元素后，list的大小发生了变化，而你的索引也在变化，所以会导致你在遍历的时候漏掉某些元素。比如当你删除第1个元素后，继续根据索引访问第2个元素时，因为删除的关系后面的元素都往前移动了一位，所以实际访问的是第3个元素。因此，这种方式可以用在删除特定的一个元素时使用，但不适合循环删除多个元素时使用。</p>
+<p>2、增强for循环</p>
+<pre><code>for(String x:list){
+    if(x.equals(&quot;del&quot;))
+        list.remove(x);
+}
+</code></pre><p> 　　这种方式的问题在于，删除元素后继续循环会报错误信息ConcurrentModificationException，因为元素在使用的时候发生了并发的修改，导致异常抛出。但是删除完毕马上使用break跳出，则不会触发报错。</p>
+<p>3、iterator遍历</p>
+<pre><code>Iterator&lt;String&gt; it = list.iterator();
+while(it.hasNext()){
+    String x = it.next();
+    if(x.equals(&quot;del&quot;)){
+        it.remove();
+    }
+}
+</code></pre><p>　　这种方式可以正常的循环及删除。但要注意的是，使用iterator的remove方法</p>
+<h2 id="三、Collection-gt-Set-待续"><a href="#三、Collection-gt-Set-待续" class="headerlink" title="三、Collection &gt;- Set  (待续)"></a>三、Collection &gt;- Set  (待续)</h2><h2 id="四、Collection-gt-Queue-待续"><a href="#四、Collection-gt-Queue-待续" class="headerlink" title="四、Collection &gt;- Queue  (待续)"></a>四、Collection &gt;- Queue  (待续)</h2><h2 id="五、待续"><a href="#五、待续" class="headerlink" title="五、待续"></a>五、待续</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/05/05-后端框架-01-Spring-02-Bean装配/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/05/05-后端框架-01-Spring-02-Bean装配/" itemprop="url">05-后端框架-01 Spring -02 IOC Bean装配</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T10:22:51Z">
+                2018-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/05-后端框架-01-Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">-05.后端框架-01.Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Spring使用Bean，不外乎两点，一个是装配好Bean，一个是注入Bean。<br>Ioc容器读取配置实例化bean时，必须要首先实例化ioc容器</p>
+<img src="/2018/06/05/05-后端框架-01-Spring-02-Bean装配/1.jpg" title="Spring内部容器解构">
+<ol>
+<li>Bean配置定义了Bean的实现和依赖关系</li>
+<li>Spring容器根据各种形式的配置信息在容器内部建立Bean注册表</li>
+<li>根据注册表加载实例化Bean，并建立Bean之间的依赖关系</li>
+<li>将Bean方法缓存池中</li>
+</ol>
+<p><strong>Spring装配Bean的可选方案</strong><br>Spring容器负责创建应用程序中的bean并通过DI来协调这些对象之间的关系。但是，作为开发人员，你需要告诉Spring要创建哪些bean并且如何将其装配在一起。<br>它提供了三种主要的装配机制：</p>
+<ol>
+<li><del>在XML中进行显式配置</del> (弃了吧，该淘汰了)</li>
+<li>在Java中进行显式配置（java config bean 推荐！）</li>
+<li>隐式的bean发现机制和自动装配（注解配置 推荐！）</li>
+</ol>
+<p>建议是尽可能地使用自动配置&gt;Java Config Bean&gt;XML ,显式配置越少越好</p>
+<h1 id="自动配置"><a href="#自动配置" class="headerlink" title="自动配置"></a>自动配置</h1><p>如果Spring能够进行自动化装配的话，那何苦还要显式地将这些bean装配在一起呢？<br>Spring采用 <strong>组件扫描</strong> 和 <strong>自动装配</strong> 组合在一起就能发挥出强大的威力，它们能够将你的显式配置降低到最少。</p>
+<h2 id="创建可被发现的bean-通过Component注解"><a href="#创建可被发现的bean-通过Component注解" class="headerlink" title="创建可被发现的bean,通过Component注解"></a>创建可被发现的bean,通过Component注解</h2><p>CD为我们阐述DI如何运行。如果你不将CD插入（注入）到CD播放器中，那么CD播放器其实是没有太大用处的。所以，可以这样说，CD播放器依赖于CD才能完成它的使命。<br>定义一个cd接口</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CompactDisk</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//实现类</span></span><br><span class="line"><span class="comment">//这个简单的注解表明该类会作为组件类，并告知Spring要为这个类创建bean,没有必要显示配置</span></span><br><span class="line"><span class="meta">@Component</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sony</span> <span class="keyword">implements</span> <span class="title">CompactDisk</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.print(<span class="string">"playing"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>不过，组件扫描默认是不启用的。我们还需要显式配置一下Spring，从而命令它去寻找带有@Component注解的类，并为其创建bean<br>有两种方式：</p>
+<ol>
+<li><p>类CDPlayerConfig通过Java代码定义了Spring的装配规则</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CDplayerConfig</span></span>&#123;</span><br><span class="line">    <span class="comment">/*如果没有其他配置的话，@ComponentScan默认会扫描与配置类相</span></span><br><span class="line"><span class="comment">    同的包。CDPlayerConfig类会让Spring将会扫描这个包以及这个包</span></span><br><span class="line"><span class="comment">    下的所有子包，查找带有@Component注解的类。这样的话，就能发现</span></span><br><span class="line"><span class="comment">    CompactDisc，并且会在Spring中自动为其创建一个bean</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用XML来启用组件扫描的话,很容易看出，就是扫描com.cg.cdplayer包下面的</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.cg.cdplayer"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="组件扫描的bean取别名"><a href="#组件扫描的bean取别名" class="headerlink" title="组件扫描的bean取别名"></a>组件扫描的bean取别名</h2><p>Spring应用上下文中所有的bean都会给定一个ID。在前面的例子中，没有明确地为Sony设置ID，但Spring会根据类名为其指定一个ID。具体来讲，这个bean所给定的ID为sony，也就是将类名的第一个字母变为小写。<br>想为这个bean设置不同的ID，你所要做的就是将期望的ID作为值传递给@Component注解</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span>(<span class="string">"bigSony"</span>)  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sony</span> <span class="keyword">implements</span> <span class="title">CompactDisk</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.print(<span class="string">"playing"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"><span class="meta">@Named</span>(<span class="string">"bigSony"</span>)  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sony</span> <span class="keyword">implements</span> <span class="title">CompactDisk</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.print(<span class="string">"playing"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h2 id="如何让Spring扫描某一个包"><a href="#如何让Spring扫描某一个包" class="headerlink" title="如何让Spring扫描某一个包"></a>如何让Spring扫描某一个包</h2><pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan</span>(basePackage=<span class="string">"com.cg.cdplayer"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CDplayerConfig</span></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//扫描多个包</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan</span>(basePackage=&#123;<span class="string">"com.cg.cdplayer"</span>,<span class="string">"com.cg.video"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CDplayerConfig</span></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h2 id="通过为bean添加注解实现自动装配"><a href="#通过为bean添加注解实现自动装配" class="headerlink" title="通过为bean添加注解实现自动装配"></a>通过为bean添加注解实现自动装配</h2><p>自动装配就是让Spring自动满足bean依赖的一种方法，在满足依赖的过程中，会在Spring应用上下文中寻找匹配某个bean需求的其他bean。为了声明要进行自动装配，我们可以借助Spring的@Autowired注解<br>直接注入刚才配置的bean</p>
+<h1 id="无法自动配置"><a href="#无法自动配置" class="headerlink" title="无法自动配置"></a>无法自动配置</h1><p>有时候自动化配置的方案行不通，因此需要明确配置Spring。比如说，你想要将第三方库中的组件装配到你的应用中，在这种情况下，是没有办法在它的类上添加@Component和@Autowired注解的，因此就不能使用自动化装配的方案。<br>这种时候还是需要显式配置，比如JavaConfig或者XML，而java config优于xml(特别是SpringBoot提倡’零配置’)</p>
+<h2 id="XML配置"><a href="#XML配置" class="headerlink" title="XML配置"></a>XML配置</h2><h3 id="简单的Bean-xml配置"><a href="#简单的Bean-xml配置" class="headerlink" title="简单的Bean xml配置"></a>简单的Bean xml配置</h3><pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version＝"1.0" encoding="UTF-8" ?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span>  <span class="attr">xmlns</span>＝"<span class="attr">http:</span>//<span class="attr">www.spr1ngframework.org</span>/<span class="attr">schema</span>/<span class="attr">beans</span>"</span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns:xsi</span>＝"<span class="attr">http:</span>//<span class="attr">www.w3.org</span>/<span class="attr">2001</span>/<span class="attr">XMLSchema-instance</span>"</span></span><br><span class="line"><span class="tag">        <span class="attr">xsi:schemaLocation</span>＝"<span class="attr">http:</span>//<span class="attr">www.springframework.org</span>/<span class="attr">schema</span>/<span class="attr">beans</span></span></span><br><span class="line"><span class="tag">        <span class="attr">http:</span>//<span class="attr">www.springframework.org</span>/<span class="attr">schema</span>/<span class="attr">beans</span>/<span class="attr">spring-beans-4.0.xsd</span>"&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>＝"<span class="attr">car</span>"  <span class="attr">class</span>=<span class="string">"com.smart.simple.Car"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>＝"<span class="attr">boss</span>" <span class="attr">class</span>＝"<span class="attr">com.smart.simple.Boss</span>" /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="属性注入"><a href="#属性注入" class="headerlink" title="属性注入"></a>属性注入</h3><p>属性注入要求Bean提供一个默认的构造函数，并为需要注入的属性提供对应的Setter方法。</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> speed;</span><br><span class="line">    <span class="keyword">public</span> String brand;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBrand</span><span class="params">(String brand)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.brand=brand;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSpeed</span><span class="params">(<span class="keyword">int</span> speed)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.speed=speed;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"Car"</span> <span class="attr">class</span>=<span class="string">"com.cg.Car"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"brand"</span>&gt;</span><span class="tag">&lt;<span class="name">value</span>&gt;</span>Benzi<span class="tag">&lt;/<span class="name">value</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"speed"</span>&gt;</span><span class="tag">&lt;<span class="name">value</span>&gt;</span>200<span class="tag">&lt;/<span class="name">value</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="构造器注入"><a href="#构造器注入" class="headerlink" title="构造器注入"></a>构造器注入</h3><h4 id="按参数类型匹配入参"><a href="#按参数类型匹配入参" class="headerlink" title="按参数类型匹配入参"></a>按参数类型匹配入参</h4><p>使用构造注入必须有含有参数的构造方法</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> speed;</span><br><span class="line">    <span class="keyword">public</span> String brand;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Car</span><span class="params">(<span class="keyword">int</span> speed,String brand)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.speed=speed;</span><br><span class="line">        <span class="keyword">this</span>.brand=brand;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"Car"</span> <span class="attr">class</span>=<span class="string">"com.cg.Car"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">type</span>=<span class="string">"java.lang.String"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>Benzi<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">type</span>=<span class="string">"int"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>200<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>但是假如有多个String的参数进来，怎么保证，该方法不适用</p>
+<h4 id="按索引匹配入参"><a href="#按索引匹配入参" class="headerlink" title="按索引匹配入参"></a>按索引匹配入参</h4><pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> speed;</span><br><span class="line">    <span class="keyword">private</span> String brand;</span><br><span class="line">    <span class="keyword">private</span> String corp;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Car</span><span class="params">(<span class="keyword">int</span> speed,String brand,String corp)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.speed=speed;</span><br><span class="line">        <span class="keyword">this</span>.brand=brand;</span><br><span class="line">        <span class="keyword">this</span>.corp=corp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"Car"</span> <span class="attr">class</span>=<span class="string">"com.cg.Car"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"0"</span> <span class="attr">value</span>=<span class="string">"200"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"1"</span> <span class="attr">value</span>=<span class="string">"Benzi"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"2"</span> <span class="attr">value</span>=<span class="string">"大众"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="按参数类型和索引匹配入参"><a href="#按参数类型和索引匹配入参" class="headerlink" title="按参数类型和索引匹配入参"></a>按参数类型和索引匹配入参</h4><p>遇到一下这种重载构造函数，需要结合</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> speed;</span><br><span class="line">    <span class="keyword">private</span> String brand;</span><br><span class="line">    <span class="keyword">private</span> String corp;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> price;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Car</span><span class="params">(<span class="keyword">int</span> speed,String brand,String corp)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.speed=speed;</span><br><span class="line">        <span class="keyword">this</span>.brand=brand;</span><br><span class="line">        <span class="keyword">this</span>.corp=corp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Car</span><span class="params">(<span class="keyword">int</span> speed,String brand,<span class="keyword">double</span> price)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.speed=speed;</span><br><span class="line">        <span class="keyword">this</span>.brand=brand;</span><br><span class="line">        <span class="keyword">this</span>.price=price;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"Car"</span> <span class="attr">class</span>=<span class="string">"com.cg.Car"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"0"</span> <span class="attr">type</span>=<span class="string">"int"</span> <span class="attr">value</span>=<span class="string">"200"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"1"</span> <span class="attr">type</span>=<span class="string">"java.lang.String"</span> <span class="attr">value</span>=<span class="string">"Benzi"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"2"</span> <span class="attr">type</span>=<span class="string">"double"</span> <span class="attr">value</span>=<span class="string">"250000.25"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="bean之间的引用"><a href="#bean之间的引用" class="headerlink" title="bean之间的引用"></a>bean之间的引用</h4><pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> speed;</span><br><span class="line">    <span class="keyword">private</span> String brand;</span><br><span class="line">    <span class="keyword">private</span> String corp;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> price;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Car</span><span class="params">(<span class="keyword">int</span> speed,String brand,String corp)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.speed=speed;</span><br><span class="line">        <span class="keyword">this</span>.brand=brand;</span><br><span class="line">        <span class="keyword">this</span>.corp=corp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Car car;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Car</span><span class="params">(<span class="keyword">int</span> age,String ,Car car)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.car = car;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"person"</span> <span class="attr">class</span>=<span class="string">"com.cg.Person"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 给person注入Car引用 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"car"</span> <span class="attr">ref</span>=<span class="string">"Car"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"person"</span> <span class="attr">class</span>=<span class="string">"com.cg.Person"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 给person注入Car引用 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"car"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"car"</span> <span class="attr">class</span>=<span class="string">"com.cg.Car"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"BEnci"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="反射注入"><a href="#反射注入" class="headerlink" title="反射注入"></a>反射注入</h4><p>如果构造函数的参数可以辨别，那么无需过多配置，spring可利用反射很好实现</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Boss</span></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Boss</span><span class="params">(<span class="keyword">int</span> speed,Car car)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.speed=speed;</span><br><span class="line">        <span class="keyword">this</span>.car=car;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"Car"</span> <span class="attr">class</span>=<span class="string">"com.cg.Boss"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>200<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">"car"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><h2 id="Java-Config-装配"><a href="#Java-Config-装配" class="headerlink" title="Java Config 装配"></a>Java Config 装配</h2><p><strong>0) 简单的bean</strong> s<br>    <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.cg.Component.Task"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan</span>(basePackage=&#123;<span class="string">"com.cg.Component"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CDplayerConfig</span></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p><strong>1) set注入 装配</strong> s<br>    <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.cg.Component.Task"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"content"</span> <span class="attr">value</span>=<span class="string">"hello-spring"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--必须有set方法--&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan</span>(basePackage=&#123;<span class="string">"com.cg.Component"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CDplayerConfig</span></span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Task <span class="title">getTask</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Task task=<span class="keyword">new</span> Task();</span><br><span class="line">        task.setContent(<span class="string">"hello-spring"</span>);</span><br><span class="line">        <span class="keyword">return</span> task;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p><strong>2）构造方法注入</strong> s<br>    <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:compoment-scan</span> <span class="attr">base-package</span>=<span class="string">"com.cg.Car"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"car"</span> <span class="attr">class</span>=<span class="string">"com.cg.Car"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">name</span>=<span class="string">"carName"</span> <span class="attr">value</span>=<span class="string">"QQ"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">name</span>=<span class="string">"price"</span> <span class="attr">value</span>=<span class="string">"25000"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>xml调用</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ClassPathXmlApplicationContext context=</span><br><span class="line">                            <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"spring/smartboss.xml"</span>);</span><br><span class="line">        Car car=context.getBean(<span class="string">"car"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan</span>(basePackage=&#123;<span class="string">"com.cg.Car"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarConfig</span></span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Car <span class="title">getTask</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Car(<span class="string">"QQ"</span>,<span class="string">"25000"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>javaConfig模式调用</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        AnnotationConfigApplicationContext applicationContext=</span><br><span class="line">            <span class="keyword">new</span> AnnotationConfigApplicationContext(CarConfig.class);.</span><br><span class="line">        Car car=applicationContext.getBean(Car.class)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/07-工程化-02-Docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/07-工程化-02-Docker/" itemprop="url">07-工程化-02-Docker</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-04T15:01:31Z">
+                2018-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/07-工程化-02-Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">-07.工程化-02.Docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/05-后端框架-01-Spring-01-为什么要用Spring/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/05-后端框架-01-Spring-01-为什么要用Spring/" itemprop="url">05-后端框架-01 Spring -01 为什么要用Spring及其基本原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-04T09:31:05Z">
+                2018-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/05-后端框架-01-Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">-05.后端框架-01.Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Spring追求的就是 简化java开发，核心当然是IOC AOP</p>
+<h1 id="Spring简化开发"><a href="#Spring简化开发" class="headerlink" title="Spring简化开发"></a>Spring简化开发</h1><p>那么是如何简化开发的：</p>
+<ol>
+<li>基于Pojo的最小侵入性编程</li>
+<li>依赖注入和面向接口实现解耦</li>
+<li>切面声明式编程</li>
+<li>通过切面和代码模板减少样式代码</li>
+</ol>
+<h2 id="依赖注入-DI"><a href="#依赖注入-DI" class="headerlink" title="依赖注入 DI"></a>依赖注入 DI</h2><p>Spring尽量避免了自身Api搞乱应用代码，最坏的就是bean会用到Spring注解，但他依旧是pojo。<br>DI是如何帮助应用对象彼此之间保持松散耦合的。<br>IOC DI的目的都是为了 <strong>面向接口编程</strong></p>
+<p>任何一个有实际意义的应用都会由两个或者更多的类组成，这些类相互之间进行协作来完成特定的业务逻辑。<br>来看一个场景，Boss类 boss出行会选择开车，DriveService开车接口，接口下实现了两个类 DriveBenziService 开奔驰，DriveBMWService 开宝马<br>1） 我们先来看开车接口及他的实现类</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//开车接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DriveService</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//开benci实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DriveBenziService</span> <span class="keyword">implements</span> <span class="title">DriveService</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span></span>&#123;</span><br><span class="line">         System.out.println(<span class="string">"drive the  Benzi Car"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//开bmw实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DriveBMWService</span> <span class="keyword">implements</span> <span class="title">DriveService</span></span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span></span>&#123;</span><br><span class="line">         System.out.println(<span class="string">"drive the  BMW Car"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>2）boss开车如何实现,我们一步一步来演进，来看看为什么需要 DI<br><strong>首先</strong>，boss想开奔驰，于是我们来实现,</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Boss</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> DriveBenziService driveBenziService = <span class="keyword">new</span> DriveBenziService();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span></span>&#123;</span><br><span class="line">        driveBenziService.drive();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">或者如下</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Boss</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> DriveBenziService driveBenziService;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Boss</span><span class="params">(DriveBenziService driveBenziService)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.driveBenziService = <span class="keyword">new</span> DriveBenziService();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span></span>&#123;</span><br><span class="line">        driveBenziService.drive();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>上面这种，就是类与类之间紧耦合到一起了。<br><strong>然后</strong> boss这个时候想换一个车开，需要用DriveBMWService去实现，这个时候，因为代码的耦合，我们必须去手动更改boss类代码，要是有另外的类也需要更改实现，那么我们必须找到所有的地方去手动更改！</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Boss</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> DriveBMWService driveBMWService;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Boss</span><span class="params">(DriveBMWService driveBMWService)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.driveBMWService = <span class="keyword">new</span> DriveBMWService();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span></span>&#123;</span><br><span class="line">        driveBMWService.drive();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p><strong>最后</strong>，我们需要一个秘书，Boss需要开什么车，直接告诉秘书，让秘书把车送过来即可，引入一个第三方来联系boss和车的关系，实现解耦和。来看一下实现</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SmartBoss</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> DriveService driveService;</span><br><span class="line">    <span class="comment">//将开车接口作为构造器参数传入，这就是依赖注入的方式之一（构造器注入）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SmartBoss</span><span class="params">(DriveService driveService)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.driveService = driveService;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span></span>&#123;</span><br><span class="line">        driveService.drive();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">或者如下</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SmartBoss</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> DriveService driveService;</span><br><span class="line">    <span class="comment">//将开车接口作为setter参数传入，这就是依赖注入的方式之二（setter注入）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDriveService</span><span class="params">(DriveService driveService)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookingService = bookingService;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> DriveService <span class="title">getDriveService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> driveService;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span></span>&#123;</span><br><span class="line">        driveService.drive();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>我们注入了接口，如何实现接口呢。在Spring中，我们可以通过XML或者Config bean进行配置。</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"boss"</span> <span class="attr">class</span>=<span class="string">"com.cg.boss.SmartBoss"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">ref</span>=<span class="string">"drive"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"drive"</span> <span class="attr">class</span>=<span class="string">"com.cg.boss.SmartBoss"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>或者</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SmartBossConfig</span></span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SmartBoss <span class="title">smartboss</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SmartBoss(dirve());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DriveService <span class="title">dirve</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DriveBMWService();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>上面的SmartBoss没有和任何特定的实现类进行绑定，只要方法实现了DriveService接口，那么具体是哪种类型的drive就无关紧要了。<br>SmartBoss不再自己创建DriveService的实例，只是通过@Autowired标注告诉Spring小秘我需要一个DriveService即可，只有Spring通过它的配置，能够了解这些组成部分是如何装配起来的。<br>就是DI所带来的最大收益—<strong>松耦合</strong> （Spring也就支持构造器注入和setter方法注入的两种注入方式）<br>先说原理，具体配置后来再谈。</p>
+<h3 id="如何加载配置文件？"><a href="#如何加载配置文件？" class="headerlink" title="如何加载配置文件？"></a>如何加载配置文件？</h3><p>刚才通过xml配置了构造器注入，那么怎么让程序去读取配置，进行注入装配呢？<br>Spring通过应用上下文（Application Context）装载bean的定义并把它们组装起来。<br>Spring自带了多种应用上下文的实现，它们之间主要的区别仅仅在于如何加载配置。</p>
+<p>上面的通过xml配置的，可以通过ClassPathXmlApplicationContext加载。</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BossMain</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="comment">//读取xml</span></span><br><span class="line">        ClassPathXmlApplicationContext context=</span><br><span class="line">            <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"spring/smartboss.xml"</span>);</span><br><span class="line">        <span class="comment">//根据xml配置组装bean</span></span><br><span class="line">        SmartBoss smartboss=context.getBean(SmartBoss.class);</span><br><span class="line">        smartboss.drive();</span><br><span class="line">        <span class="comment">//关闭context</span></span><br><span class="line">        context.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h2 id="面向切面-AOP"><a href="#面向切面-AOP" class="headerlink" title="面向切面 AOP"></a>面向切面 AOP</h2><p>DI能够让相互协作的软件组件保持松散耦合，而面向切面编程（aspect-oriented programming，AOP）允许你把遍布应用各处的功能分离出来形成可重用的组件。</p>
+<p>比如程序中的日志模块，事务模块，安全模块。业务对象与系统级服务如果结合得过于紧密。每个对象不但要知道它需要记日志、进行安全控制和参与事务，还要亲自执行这些服务！<br>AOP能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。具有更高的内聚性并<br>且会更加关注自身的业务，完全不需要了解涉及系统服务所带来复杂性。总之，AOP能够确保POJO的简单性。</p>
+<p>我们再SmartBoss上继续我们的场景。boss需要对每天的用车行程做记载，假设我们需要车辆行程服务来记录。</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DriveLog</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">beforeDrive</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"drive start"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterDrive</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"drive end"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SmartBoss</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> DriveService driveService;</span><br><span class="line">    <span class="keyword">private</span> DriveLog driveLog;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SmartBoss</span><span class="params">(DriveService driveService,DriveLog driveLog)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.driveService = driveService;</span><br><span class="line">        <span class="keyword">this</span>.driveLog = driveLog;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span></span>&#123;</span><br><span class="line">        driveService.drive();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//记录相关代码</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">driveRecord</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//为什么不能自动去记录，非要在boss类中通知执行这个方法？</span></span><br><span class="line">        driveLog.beforeDrive();</span><br><span class="line">        driveService.dirve();</span><br><span class="line">        driveLog.afterDrive();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>简单的类，需要在boss开车前记录起始位置，开车结束后记录一下结束地点。<br>我们似乎感觉有些东西不太对。管理他的行车记录是boss职责范围内的工作吗？为什么boss还需要提醒记录服务去做他份内的事情呢？<br>如果这时候我们还需要添加权限等，将使简单的SmartBoss类开始变得复杂。利用AOP，你可以声明记录服务必须记录boss行驶记录，而Boss本身并不用直接访问记录方法。</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"boss"</span> <span class="attr">class</span>=<span class="string">"com.cg.boss.SmartBoss"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">ref</span>=<span class="string">"drive"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"driveRecord"</span> <span class="attr">class</span>=<span class="string">"com.cg.boss.DriveRecord"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">ref</span>=<span class="string">"driveRecord"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">"drive"</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:before</span> <span class="attr">pointcut-ref</span>=<span class="string">"drive"</span> <span class="attr">method</span>=<span class="string">"beforeDrive"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:after</span> <span class="attr">pointcut-ref</span>=<span class="string">"drive"</span> <span class="attr">method</span>=<span class="string">"afterDrive"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>后面再详解aop配置。通过少量的XML配置，就可以把driveRecord声明为一个Spring切面，<br><strong>首先</strong>，DriveRecord仍然是一个POJO，没有任何代码表明它要被作为一个切面使用。当我们按照上面那样进行配置后，在Spring的上下文中，DriveRecord实际上已经变成一个切面了。<br><strong>其次</strong>，也是最重要的，DriveRecord可以被应用到SmartBoss中，而SmartBoss不需要显式地调用它。甚至完全不知道DriveRecord的存在。</p>
+<h1 id="Bean管理"><a href="#Bean管理" class="headerlink" title="Bean管理"></a>Bean管理</h1><p>在基于Spring的应用中，对象生存于Spring容器（container）中。Spring容器负责创建对象，装配它们，配置它们并管理它们的整个生命周期，从生存到死亡。<br>Spring容器并不是只有一个。Spring自带了多个容器实现，可以归为两种不同的类型。</p>
+<ol>
+<li>bean工厂（由org.springframework. beans.factory.BeanFactory接口定义）是最简单的容器，提供基本的DI支持。</li>
+<li>应用上下文（由org.springframework.context.ApplicationContext接口定义）基于BeanFactory构建，并提供应用框架级别的服务，例如从属性文件解析文本信息以及发布应用事件给感兴趣的事件监听者。</li>
+</ol>
+<p>可以理解为BeanFactory是面向Spring本身的，ApplicationContext是面向开发者，几乎所有的场合都直接使用ApplicationContext。</p>
+<h2 id="BeanFatory"><a href="#BeanFatory" class="headerlink" title="BeanFatory"></a>BeanFatory</h2><p>一般很少用</p>
+<h2 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h2><p>ApplicationContext由BeanFactory派生出来。具体实现类有如下。首先有一个子接口ConfigurableApplicationContext（增加了close（） refreash（）方法），再次下面主要有</p>
+<ol>
+<li>AnnotationConfigApplicationContext：从一个或多个基于Java的配置类中加载Spring应用上下文。</li>
+<li>AnnotationConfigWebApplicationContext：从一个或多个基于Java的配置类中加载Spring Web应用上下文。</li>
+<li>ClassPathXmlApplicationContext：从类路径下的一个或多个XML配置文件中加载上下文定义，把应用上下文的定义文件作为类资源。</li>
+<li>FileSystemXmlapplicationcontext：从文件系统下的一个或多个XML配置文件中加载上下文定义。XmlWebApplicationContext：从Web应用下的一个或多个XML配置文件中加载上下文定义。</li>
+</ol>
+<p>现在我们先简单地使用FileSystemXmlApplicationContext从文件系统中加载应用上下文或者使用ClassPathXmlApplicationContext从类路径中加载应用上下文。</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BossMain</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="comment">//ClassPathXmlApplicationContext读取xml，相对路径下读取</span></span><br><span class="line">        ClassPathXmlApplicationContext context=</span><br><span class="line">            <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"spring/smartboss.xml"</span>);</span><br><span class="line">        <span class="comment">//FileSystemXmlApplicationContext读取xml，绝对路径下读取</span></span><br><span class="line">        ApplicationContext context=</span><br><span class="line">            <span class="keyword">new</span> FileSystemXmlApplicationContext(<span class="string">"C:/spring/smartboss.xml"</span>);</span><br><span class="line">        <span class="comment">//AnnotationContext从java配置中加载</span></span><br><span class="line">        AnnotationContext context=</span><br><span class="line">            <span class="keyword">new</span> AnnotationConfigApplicationContext(com.cg.SmartBoss.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>和BeanFactory不同的是，<strong>ApplicationContext一加载的时候就会实例化Bean</strong>，而BeanFactory在初始化容器时并未实例化Bean</p>
+<h1 id="Spring产品线"><a href="#Spring产品线" class="headerlink" title="Spring产品线"></a>Spring产品线</h1><img src="/2018/06/04/05-后端框架-01-Spring-01-为什么要用Spring/1.jpg" title="Spring各模块">
+<p><strong>1）</strong> Spring核心容器<br>容器是Spring框架最核心的部分，它管理着Spring应用中bean的创建、配置和管理。在该模块中，包括了Spring bean工厂，它为Spring提供了DI的功能。基于bean工厂，我们还会发现有多种Spring应用上下文的实现，每一种都提供了配置Spring的不同方式。<br><strong>2）</strong> AOP模块<br>在AOP模块中，Spring对面向切面编程提供了丰富的支持<br><strong>3）</strong> 数据访问与集成<br>使用JDBC编写代码通常会导致大量的样板式代码，Spring的JDBC和DAO（Data Access Object）模块抽象了这些样板式代码<br><strong>4）</strong> Web与远程调用<br>MVC（Model-View-Controller）模式帮助用户将界面逻辑与应用逻辑分离<br><strong>5）</strong> Spring Security<br>安全对于许多应用都是一个非常关键的切面。利用Spring AOP，Spring Security为Spring应用提供了声明式的安全机制。<br><strong>6）</strong> Spring Data<br>Spring Data使得在Spring中使用任何数据库都变得非常容易.不管使用MongoDB，Neo4j，还是传统的关系型数据库，Spring Data都为持久化提供了一种简单的编程模型。这包括为多种数据库类型提供了一种自动化的Repository机制，它负责创建Repository的实现。<br><strong>7）</strong> Spring Boot<br>Spring Boot大量依赖于自动配置技术，它能够消除大部分Spring配置。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/05-后端框架-03-Spring-ORM-02-Spring-NoSQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/05-后端框架-03-Spring-ORM-02-Spring-NoSQL/" itemprop="url">05-后端框架-03 Spring ORM -02 Spring NoSQL</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-03T22:38:44Z">
+                2018-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/05-后端框架-03-Spring-ORM-01-Spring中使用JDBC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/05-后端框架-03-Spring-ORM-01-Spring中使用JDBC/" itemprop="url">05-后端框架-03 Spring ORM -01 Spring中使用JDBC</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-03T22:38:23Z">
+                2018-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Chen Gong</p>
+              <p class="site-description motion-element" itemprop="description">java 学习 Spring Cloud 微服务 图解源码 陈功</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Gong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="java 学习 Spring Cloud 微服务 图解源码 陈功">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CGの开发万事屋">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="CGの开发万事屋">
+<meta property="og:description" content="java 学习 Spring Cloud 微服务 图解源码 陈功">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CGの开发万事屋">
+<meta name="twitter:description" content="java 学习 Spring Cloud 微服务 图解源码 陈功">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/page/2/"/>
+
+
+
+
+
+  <title>CGの开发万事屋</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CGの开发万事屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">欢迎来到黑铁酒吧，哦不，CG的万事屋(●'◡'●)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/05-后端框架-03-Spring-Security-02-拦截请求-用户认证-保护试图/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/05-后端框架-03-Spring-Security-02-拦截请求-用户认证-保护试图/" itemprop="url">05-后端框架-03 Spring Security -02 拦截请求 用户认证 保护试图</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-03T22:37:15Z">
+                2018-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/05-后端框架-03-Spring-Security-01-简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/05-后端框架-03-Spring-Security-01-简介/" itemprop="url">05-后端框架-03 Spring Security -01 简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-03T22:36:40Z">
+                2018-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/05-后端框架-02-Spring-MVC-04-web-flow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/05-后端框架-02-Spring-MVC-04-web-flow/" itemprop="url">05-后端框架-02 Spring MVC -04 web flow</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-03T22:36:11Z">
+                2018-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/05-后端框架-02-Spring-MVC-03-MVC高级技术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/05-后端框架-02-Spring-MVC-03-MVC高级技术/" itemprop="url">05-后端框架-02 Spring MVC -03 MVC高级技术</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-03T22:35:59Z">
+                2018-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/05-后端框架-02-Spring-MVC-02-渲染视图/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/05-后端框架-02-Spring-MVC-02-渲染视图/" itemprop="url">05-后端框架-02 Spring MVC -02 渲染视图</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-03T22:35:25Z">
+                2018-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/05-后端框架-02-Spring-MVC-01-接收参数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/05-后端框架-02-Spring-MVC-01-接收参数/" itemprop="url">05-后端框架-02 Spring MVC -01 接收参数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-03T22:35:13Z">
+                2018-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/04-数据库-02 NoSql-01 redis-02 常用命令及高级特性/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/14/04-数据库-02 NoSql-01 redis-02 常用命令及高级特性/" itemprop="url">01 redis-02 常用命令及高级特性</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T10:58:55Z">
+                2018-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/04-数据库-02-NoSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">-04.数据库-02.NoSQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/04-数据库-02 NoSql-01 redis-01 准备及入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/14/04-数据库-02 NoSql-01 redis-01 准备及入门/" itemprop="url">01 redis-01 准备及入门</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T10:57:39Z">
+                2018-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/04-数据库-02-NoSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">-04.数据库-02.NoSQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>在早先的web后端中，表设计和功能开发构成了日常工作的绝大部分，所有的后端人员都在试图让一切的用&gt;户操作落入CRUD的抽象范畴里(比如 Restful)，然而CRUD怎么会满足我们的抽象需求呢。<br>自从memcached和redis在被大量引入后端开发之后，我们可以看到，后端人员在对数据的理解上有了大量&gt;的改变，我们不再单单把数据视为RDBMS里面的一行，而是围绕着业务本身对数据进行了分类。最明显的&gt; &gt; 是，状态数据的引入，在开发中，我们将用户的部分信息，视为一个用户的状态，在状态数据的基础上，让用户的行为变成状态迁移的触发，在表现上看我们让用户的信息存储到redis和memcached 里就是最RDMBS不能有效满足我们的抽象需求的一次改进。<br>从狂热的Nosql到Nosql和RDBMS的共存，代表了后端开发人员对数据这一个方式的新理解，而传统的行存储到列存储，到监控常用的基于时间序列的数据库都开始进入了我们的视野。<br>几年来，大量的开发者，开始将用户产生的数据进行了更详细的归类，不再是rdbms一刀切的方式， 我们会详细地划分出用户的状态数据落入到Nosql，将用户的操作数据落入到RDBMS(表述不一定全，但在类似于订单支付之类的具有幂等性要求的操作中要求事务的完备等)，将用户的行为统计落入时间序列数据库， 将用户的大量相关资源(如头像图片)将会落入到我们的对象存储中。在后端开发的手册里，数据格式的多样性成为了必须考虑的问题。</p>
+</blockquote>
+<h1 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h1><p>redis是一种key-value存储系统，采用c编写，由vmware主持开发。<br>特性：</p>
+<pre><code>1.支持存储的value类型包括string，list，set，zset。支持push/pop、add/remove 及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。
+2.数据缓存在内存中，Redis 会周期性的把更新的数据写入磁盘。可以使用截图的方式，将内存中的数据不断写入磁盘；或使用类似MySQL的日志方式，记录每次更新的日志。前者性能较高，但是可能会引起一定程度的数据丢失；后者相反）
+3.实现了master-slave(主从)同步，将数据同步到多台从库上，高可用
+4.提供了各类语言的api接口
+</code></pre><h2 id="为什么要用keyvalue-数据库"><a href="#为什么要用keyvalue-数据库" class="headerlink" title="为什么要用keyvalue 数据库"></a>为什么要用keyvalue 数据库</h2><p>互联网服务带来的就是大量的数据吞吐量，单台服务器或者几台服务器远远不能满足这些数据处理的<br>需求。抛弃RDBMS，采用key-value 形式的存储，这样可以极大的增强系统的可扩展性（scalability），如果要处理的数据持续增大，多加机器就可以了。</p>
+<p>对于RDBMS，一般几百个并发的查询就可以让它很吃力了，而一个Key-Value Store，可以很轻松的支持上千的并发查询。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>缓存（数据查询、短连接、新闻内容、商品内容等等）</li>
+<li>分布式集群架构中的session分离</li>
+<li>聊天室的在线好友列表</li>
+<li>任务队列（秒杀、抢购、12306等等）</li>
+<li>应用排行榜</li>
+<li>网站访问统计</li>
+<li>数据过期处理（可以精确到毫秒）</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>以cent 为例。cent 最小化安装后需要安装gcc才能编译</p>
+<p>1.download。</p>
+<pre><code>$ wget http://download.redis.io/releases/redis-4.0.9.tar.gz
+$ tar xzf redis-4.0.9.tar.gz
+$ cd redis-4.0.9
+$ make
+</code></pre><p>如果make时报如下错误：</p>
+<pre><code>zmalloc.h:50:31: error: jemalloc/jemalloc.h: No such file or directory
+</code></pre><p>jemalloc重载了Linux下的ANSI C的malloc和free函数</p>
+<pre><code>make MALLOC=libc
+</code></pre><p>2.make之后，会出现一句提示</p>
+<pre><code>Hint: To run &apos;make test&apos; is a good idea ;)
+</code></pre><p>解决办法是用yum安装tcl8.5</p>
+<pre><code>yum install tcl
+</code></pre><p>3.启动服务，默认端口6379</p>
+<p>   src/redis-server<br>4.新开session连接</p>
+<pre><code>src/redis-cli
+</code></pre><p>5.上面这种启动，如果关闭session，则redis也关闭了<br>将源码报下redis.conf文件拷贝到bin目录下<br>    cp redis.conf /bin<br>修改conf，将daemonize改为yes<br>重启redis<br>    src/redis-server redis.conf<br>关闭<br>    redis-cli shutdown</p>
+<p>6.启动客户端命令</p>
+<pre><code>启动客户端命令：[root@root bin]# ./redis-cli -h 127.0.0.1 -p 6379
+-h：指定访问的redis服务器的ip地址
+-p：指定访问的redis服务器的port端口
+</code></pre><p>7.可以使用开源软件RedisDesktopManager图形界面管理</p>
+<p>8.配置<br>整个配置文件一共1023行，但绝大部分都是注释，其中比较关键的配置项如下(不是说其他配置不重要)</p>
+<pre><code>port 6479                        --设置Redis端口
+requirepass 123456               --设置Redis密码
+
+# bind 127.0.0.1
+--需要注释掉此IP绑定
+protected-mode no
+--需要设置为no，否则其他IP地址无法连接此Redis，默认为yes
+daemonize yes
+--设置后台启动
+pidfile /var/run/redis_6579.pid
+--设置PID进程文件路径
+logfile &quot;/npfyCacheRedisLog.log&quot;
+--Redis日志文件路径，默认不记录日志
+databases 16
+--创建多少个数据库实例，默认16(db0-db15)
+dir /opt/redis-6479/rdbFiles/
+--持久化的数据文件存放位置
+maxclients 10000
+--最大客户端连接数，默认10000
+maxmemory 8589934592
+--设置Redis最大占用的内存（单位：字节）
+</code></pre><h1 id="Java程序通过Jedis连接"><a href="#Java程序通过Jedis连接" class="headerlink" title="Java程序通过Jedis连接"></a>Java程序通过Jedis连接</h1><p>官方推荐使用Jedis，支持java操作。<br>新建一个spring boot项目，pom引入jedis<br>jedis</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Jedis jedis=<span class="keyword">new</span> Jedis(<span class="string">"127.0.0.1"</span>,<span class="number">6379</span>);</span><br><span class="line"><span class="keyword">for</span>(Integer i=<span class="number">0</span>;i&lt;<span class="number">1000000</span>;i++)&#123;</span><br><span class="line">    jedis.del(<span class="string">"s"</span>+i);</span><br><span class="line">&#125;</span><br><span class="line">String res=jedis.get(<span class="string">"s2"</span>);</span><br><span class="line">jedis.close();</span><br></pre></td></tr></table></figure>
+</code></pre><p>jedisPool</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">JedisPool jedisPool=<span class="keyword">new</span> JedisPool(<span class="string">"127.0.0.1"</span>,<span class="number">6379</span>);</span><br><span class="line">Jedis jedis=jedisPool.getResource();</span><br><span class="line"><span class="keyword">for</span>(Integer i=<span class="number">0</span>;i&lt;<span class="number">1000000</span>;i++)&#123;</span><br><span class="line">    jedis.del(<span class="string">"s"</span>+i);</span><br><span class="line">&#125;</span><br><span class="line">String res=jedis.get(<span class="string">"s2"</span>);</span><br><span class="line">System.out.println(res);</span><br><span class="line">jedis.close();</span><br><span class="line">jedisPool.close();</span><br></pre></td></tr></table></figure>
+</code></pre><h1 id="Redis基本数据类型"><a href="#Redis基本数据类型" class="headerlink" title="Redis基本数据类型"></a>Redis基本数据类型</h1><h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ol>
+<li><p>set</p>
+<p> set test 1323</p>
+</li>
+<li><p>get</p>
+<p> get test</p>
+</li>
+<li><p>getset 取值并赋值</p>
+<p> getset test cg<br> get test</p>
+</li>
+<li><p>设置多个值</p>
+<p> mset aa 12 bb dsa cc dsa dd gd</p>
+</li>
+<li><p>del</p>
+<p> del test</p>
+</li>
+<li><p>数值增减 递减</p>
+<p> incr [key]  |   decr[key]<br> incr ggkey  |   decr ggkey<br> 让当前键值递增，并返回递增后的值</p>
+</li>
+<li><p>增加指定整数</p>
+<p> INCRBY [key] [increment]    |     DECRBY key decrement<br> incrby ggkey 3              |     decrby ggkey 3</p>
+</li>
+<li><p>append</p>
+<p> set ggkey hello<br> append ggkey “ world!”<br> get ggkey</p>
+</li>
+<li><p>获取字符串长度，如果键不存在则返回0</p>
+<p> strlen ggkey</p>
+</li>
+<li><p>自增主键（商品编号、订单号采用string的递增数字特性）</p>
+<p>INCR items:id</p>
+</li>
+</ol>
+<h2 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h2><p>假设有User对象以JSON序列化的形式存储到Redis中，User对象有id，username、password、age、name等属性，存储的过程如下：<br>保存、更新：<br>User对象—-json(string)—–redis<br>如果在业务上只是更新age属性，其他的属性并不做更新我应该怎么做呢？如果仍然采用上边的方法在传输、处理时会造成资源浪费。</p>
+<p>Hash叫散列类型，它提供了字段和字段值的映射<br>         |—-username—-  superZhang<br>         |—-pwd     —-  123456<br>User—–|—-name    —-  张三<br>         |—-age     —-  22</p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><ol>
+<li><p>赋值：HSET命令不区分插入和更新操作，当执行插入操作时HSET命令返回1，当执行更新操作时返回0。</p>
+<p> #一次只能设置一个字段值<br> hset user username zhangsan<br> #一次能设置多个字段值<br> hmset user age 20 username lisi<br> #字段不存在时赋值，类似HSET，区别在于如果字段存在，该命令不执行任何操作<br> hsetnx user age 30  如果user中没有age字段则设置age值为30，否则不做任何操作</p>
+</li>
+<li><p>取值</p>
+<p> #一次只能获取一个字段值<br> hget user username<br> #获取多个字段<br> hmget user age username<br> #获取所有<br> hgetall user</p>
+</li>
+<li><p>删除字段</p>
+<p> #删除一个或多个字段，返回被删除字段个数<br> hdel user age<br> hdel user age name</p>
+</li>
+<li><p>增加数字</p>
+<p> #用户年龄加2<br> hincrby user age 2<br> #判断字段是否存在<br> hexists user age</p>
+</li>
+<li><p>只获取字段名或字段值</p>
+<p> hmset user age 20 name zhangsan<br> hkeys user<br> hvals user</p>
+</li>
+<li><p>获取字段数量</p>
+<p> hlen user</p>
+</li>
+</ol>
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>redis里list分arrayList和LinkedList</p>
+<ol>
+<li><p>增加元素,返回增加个数</p>
+<p> #左增加<br> lpush cglist 112 3 dsad<br> #右增加<br> rpush cglist 14 5 6 dsa 43</p>
+</li>
+<li><p>查看列表</p>
+<p> #获取列表中的某一片段，将返回start、stop之间的所有元素（包含两端的元素），索引从0开始。<br> lrange cglist 0 6   //获取下标0-6的元素<br> lrange cglist 0 -1  //获取下标从0到最后一个的元素</p>
+</li>
+<li><p>弹出元素：LPOP命令从列表左边弹出一个元素，会分两步完成：第一步是将列表左边的元素从列表中移除，第二步是返回被移除的元素值。</p>
+<p> lpop cglist 2</p>
+</li>
+<li><p>获取长度</p>
+<p> llen cglist</p>
+</li>
+<li><p>删除 ：删除列表中前count个值为value的元素</p>
+<p> 当count&gt;0时， LREM会从列表左边开始删除。<br> 当count&lt;0时，LREM会从列表后边开始删除。<br> 当count=0时，LREM删除所有值为value的元素。<br> lrem cglist 3 0</p>
+</li>
+<li><p>获取指定位置值</p>
+<p> lindex cglist 2   //索引为2的值</p>
+</li>
+<li><p>指定索引位置的值</p>
+<p> lset cglist 2 dsadsfwre</p>
+</li>
+<li><p>截取</p>
+<p> ltrim cglist 2 4</p>
+</li>
+<li><p>插入</p>
+<p> #在第一个dsa值之后插入ggg<br> linsert cglist after ggg dsa</p>
+</li>
+<li><p>从一个列表转移到另一个列表</p>
+<p>rpoplpush cglist newlist</p>
+</li>
+<li><p>应用</p>
+<p>LPUSH items:comment:1001 ‘{“id”:1,”name”:”商品不错，很好！！”,”date”:1430295077289}’</p>
+</li>
+</ol>
+<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><h2 id="Sortedset"><a href="#Sortedset" class="headerlink" title="Sortedset"></a>Sortedset</h2><h1 id="Keys命令"><a href="#Keys命令" class="headerlink" title="Keys命令"></a>Keys命令</h1><h1 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h1><h1 id="Redis主从复制"><a href="#Redis主从复制" class="headerlink" title="Redis主从复制"></a>Redis主从复制</h1><h1 id="Redis集群"><a href="#Redis集群" class="headerlink" title="Redis集群"></a>Redis集群</h1><h1 id="Jedis连接集群"><a href="#Jedis连接集群" class="headerlink" title="Jedis连接集群"></a>Jedis连接集群</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/06-大后端-05架构-02微服务-01Spring-Cloud-10-Sleuth/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/10/06-大后端-05架构-02微服务-01Spring-Cloud-10-Sleuth/" itemprop="url">02微服务-01Spring-Cloud-10-Sleuth</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T17:13:57Z">
+                2018-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/06-大后端-05-架构/" itemprop="url" rel="index">
+                    <span itemprop="name">-06.大后端-05.架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>随着微服务业务壮大，各种服务调用非常复杂，几乎每一个前端请求都会形成一条负载的分布式服务调用链路，途中任何一个服务失败都可能造成最后失败，所以整个链路追踪非常重要。Sleuth则时这样一个人分布式服务最终的解决方法。</p>
+<h1 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h1><p>首先我们先搭建一个环境，需要的服务有：</p>
+<ul>
+<li>eureka-server</li>
+<li><p>微服务1，实现一个/trace-1接口，调用这个接口将触发对trace-2应用的调用<br>  pom引入ribbon、web、eureka、sleuth</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SleuthApplication</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Logger logger = LoggerFactory.getLogger(SleuthApplication.class);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SleuthApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    <span class="function">RestTemplate <span class="title">restTemplate</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/trace-1"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">trace</span><span class="params">()</span></span>&#123;</span><br><span class="line">        logger.info(<span class="string">"------call trace1--------------"</span>);</span><br><span class="line">        <span class="keyword">return</span> restTemplate().getForEntity(<span class="string">"http://trace2/trace-2"</span>,String.class).getBody();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>配置<br>    spring.application.name=trace1<br>    server.port=9101<br>    eureka.client.serviceUrl.defaultZone=<a href="http://localhost:8765/eureka" target="_blank" rel="noopener">http://localhost:8765/eureka</a></p>
+<ul>
+<li><p>微服务2</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sleuth2Application</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Logger logger = LoggerFactory.getLogger(Sleuth2Application.class);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(Sleuth2Application.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/trace-2"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">trace</span><span class="params">()</span></span>&#123;</span><br><span class="line">        logger.info(<span class="string">"------call trace2--------------"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Traced"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>我们启动，访问trace-1.可以看到控制台info的消息<br>  INFO [trace1,e6032bd804035fe4,e6032bd804035fe4,false] 19800 — [nio-9101-exec-1] com.cg.sleuth.SleuthApplication          : ——call trace1————–</p>
+<p>  INFO [trace2,e6032bd804035fe4,7af75df6c4f9693c,false] 11272 — [nio-9102-exec-1] com.cg.sleuth2.Sleuth2Application        : ——call trace2————–</p>
+</li>
+<li><p>上述info种trace1为应用名，第二个值为Sleuth生成的ID，标记请求链路，第三个值为sleuth生成的另一个id，表示一个基本的工作单元，false表示是否输出到ziplin收集展示</p>
+</li>
+</ul>
+<h1 id="跟踪原理"><a href="#跟踪原理" class="headerlink" title="跟踪原理"></a>跟踪原理</h1><ol>
+<li>请求发送到分布式系统入口端点时，sleuth为该请求创建一个唯一标识，分布式系统内部流转时，始终传递该唯一表示，直到返回给请求方。通过traceID，可以将请求过程的日志关联起来</li>
+<li>为了统计各个单元处理时间延迟，当请求到达服务时，通过唯一标识来标记他的开始及结束。</li>
+</ol>
+<p>引入sleuth后，可以自动为当前应用构建起各种通信通道的最终机制：如rabbitMQ传递请求、zuul代理传递请求、resttemplate请求</p>
+<p>上述示例通过resttemplate实现，sleuth会对该请求追踪</p>
+<h1 id="抽样收集"><a href="#抽样收集" class="headerlink" title="抽样收集"></a>抽样收集</h1><p>追踪通过traceId和span Id实现了，但是分布式系统加入对所有进行追踪，将产生海量日志数据，对性能造成影响，日志储存开销也很大。之前的第四个值就是用来代表该信息是否要被后续的跟踪信息收集器获取和储存。<br>sleuth通过Sampler接口实现</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Sampler</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isSampled</span><span class="params">(Span span)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>通过该接口，sleuth会再产生跟踪信息的时候生成是否要被收集的标志。<br>默认情况下，sleuth会使用PercentageBasedSampler来实现抽样策略，可以在applicatino.properties中配置，默认10%收集</p>
+<pre><code>spring.sleuth.sampler.percentage=0.1
+</code></pre><p>不过开发测试阶段一般设置为1</p>
+<h1 id="Logstash整合"><a href="#Logstash整合" class="headerlink" title="Logstash整合"></a>Logstash整合</h1><p>之前实现了通过日志添加跟踪信息的功能，但是，在海量的日志文件中去排查分析是基本不可能的。<br>一般的日志分析平台有ELK，可以轻松搜索出我么想要的明细日志。<br><strong>ELK</strong> 平台由ElesticSearch、Logstash、Kibana组成</p>
+<ol>
+<li>ElesticSearch:开源分布式搜索引擎。分布式、零配置，自动发现。。。</li>
+<li>Logstash：对日志进行收集过滤，并将其储存</li>
+<li>Kibana ： 结合上面两个，提供日志分析web界面</li>
+</ol>
+<p>spring cloud 与ELK整合时候，只需要和Logstash对接数据即可，为Logstaash提供json格式的日志输出。</p>
+<h2 id="整合过程"><a href="#整合过程" class="headerlink" title="整合过程"></a>整合过程</h2><ol>
+<li>pom引入logstash-logback-encoder依赖</li>
+<li>/resource下创建bootstrap.properties配置文件，将spring.application.name=trace-1配置移动到该文件里，因为logback-spring.xml在application.properties之前加载</li>
+<li><p>/resource下创建logback-spring.xml.</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">resource</span>=<span class="string">"org/springframework/boot/logging/logback/defaults.xml"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">springProperty</span> <span class="attr">scope</span>=<span class="string">"context"</span> <span class="attr">name</span>=<span class="string">"springAppName"</span> <span class="attr">source</span>=<span class="string">"spring.application.name"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 日志在工程中的输出位置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"LOG_FILE"</span> <span class="attr">value</span>=<span class="string">"$&#123;BUILD_FOLDER:-build&#125;/$&#123;springAppName&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 控制台的日志输出样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"CONSOLE_LOG_PATTERN"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">value</span>=<span class="string">"%clr(%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125;)&#123;faint&#125; %clr($&#123;LOG_LEVEL_PATTERN:-%5p&#125;) %clr([$&#123;springAppName:-&#125;,%X&#123;X-B3-TraceId:-&#125;,%X&#123;X-B3-SpanId:-&#125;,%X&#123;X-Span-Export:-&#125;])&#123;yellow&#125; %clr($&#123;PID:- &#125;)&#123;magenta&#125; %clr(---)&#123;faint&#125; %clr([%15.15t])&#123;faint&#125; %clr(%-40.40logger&#123;39&#125;)&#123;cyan&#125; %clr(:)&#123;faint&#125; %m%n$&#123;LOG_EXCEPTION_CONVERSION_WORD:-%wEx&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 控制台Appender --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"console"</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.ConsoleAppender"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.classic.filter.ThresholdFilter"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">level</span>&gt;</span>INFO<span class="tag">&lt;/<span class="name">level</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">encoder</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>$&#123;CONSOLE_LOG_PATTERN&#125;<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">charset</span>&gt;</span>utf8<span class="tag">&lt;/<span class="name">charset</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 为logstash输出的json格式的Appender --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"logstash"</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.RollingFileAppender"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;LOG_FILE&#125;.json<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">rollingPolicy</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.TimeBasedRollingPolicy"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">fileNamePattern</span>&gt;</span>$&#123;LOG_FILE&#125;.json.%d&#123;yyyy-MM-dd&#125;.gz<span class="tag">&lt;/<span class="name">fileNamePattern</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">maxHistory</span>&gt;</span>7<span class="tag">&lt;/<span class="name">maxHistory</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">rollingPolicy</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">encoder</span> <span class="attr">class</span>=<span class="string">"net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">providers</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">timestamp</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">timeZone</span>&gt;</span>UTC<span class="tag">&lt;/<span class="name">timeZone</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">timestamp</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">pattern</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">pattern</span>&gt;</span></span><br><span class="line">                        &#123;</span><br><span class="line">                        "severity": "%level",</span><br><span class="line">                        "service": "$&#123;springAppName:-&#125;",</span><br><span class="line">                        "trace": "%X&#123;X-B3-TraceId:-&#125;",</span><br><span class="line">                        "span": "%X&#123;X-B3-SpanId:-&#125;",</span><br><span class="line">                        "exportable": "%X&#123;X-Span-Export:-&#125;",</span><br><span class="line">                        "pid": "$&#123;PID:-&#125;",</span><br><span class="line">                        "thread": "%thread",</span><br><span class="line">                        "class": "%logger&#123;40&#125;",</span><br><span class="line">                        "rest": "%message"</span><br><span class="line">                        &#125;</span><br><span class="line">                    <span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">providers</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">"INFO"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"console"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"logstash"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>启动完成，访问/trace-1接口，可以看到工程目录下的build文件夹下的json记录</p>
+<h1 id="Zipkin整合"><a href="#Zipkin整合" class="headerlink" title="Zipkin整合"></a>Zipkin整合</h1><p>ELK缺少对请求链路中各个阶段时间延迟的关注，使用zipkin可以解决。<br>zippkin基于google Dapper，可以使用它来收集各个服务器上请求链路的跟踪数据，并通过它提供的REST API接口来辅助对分布式系统的监控程序。</p>
+<img src="/2018/05/10/06-大后端-05架构-02微服务-01Spring-Cloud-10-Sleuth/1.png" title="架构图">
+<ul>
+<li>Collector：收集器组件，处理从外部系统发送过来的跟踪信息，转换为Zipkin内部处理的Span格式</li>
+<li>Storage：存储组件，它主要对处理收集器接收到的跟踪信息，默认会将这些信息存储在内存中，也可以使用其他存储组件将跟踪信息存储到数据库中。</li>
+<li>RESTful API：API组件，它主要用来提供外部访问接口。比如给客户端展示跟踪信息，或是外接系统访问以实现监控等。</li>
+<li>Web UI：UI组件，基于API组件实现的上层应用。用户可以方便而有直观地查询和分析跟踪信息。</li>
+</ul>
+<h2 id="整合流程"><a href="#整合流程" class="headerlink" title="整合流程"></a>整合流程</h2><p>1） 直接下载zipkin jar 直接启动，是一个spring boot 应用<br>2） trace-1 trace-2添加spring-cloud-sleuth-zipkin依赖<br>3） 在application.properties中增加zipkinserver配置信息</p>
+<pre><code>spring.zipkin.base-url=http://localhost:9411
+</code></pre><p>可以在zipkin页面看到 <a href="http://localhost:9411" target="_blank" rel="noopener">http://localhost:9411</a></p>
+<h1 id="整合消息中间件，收集消息，ELK处理储存Hbase；或者流计算，实时呈现"><a href="#整合消息中间件，收集消息，ELK处理储存Hbase；或者流计算，实时呈现" class="headerlink" title="整合消息中间件，收集消息，ELK处理储存Hbase；或者流计算，实时呈现"></a>整合消息中间件，收集消息，ELK处理储存Hbase；或者流计算，实时呈现</h1><p>就是这一套技术。<br>1）<br>trace-1 trace-2添加spring-cloud-sleuth-stream<br>application.properties去除zipkin url参数，并配置rabbitmq信息<br>2）<br>zipkin-server 引入zipkin-stream依赖，</p>
+<p>最后，我们使用之前的验证方法，通过向trace-1的接口发送几个请求：<a href="http://localhost:9101/trace-1" target="_blank" rel="noopener">http://localhost:9101/trace-1</a> ,当有被抽样收集的跟踪信息时（调试时我们可以设置AlwaysSampler抽样机制来让每个跟踪信息都被收集），我们可以在RabbitMQ的控制页面中发现有消息被发送到了sleuth交换器中，同时我们再到zipkin服务端的Web页面中也能够搜索到相应的跟踪信息，那么我们使用消息中间件来收集跟踪信息的任务到这里就完成了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/04/07-工程化-05-jenkins/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/04/07-工程化-05-jenkins/" itemprop="url">07-工程化-05-jenkins</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-04T15:23:03Z">
+                2018-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/07-工程化-05-jenkins/" itemprop="url" rel="index">
+                    <span itemprop="name">-07.工程化-05.jenkins</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>传统项目发布部署：maven导出war包-拷贝出来-ftp放到测试环境-放到tomcat下-启动tomcat<br>有何不妥呢？？<br>测试发现bug，不停修改不停发布导包，尼玛啊，烦死了，假如项目非常大，打包都要很久，还有效率吗？</p>
+<h1 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h1><p>这时候我们需要jenkins~自动化测试 部署的工具帮你解决 持续集成。把你从繁琐的开发测试环境中解脱出来</p>
+<pre><code>持续基层是一个软件开发实践，即团队开发成员经常继承他们的工作（如编译、发布、自动化测试）；
+test driven；敏捷开发；多模块协同开发
+传统集成的问题我们就不用多说了，繁琐。微服务开发还用传统集成，智障。
+</code></pre><p>持续集成的问题<br><em>自动获取分支
+</em>自动监测版本更新<br><em>自动编译打包
+</em>自动部署<br><em>自动测试
+</em>执行脚本<br>*通知集成结果</p>
+<p>本文以公司项目为背景实战。<br>1项目xfzx为主项目，继承parent。<br>2项目jy-dc为xfzx项目查询数据的服务项目；xfzx项目通过http调用服务，进行查询<br>3项目dc-api为jy-dc所依赖的jar，处于开发阶段，使用snapshot</p>
+<p>以上项目比较有代表性</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>环境：公司测试环境：win server2008 + jdk6 + tomcat 6   ╮(╯-╰)╭ 无力吐槽了，就这样吧<br>jenkins需要：</p>
+<pre><code>1. 最新版自身运行推荐jdk8
+2. maven插件需要jdk8
+3. git插件、gitlab插件       用于获取代码更新，可配置push即构建
+4. deploy to container插件   用于将编译好的war发到tomcat或jetty
+</code></pre><p><strong>操作步骤</strong>如下：</p>
+<ol>
+<li>在win server服务器安装jenkins，下载最新版2.107.2，直接最粗暴的安装即可</li>
+<li>修改端口，手动修改jenkins.xml<br> 里面的8080端口到8096<br> 修改完成后<a href="http://172.25.16.60:8080/restart" target="_blank" rel="noopener">http://172.25.16.60:8080/restart</a> 即可<br> （对应的resturl /exit 为关闭jenkins服务 ，/reload为重载配置）</li>
+<li>本地连接win server 8096端口，按照提示找到密码登陆，设置身份认证等</li>
+<li>安装插件，暂时按推荐安装</li>
+<li>添加管理员进入</li>
+</ol>
+<img src="/2018/05/04/07-工程化-05-jenkins/1.jpg" title="界面">
+<ol>
+<li><p>为服务器安装maven，配置maven公司私服及阿里私服</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>public<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>Nexus Public Mirror<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://repo.xxxsoft.com/maven2/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>public-snapshots<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://repo.xxxisoft.com/maven2/content/groups/public-snapshots/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>alimaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    　<span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>*<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>同时修改仓库位置（服务器c盘小）</p>
+<ol>
+<li>为服务器安装git，不再累述</li>
+<li>jenkins上我们必须要的插件有：<br> Deploy to container Plugin、Git plugin、GitLab Plugin、Maven Integration plugin</li>
+<li>在系统管理，插件管理安装插件，然后restart jenkins</li>
+<li>在系统管理，配置全局：jdk home位置，选jdk8的目录；maven全局设置；git设置</li>
+</ol>
+<h1 id="xfzx持续集成（无maven依赖关系，但是有继承）"><a href="#xfzx持续集成（无maven依赖关系，但是有继承）" class="headerlink" title="xfzx持续集成（无maven依赖关系，但是有继承）"></a>xfzx持续集成（无maven依赖关系，但是有继承）</h1><ol>
+<li>重启完成，新建任务，选择构建一个maven项目</li>
+<li>点击新建任务，xfzx命名——选择构建一个maven项目</li>
+<li>源码管理选择Git，Repository URL填入代码地址；Credentials，我们选择旁边的add。可选择ssh或者直接用户名密码。这里为了方便，直接使用了git用户名密码的形式。Branches to build 分支我们按项目分支填写</li>
+<li>构建触发器暂不设置，敏捷开发的项目可以采用每次push到gitlab就构建 ╮(╯-╰)╭ 公司的传统项目，不做敏捷开发</li>
+<li>build root pom栏填pom文件位置，可写绝对路径（jenkins workspace下），也可以写想读路径goals 填maven命令：clean package，clean package -Dmaven.test.skip=true 等，按情况选</li>
+<li>构建后操作选项卡–点击增加构建后操作步骤，选择deploye to container-增加tomcat，填写url等不多说——再tomcat user.xml添加一个manage-script用户——在该选项卡的add添加script用户名密码登陆，war位置填*<em>/</em>.war即可</li>
+</ol>
+<p>上几张job配置图<br><img src="/2018/05/04/07-工程化-05-jenkins/2.jpg" title="配置"><br><img src="/2018/05/04/07-工程化-05-jenkins/3.jpg" title="配置"><br><img src="/2018/05/04/07-工程化-05-jenkins/4.jpg" title="配置"><br><img src="/2018/05/04/07-工程化-05-jenkins/5.jpg" title="配置"></p>
+<p>上面这些就差不多了，这期间踩过无数坑，有以下几点<br><em>公司服务器jdk为1.6.一开始没注意jenkins最新版不支持.导致了无数jdk不支持报错。后来拉了一个绿色版jdk8放上去，为jenkins的java home设置了jdk8路径，即解决了
+</em>maven配置很重要，一开始maven仓库配置不对，编译报各种找不到父项目及jar什么的问题。解决办法：配置好公司的私服和阿里私服，注意mirrorOf项</p>
+<h1 id="jy-dc持续集成（maven继承dc-api）"><a href="#jy-dc持续集成（maven继承dc-api）" class="headerlink" title="jy-dc持续集成（maven继承dc-api）"></a>jy-dc持续集成（maven继承dc-api）</h1><ol>
+<li>先建立dc-api maven job</li>
+<li>2-4步如上</li>
+<li>build maven命令：clean install -Dmaven.test.skip=true  。该命令相当于将dc-api放到本地仓库，让jy-dc能找到这个jar并依赖</li>
+<li>建立jy-dc maven job</li>
+<li>2-4步如上</li>
+<li>build maven命令：clean package -Dmaven.test.skip=true</li>
+<li>dc-api编译后触发jy-dc编译；jy-dc构建，必须先构建dc-api  。构建触发器，设置dc-api为上游job，勾选build after other projects are built 填入dc-api即可</li>
+<li>构建后操作选项卡–点击增加构建后操作步骤，选择deploye to container-增加tomcat，填写url等不多说——再tomcat user.xml添加一个manage-script用户——在该选项卡的add添加script用户名密码登陆，war位置填*<em>/</em>.war即可（注意，这种情况会扫描路径下所有war，如果包含有其他的war，会出错，踩过坑）</li>
+<li><p>tomcat conf 下面的context.xml 添加 </p>
+<p> <context antijarlocking="true" antiresourcelocking="true"><br>（踩坑提示，如果不加，会造成tomcat在undeploying redeploying的时候卡住）</context></p>
+</li>
+</ol>
+<h1 id="后续改进"><a href="#后续改进" class="headerlink" title="后续改进"></a>后续改进</h1><p>三个项目在一个库，上面操作导致服务器在jenkins workspace克隆了三个库，占用空间极大<br>所以改进配置。合并为一个项目，使用invoke top-level Maven targets分别进行配置，填写各自的pom路径<br><img src="/2018/05/04/07-工程化-05-jenkins/6.jpg" title="配置"></p>
+<p>代码sonar检查<br><img src="/2018/05/04/07-工程化-05-jenkins/7.jpg" title="sonar配置一"><br>或者在maven命令里配置<br><img src="/2018/05/04/07-工程化-05-jenkins/8.jpg" title="sonar配置二"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Chen Gong</p>
+              <p class="site-description motion-element" itemprop="description">java 学习 Spring Cloud 微服务 图解源码 陈功</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Gong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="-微服务," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Quick Start做过Spring项目都知道，繁复的配置，各种properties，xml让项目构建十分枯燥。pom文件错综复杂的依赖！SpringBoot可通过自动化配置，极大地简化项目的构建成本，可以说5分钟构建项目！而如今容器化大行其道，SpringBoot可以很好融入Docker。内嵌容器，可打包成jar，通过java -jar命令直接运行，方便跨平台部署。  自动配置 起步依赖spr">
+<meta name="keywords" content="-微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="02、微服务-00、Spring Boot">
+<meta property="og:url" content="http://yoursite.com/2018/03/27/06-大后端-05架构-02微服务-00SpringBoot/index.html">
+<meta property="og:site_name" content="CGの开发万事屋">
+<meta property="og:description" content="Quick Start做过Spring项目都知道，繁复的配置，各种properties，xml让项目构建十分枯燥。pom文件错综复杂的依赖！SpringBoot可通过自动化配置，极大地简化项目的构建成本，可以说5分钟构建项目！而如今容器化大行其道，SpringBoot可以很好融入Docker。内嵌容器，可打包成jar，通过java -jar命令直接运行，方便跨平台部署。  自动配置 起步依赖spr">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-22T14:27:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="02、微服务-00、Spring Boot">
+<meta name="twitter:description" content="Quick Start做过Spring项目都知道，繁复的配置，各种properties，xml让项目构建十分枯燥。pom文件错综复杂的依赖！SpringBoot可通过自动化配置，极大地简化项目的构建成本，可以说5分钟构建项目！而如今容器化大行其道，SpringBoot可以很好融入Docker。内嵌容器，可打包成jar，通过java -jar命令直接运行，方便跨平台部署。  自动配置 起步依赖spr">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/27/06-大后端-05架构-02微服务-00SpringBoot/"/>
+
+
+
+
+
+  <title>02、微服务-00、Spring Boot | CGの开发万事屋</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CGの开发万事屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">欢迎来到黑铁酒吧，哦不，CG的万事屋(●'◡'●)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/27/06-大后端-05架构-02微服务-00SpringBoot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">02、微服务-00、Spring Boot</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-27T00:38:54+08:00">
+                2018-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/06-大后端-05-架构/" itemprop="url" rel="index">
+                    <span itemprop="name">-06.大后端-05.架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h1><p>做过Spring项目都知道，繁复的配置，各种properties，xml让项目构建十分枯燥。pom文件错综复杂的依赖！<br>SpringBoot可通过自动化配置，极大地简化项目的构建成本，可以说5分钟构建项目！而如今容器化大行其道，SpringBoot可以很好融入Docker。内嵌容器，可打包成jar，通过java -jar命令直接运行，方便跨平台部署。</p>
+<ol>
+<li>自动配置</li>
+<li>起步依赖spring-boot-starter：，Spring Boot的起步依赖还把你从”需要这些库的哪些版本”这个问题里解放了出来</li>
+<li>CLI</li>
+<li>Actuator：在运行时检视应用程序内部情况</li>
+</ol>
+<p>SpringBoot2.0新特性</p>
+<ol>
+<li>java8</li>
+<li>spring 5.0</li>
+<li>Web Flux （函数式编程 java8 lambda，响应式编程Reactive Streams，异步编程 Servlet3.1 NIO）</li>
+</ol>
+<h2 id="快速构建一个项目"><a href="#快速构建一个项目" class="headerlink" title="快速构建一个项目"></a>快速构建一个项目</h2><h3 id="构件过程"><a href="#构件过程" class="headerlink" title="构件过程"></a>构件过程</h3><p>IDEA直接new一个SpringBoot项目即可！导包形式选择jar<br>了解一下项目结构</p>
+<pre><code>pom文件中项目依赖:
+不再像以前的spring配置，大量依赖，还要到处去找配置文件复制。
+直接使用starter POMs定义的依赖包，这些spring boot已经为你做好了
+spring-boot-starter-web和spring-boot-starter-test
+如果我们再整合其他模块。比如
+连接数据库直接引入：spring-boot-starter-jdbc
+</code></pre><p>以main方法为项目入口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>crud同传统项目类似controller-service-dao，我们建立一个REST-Controller<br>注意：SpringBootCrudApplication要放在所有包外面<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">index</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"hello world spring boot"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"get"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;String, String&gt; <span class="title">get</span><span class="params">(@RequestParam(value=<span class="string">"name"</span>)</span>String name) </span>&#123;</span><br><span class="line">    Map&lt;String, String&gt; map=<span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">    map.put(<span class="string">"name"</span>, name);</span><br><span class="line">    map.put(<span class="string">"value"</span>, <span class="string">"hello spring boot"</span>);</span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"getModel/&#123;name&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Users <span class="title">getUser</span><span class="params">(@PathVariable String name)</span> </span>&#123;</span><br><span class="line">    Users user=<span class="keyword">new</span> Users();</span><br><span class="line">    user.setName(name);</span><br><span class="line">    user.setAge((<span class="keyword">int</span>) Math.random());</span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后来编写单元测试<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringBootCrudApplicationTests</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> MockMvc mvc;</span><br><span class="line">    <span class="comment">//使用spring测试类将自己的方法引入</span></span><br><span class="line">    <span class="meta">@Before</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mvc=MockMvcBuilders.standaloneSetup(<span class="keyword">new</span> DemoController()).build();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        RequestBuilder req=get(<span class="string">"/"</span>);</span><br><span class="line">        mvc.perform(req).andExpect(content().string(<span class="string">"hello world spring boot"</span>)).andExpect(status().isOk());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后打包</p>
+<pre><code>Run as maven build
+Cmd进入目录 java -jar spring-boot-demo.jar
+</code></pre><h3 id="探究"><a href="#探究" class="headerlink" title="探究"></a>探究</h3><ol>
+<li><p>版本管理<br>新建的spring boot项目 &gt;父项目<br>spring-boot-starter-parent &gt; 父项目<br>spring-boot-dependencies （版本中心）<br>spring-boot-dependencies pom在properties中定义好了所有jar的版本依赖。所以导入依赖不再需要写版本号，除非该jar不在spring-boot-dependencies中管理<br>springboot将一个个依赖抽取出来，做成各种starters</p>
+</li>
+<li><p>@SpringBootApplication</p>
+</li>
+</ol>
+<p>SpringBootApplication注解事实上包含两个主要的注解：一个是扫描，一个是注入自动配置类</p>
+<ul>
+<li>---@SpringBootConfiguration  //底层为Spring框架 @Configuration 注解类</li>
+<li>---@EnableAutoConfiguration  //开启自动配置<br>  包含@AutoConfigurationPackage  ----@Import({Registrar.class})<pre><code>@Import({AutoConfigurationImportSelector.class})
+</code></pre>所以EnableAutoConfiguration是由Registrar和AutoConfigurationImportSelector来完成的</li>
+</ul>
+<p><strong>Registrar</strong> 类中跟registerBeanDefinitions方法的断点，可发现通过ClassUtils.getPackageName(metadata.getClassName()) 将著配置类的注解所在的包找到 — 然后扫描所有组件。所以，写的内的包都必须在主类同路径<br><strong>AutoConfigurationImportSelector</strong> 类selectImports方法断点，List<string> configurations = this.getCandidateConfigurations(annotationMetadata, attributes); getCandidateConfigurations 方法通过 SpringFactoriesLoader.loadFactoryNames —  再通过资源获取器获取  classLoader.getResources(“META-INF/spring.factories”)  — 每个starter的jar下均有该默认配置META-INF/spring.factories</string></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="自动配置原理"><a href="#自动配置原理" class="headerlink" title="自动配置原理"></a>自动配置原理</h3><p>1) spring boot 主方法开启@EnableAutoConfiguration<br>2) @EnableAutoConfiguration</p>
+<ul>
+<li>EnableAutoConfigurationImportSelector给容器导入组件。</li>
+<li>可以用selectImports()方法的内容</li>
+<li><p>List<string> configurations = this.getCandidateConfigurations(annotationMetadata, attributes);</string></p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//扫描所有jar下的MATE-INF/spring.factories</span></span><br><span class="line">SpringFactoriesLoder.loadFactoryNames()</span><br><span class="line"><span class="comment">//将扫描的文件内容包装为Properties对象</span></span><br><span class="line"><span class="comment">//从Properties获取值。然后添加在容器中</span></span><br></pre></td></tr></table></figure>
+<p>  spring boot autoconfiguration jar下面</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Auto Configure</span><br><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span><br><span class="line">org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>  以上每一个xxxautoconfigure都加进去，做自动配置<br>3) 以上每一个自动配置类均进行自动配置，以HttpEncodingAutoConfiguration为例。org\springframework\boot\autoconfigure\web\servlet\HttpEncodingAutoConfiguration.class</p>
+</li>
+</ul>
+<p>这些自动配置类均在autoconfiguration jar包下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置类</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="comment">//启用ConfigurationProperties功能，指向注解类，从注解类获取配置</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(&#123;HttpEncodingProperties.class&#125;)</span><br><span class="line"><span class="comment">//满足条件才生效配置</span></span><br><span class="line"><span class="meta">@ConditionalOnWebApplication</span>(</span><br><span class="line">    type = Type.SERVLET</span><br><span class="line">)</span><br><span class="line"><span class="comment">//判断当前类有没有CharacterEncodingFilter.class，有才加载</span></span><br><span class="line"><span class="meta">@ConditionalOnClass</span>(&#123;CharacterEncodingFilter.class&#125;)</span><br><span class="line"><span class="comment">//判断配置文件中是否存在配置，matchIfMissing= true 如果没配置也生效的意思</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty</span>(</span><br><span class="line">    prefix = <span class="string">"spring.http.encoding"</span>,</span><br><span class="line">    value = &#123;<span class="string">"enabled"</span>&#125;,</span><br><span class="line">    matchIfMissing = <span class="keyword">true</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpEncodingAutoConfiguration</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+<p>4)所有默认配置均封装在xxxProperties类中，如HttpEncodingProperties.class</p>
+<h3 id="yaml"><a href="#yaml" class="headerlink" title="yaml"></a>yaml</h3><p>SpringBoot支持yaml配置。 yaml:后有空格，且不要用Tab；对其的均为一个层级<br>application.yaml<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">    context-path:</span> <span class="string">/helloboot</span></span><br><span class="line"><span class="attr">    port:</span> <span class="number">8081</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="将配置值注入到bean-ConfigurationProperties和-Value"><a href="#将配置值注入到bean-ConfigurationProperties和-Value" class="headerlink" title="将配置值注入到bean @ConfigurationProperties和@Value"></a>将配置值注入到bean @ConfigurationProperties和@Value</h3><ol>
+<li><p>@ConfigurationProperties<br>springboot获取yaml配置值的方式，<br>首先导入配置文件处理器spring-boot-configuration-processor<br>然后通过@ConfigurationProperties将配置文件中的值注入到bean中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"xxx"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">rtesat</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@Value</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">rtesat</span></span>&#123;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"lisi"</span>)</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="多环境配置"><a href="#多环境配置" class="headerlink" title="多环境配置"></a>多环境配置</h3><p>全局Profile配置我们使用application-{profile}.properties来定义，<br>然后在application.properties中通过spring.profiles.active来指定使用哪个Profile。</p>
+<ol>
+<li><p>在src/main/resources文件夹下定义不同环境下的Profile配置文件，<br>文件名分别为application-prod.properties和application-dev.properties，这两个前者表示生产环境下的配置，后者表示开发环境下的配置：</p>
+<p> application-prod.properties:<br> server.port=8081</p>
+<p> application-dev.properties:<br> server.port=8080</p>
+</li>
+<li><p>然后在application.properties中进行简单配置，如下：</p>
+<p> spring.profiles.active=dev<br>这个表示使用开发环境下的配置。然后运行项目，我们得通过8080端口才可以访问：<br>如果想换为生产环境，只需要把spring.profiles.active=dev改为spring.profiles.active=prod即可，当然访问端口这是也变为8081了</p>
+</li>
+<li><p>发布后切换</p>
+<p> Cmd进入目录 java -jar spring-boot-demo.jar–spring.profile.active=dev</p>
+</li>
+</ol>
+<h3 id="定制banner"><a href="#定制banner" class="headerlink" title="定制banner"></a>定制banner</h3><p>我们在启动Spring Boot项目的时候，在控制台会默认输出一个启动图案，SPRING<br>这个图案如果需要的话是可以自己修改的，修改方式很简单：</p>
+<pre><code>1.在src/main/resources下新建一个banner.txt文档
+2.通过http://patorjk.com/software/taag网站生成需要的字符，
+将字符拷贝到步骤1所创建的txt文档中，比如我这里为Hello CG！生成字符
+</code></pre><p>使用随机数<br>一些特殊情况，希望有些参数每次加载不要一样，比如密钥等，可以通过${random}产生</p>
+<pre><code> #随机字符串
+com.cg.blog.value=${random.value}
+ #随机int
+com.cg.blog.value=${random.int}
+ #随机long
+com.cg.blog.value=${random.long}
+ #随机10以内
+com.cg.blog.value=${random.int(10)}
+ #随机10~20
+com.cg.blog.value=${random.int(10,20)}
+</code></pre><p>命令行参数<br>java -jar xxxx.jar 运行时，可对配置文件中进行赋值</p>
+<pre><code>java -jar xxxx.jar--server.port=8988
+java -jar xxxx.jar--spring.profile.active=dev
+</code></pre><h3 id="SpringBoot配置加载顺序"><a href="#SpringBoot配置加载顺序" class="headerlink" title="SpringBoot配置加载顺序"></a>SpringBoot配置加载顺序</h3><p>大致的有  </p>
+<pre><code>源码文件下的config目录下的配置 &gt; 
+源码文件根目录下的配置 &gt; 
+resource目录下的config目录的配置 &gt; 
+resource根目录的配置
+</code></pre><p>详细的有</p>
+<pre><code>命令行参数 &gt; 
+SPING_APPLICATION_JSON &gt; 
+java:comp/env &gt;...
+
+jar 包外 针对不同{profile} &gt; (放在jar同一路径下，用java -jar不带任何参数启动即可)
+jar 包内 针对不同{profile} &gt; 
+jar 包外 application.properties &gt; 
+jar 包内 application.properties&gt; 
+默认
+</code></pre><p>看看出，SpringBoot可实现从外部配置，工程类的配置非常干净！不用关心其他环境配置，由对应的负责人维护配置<br>SpringCloudConfig也基于此。</p>
+<h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><h3 id="日志（推荐logback）"><a href="#日志（推荐logback）" class="headerlink" title="日志（推荐logback）"></a>日志（推荐logback）</h3><p>默认情况下Spring Boot使用Logback作为日志框架，如果有需要我们可以手动配置日志级别以及日志输出位置，相比于我们在Spring容器中写的日志输出代码，这里的配置简直就是小儿科了，只需要在application.properties中添加如下代码：</p>
+<pre><code>logging.file=/home/sang/workspace/log.log
+logging.level.org.springframework.web=debug
+</code></pre><p>上面表示配置日志输出位置，下面配置日志级别。</p>
+<h2 id="web"><a href="#web" class="headerlink" title="web"></a>web</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="Chen Gong 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微服务/" rel="tag"># -微服务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/27/06-大后端-05架构-02微服务--01Spring Cloud-03 Ribbon/" rel="next" title="02、微服务-01、Spring Cloud之03、Ribbon">
+                <i class="fa fa-chevron-left"></i> 02、微服务-01、Spring Cloud之03、Ribbon
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/03/01javaSE-21-JVM/" rel="prev" title="21、JVM">
+                21、JVM <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Chen Gong</p>
+              <p class="site-description motion-element" itemprop="description">java 学习 Spring Cloud 微服务 图解源码 陈功</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#快速构建一个项目"><span class="nav-number">1.1.</span> <span class="nav-text">快速构建一个项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构件过程"><span class="nav-number">1.1.1.</span> <span class="nav-text">构件过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#探究"><span class="nav-number">1.1.2.</span> <span class="nav-text">探究</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">1.2.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动配置原理"><span class="nav-number">1.2.1.</span> <span class="nav-text">自动配置原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yaml"><span class="nav-number">1.2.2.</span> <span class="nav-text">yaml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将配置值注入到bean-ConfigurationProperties和-Value"><span class="nav-number">1.2.3.</span> <span class="nav-text">将配置值注入到bean @ConfigurationProperties和@Value</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多环境配置"><span class="nav-number">1.2.4.</span> <span class="nav-text">多环境配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定制banner"><span class="nav-number">1.2.5.</span> <span class="nav-text">定制banner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBoot配置加载顺序"><span class="nav-number">1.2.6.</span> <span class="nav-text">SpringBoot配置加载顺序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日志"><span class="nav-number">1.3.</span> <span class="nav-text">日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#日志（推荐logback）"><span class="nav-number">1.3.1.</span> <span class="nav-text">日志（推荐logback）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web"><span class="nav-number">1.4.</span> <span class="nav-text">web</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Gong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

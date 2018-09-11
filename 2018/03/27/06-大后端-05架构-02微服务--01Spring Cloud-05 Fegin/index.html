@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="-微服务," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="食用指南：集中式传统web开发者，熟悉SpringBoot后可开袋食用！author：ChenGong本文为笔记向！ Feign声明式服务调用quick egFeign整合了Ribbon和Hystrix，还提供了声明式的web客户端定义方式。 1.pom     &amp;lt;dependency&amp;gt;         &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;">
+<meta name="keywords" content="-微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="02、微服务-01、Spring Cloud之05、Fegin">
+<meta property="og:url" content="http://yoursite.com/2018/03/27/06-大后端-05架构-02微服务--01Spring Cloud-05 Fegin/index.html">
+<meta property="og:site_name" content="CGの开发万事屋">
+<meta property="og:description" content="食用指南：集中式传统web开发者，熟悉SpringBoot后可开袋食用！author：ChenGong本文为笔记向！ Feign声明式服务调用quick egFeign整合了Ribbon和Hystrix，还提供了声明式的web客户端定义方式。 1.pom     &amp;lt;dependency&amp;gt;         &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-16T09:09:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="02、微服务-01、Spring Cloud之05、Fegin">
+<meta name="twitter:description" content="食用指南：集中式传统web开发者，熟悉SpringBoot后可开袋食用！author：ChenGong本文为笔记向！ Feign声明式服务调用quick egFeign整合了Ribbon和Hystrix，还提供了声明式的web客户端定义方式。 1.pom     &amp;lt;dependency&amp;gt;         &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/27/06-大后端-05架构-02微服务--01Spring Cloud-05 Fegin/"/>
+
+
+
+
+
+  <title>02、微服务-01、Spring Cloud之05、Fegin | CGの开发万事屋</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CGの开发万事屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">欢迎来到黑铁酒吧，哦不，CG的万事屋(●'◡'●)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/27/06-大后端-05架构-02微服务--01Spring Cloud-05 Fegin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">02、微服务-01、Spring Cloud之05、Fegin</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-27T00:38:40+08:00">
+                2018-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/06-大后端-05-架构/" itemprop="url" rel="index">
+                    <span itemprop="name">-06.大后端-05.架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>食用指南：集中式传统web开发者，熟悉SpringBoot后可开袋食用！<br>author：ChenGong<br>本文为笔记向！</p>
+<h1 id="Feign声明式服务调用"><a href="#Feign声明式服务调用" class="headerlink" title="Feign声明式服务调用"></a>Feign声明式服务调用</h1><h2 id="quick-eg"><a href="#quick-eg" class="headerlink" title="quick eg"></a>quick eg</h2><p>Feign整合了Ribbon和Hystrix，还提供了声明式的web客户端定义方式。</p>
+<pre><code>1.pom
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+2.main添加
+    @EnableFeignClients
+    @EnableDiscoveryClient
+3.controller
+    @RestController
+    public class HelloController {
+        @Autowired
+        private HelloService helloService;
+        @RequestMapping(value = &quot;/fegin-consumer&quot;,method = RequestMethod.GET)
+        public String helloConsumer(){
+            return helloService.hello();
+        }
+    }
+4.service
+    @FeignClient(&quot;hello-service&quot;)
+    public interface HelloService {
+        @RequestMapping(&quot;/hello&quot;)
+        String hello();
+    }
+5.properties
+    spring.application.name=feign-consumer
+    server.port=9001
+    eureka.client.serviceUrl.defaultZone=http://localhost:8765/eureka/
+</code></pre><p>可以看到consumer没有通过restTemplate，直接同服务名@FeignClient(“hello-service”)通过<a href="http://localhost:9001/feign-consumer" target="_blank" rel="noopener">http://localhost:9001/feign-consumer</a> ,通过接口的方式访问了hello-service服务提供者，这是一个不带参数的REST服务绑定。</p>
+<h2 id="不同的参数绑定方法"><a href="#不同的参数绑定方法" class="headerlink" title="不同的参数绑定方法"></a>不同的参数绑定方法</h2><p>实际业务接口复杂得多，HTTP各个位置需要传入不同类型的参数，返回也可能是一个复杂的对象。首先，我们扩展一下客户端的provider</p>
+<pre><code>1.添加User pojo，包含name，age，及空构造！
+2.改造controller接口
+@RestController
+public class HelloController {
+    @RequestMapping(value = &quot;/hello&quot;)
+    public String hello(){
+        return &quot;Hello Eureka&quot;;
+    }
+    @RequestMapping(value = &quot;/hello1/{name}&quot;,method = RequestMethod.GET)
+    public String hello(@PathVariable String name){
+        return &quot;Hello Eureka &quot;+name;
+    }
+    @RequestMapping(value = &quot;/hello2&quot;,method = RequestMethod.GET)
+    public User hello(@RequestHeader String name, @RequestHeader Integer age){
+        return new User(name,age);
+    }
+    @RequestMapping(value = &quot;/hello3&quot;,method = RequestMethod.GET)
+    public String hello(@RequestBody User user){
+        return &quot;hello&quot;+user.getName()+&quot;,&quot;+user.getAge();
+    }
+}
+</code></pre><p>开始对feign consumer绑定请求，首先添加User类。feign采用的类似mvc的语法，但不是完全一样，比如MVC中，注解会根据参数名来作为默认值，但是Feign中绑定的参数必须通过value属性来指明参数名。<br>    1.改造service<br>    @FeignClient(“hello-server”)<br>    public interface HelloService {<br>        @RequestMapping(“/hello”)<br>        String hello();</p>
+<pre><code>    @RequestMapping(value = &quot;/hello1/{name}&quot;,method = RequestMethod.GET)
+    String hello(@PathVariable(&quot;name&quot;) String name);
+
+    @RequestMapping(value = &quot;/hello2&quot;,method = RequestMethod.GET)
+    User hello(@RequestHeader(&quot;name&quot;) String name,@RequestHeader(&quot;age&quot;) Integer age);
+
+    @RequestMapping(value = &quot;/hello3&quot;,method = RequestMethod.POST)
+    String hello(@RequestBody User user);
+}
+2.改造controller
+@RestController
+public class HelloController {
+    @Autowired
+    private HelloService helloService;
+    @RequestMapping(value = &quot;/fegin-consumer&quot;,method = RequestMethod.GET)
+    public String helloConsumer(){
+        return helloService.hello();
+    }
+    @RequestMapping(value = &quot;/fegin-consumer2&quot;,method = RequestMethod.GET)
+    public String helloConsumer2(){
+        StringBuilder sb=new StringBuilder();
+        sb.append(helloService.hello()).append(&quot;\n&quot;);
+        sb.append(helloService.hello(&quot;CG&quot;)).append(&quot;\n&quot;);
+        sb.append(helloService.hello(&quot;CG&quot;,26)).append(&quot;\n&quot;);
+        sb.append(helloService.hello(new User(&quot;lsj&quot;,24))).append(&quot;\n&quot;);
+        return sb.toString();
+    }
+}
+</code></pre><p>测试！<br>启动注册中心，启动provider，启动fegin/。</p>
+<h2 id="如何在Feign中使用Ribbon"><a href="#如何在Feign中使用Ribbon" class="headerlink" title="如何在Feign中使用Ribbon"></a>如何在Feign中使用Ribbon</h2><p>全局设置</p>
+<pre><code>ribbon.ConnectTimeout=500
+ribbon.ReadTimeout=5000
+</code></pre><h2 id="如何在Feign中使用Hystrix"><a href="#如何在Feign中使用Hystrix" class="headerlink" title="如何在Feign中使用Hystrix"></a>如何在Feign中使用Hystrix</h2><p>默认情况下会将所有方法封装到Hystrix中进行保护</p>
+<h2 id="Feign日志配置"><a href="#Feign日志配置" class="headerlink" title="Feign日志配置"></a>Feign日志配置</h2><pre><code>logging.level.com.cg.service.HelloService=DEBUG
+
+@EnableFeignClients
+@EnableDiscoveryClient
+@SpringBootApplication
+public class FeignApplication {
+    @Bean
+    Logger.Level feginLoggerLevel(){
+        return Logger.Level.FULL;
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(FeignApplication.class, args);
+    }
+}
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="Chen Gong 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微服务/" rel="tag"># -微服务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/27/06-大后端-05架构-02微服务--01Spring Cloud-02 Eureka/" rel="next" title="02、微服务-01、Spring Cloud之02、Eureka">
+                <i class="fa fa-chevron-left"></i> 02、微服务-01、Spring Cloud之02、Eureka
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/27/06-大后端-05架构-02微服务--01Spring Cloud-06 Zuul/" rel="prev" title="02、微服务-01、Spring Cloud之06、Zuul">
+                02、微服务-01、Spring Cloud之06、Zuul <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Chen Gong</p>
+              <p class="site-description motion-element" itemprop="description">java 学习 Spring Cloud 微服务 图解源码 陈功</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Feign声明式服务调用"><span class="nav-number">1.</span> <span class="nav-text">Feign声明式服务调用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#quick-eg"><span class="nav-number">1.1.</span> <span class="nav-text">quick eg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不同的参数绑定方法"><span class="nav-number">1.2.</span> <span class="nav-text">不同的参数绑定方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何在Feign中使用Ribbon"><span class="nav-number">1.3.</span> <span class="nav-text">如何在Feign中使用Ribbon</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何在Feign中使用Hystrix"><span class="nav-number">1.4.</span> <span class="nav-text">如何在Feign中使用Hystrix</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Feign日志配置"><span class="nav-number">1.5.</span> <span class="nav-text">Feign日志配置</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Gong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="-微服务," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基于rabbit和kafka。一个是stream作为服务之间的通信MQ，一个是bus主要用来关于广播配置的。 Bus是一个轻量级的消息代理，不同于stream作为服务与服务间的通信。Bus让所有服务连接上来，该主题的消息会被所有实例监听消费，所以我们叫他消息总线。消息总线上的各个实例可以方便地广播一些需要让其他连接都知道得消息，比如配置信息或者一些操作管理，通常用来广播配置，实现动态刷新配置。 R">
+<meta name="keywords" content="-微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="02微服务-01Spring-Cloud-09-bus">
+<meta property="og:url" content="http://yoursite.com/2018/05/04/06-大后端-05架构-02微服务-01Spring-Cloud-09-Stream/index.html">
+<meta property="og:site_name" content="CGの开发万事屋">
+<meta property="og:description" content="基于rabbit和kafka。一个是stream作为服务之间的通信MQ，一个是bus主要用来关于广播配置的。 Bus是一个轻量级的消息代理，不同于stream作为服务与服务间的通信。Bus让所有服务连接上来，该主题的消息会被所有实例监听消费，所以我们叫他消息总线。消息总线上的各个实例可以方便地广播一些需要让其他连接都知道得消息，比如配置信息或者一些操作管理，通常用来广播配置，实现动态刷新配置。 R">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/05/04/06-大后端-05架构-02微服务-01Spring-Cloud-09-Stream/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/04/06-大后端-05架构-02微服务-01Spring-Cloud-09-Stream/4.jpg">
+<meta property="og:updated_time" content="2018-05-14T03:20:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="02微服务-01Spring-Cloud-09-bus">
+<meta name="twitter:description" content="基于rabbit和kafka。一个是stream作为服务之间的通信MQ，一个是bus主要用来关于广播配置的。 Bus是一个轻量级的消息代理，不同于stream作为服务与服务间的通信。Bus让所有服务连接上来，该主题的消息会被所有实例监听消费，所以我们叫他消息总线。消息总线上的各个实例可以方便地广播一些需要让其他连接都知道得消息，比如配置信息或者一些操作管理，通常用来广播配置，实现动态刷新配置。 R">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/04/06-大后端-05架构-02微服务-01Spring-Cloud-09-Stream/3.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/04/06-大后端-05架构-02微服务-01Spring-Cloud-09-Stream/"/>
+
+
+
+
+
+  <title>02微服务-01Spring-Cloud-09-bus | CGの开发万事屋</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CGの开发万事屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">欢迎来到黑铁酒吧，哦不，CG的万事屋(●'◡'●)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/04/06-大后端-05架构-02微服务-01Spring-Cloud-09-Stream/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">02微服务-01Spring-Cloud-09-bus</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-04T22:42:16+08:00">
+                2018-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/06-大后端-05-架构/" itemprop="url" rel="index">
+                    <span itemprop="name">-06.大后端-05.架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>基于rabbit和kafka。一个是stream作为服务之间的通信MQ，一个是bus主要用来关于广播配置的。</p>
+<p>Bus是一个轻量级的消息代理，不同于stream作为服务与服务间的通信。Bus让<strong>所有服务</strong>连接上来，该主题的消息会被所有实例监听消费，所以我们叫他消息总线。<br><strong>消息总线</strong>上的各个实例可以方便地广播一些需要让其他连接都知道得消息，比如配置信息或者一些操作管理，通常用来广播配置，实现动态刷新配置。</p>
+<h1 id="RabbitMQ实现消息总线"><a href="#RabbitMQ实现消息总线" class="headerlink" title="RabbitMQ实现消息总线"></a>RabbitMQ实现消息总线</h1><h1 id="一、整合spring-cloud-bus动态刷新配置"><a href="#一、整合spring-cloud-bus动态刷新配置" class="headerlink" title="一、整合spring cloud bus动态刷新配置"></a>一、整合spring cloud bus动态刷新配置</h1><p>1）准备：config-repo、config-server-eureka启动他们<br>2）改造config-client-eureka，为其增加amqp</p>
+<p><em>pom增加amqp和actuator（提供刷新端点）；
+</em>配置中增加RabbitMQ的连接和用户信息</p>
+<pre><code>spring.rabbitmq.host=localhost
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=cg
+spring.rabbitmq.password=123456
+</code></pre><p>3)启动两个config-client-eureka，在不同的port上<br>4）试验：我们先访问config-client-eureka /from请求，可以看到获取到了配置信息<br>然后我们修改repo的配置，然后post请求/bus/refresh到onfig-client-eureka.<br>然后我们再访问两个客户端的/from ，将会看到修改后的配置文件</p>
+<img src="/2018/05/04/06-大后端-05架构-02微服务-01Spring-Cloud-09-Stream/3.jpg" title="架构图">
+<p>系统启动后，三个Service-A都会连接到Config-Server去获取配置。<br>如果我们修改Service-A的属性，我们需要向其中一个比如3实例发送/bus/refresh 的post请求。该请求会刷新到消息总线中，实例1，2也会获取到，从而实现动态更新。<br>局部刷新同样我们可以实现，通过/bus/refresh?destination=customers:9000，来指定刷新某个服务的配置</p>
+<img src="/2018/05/04/06-大后端-05架构-02微服务-01Spring-Cloud-09-Stream/4.jpg" title="架构优化">
+<p>上面的架构，服务配置更新需要指向某个实例，web hook配置写死了，如果以后进行服务器迁移，还不得不修改web hook的配置，所以需要调整。<br>在ConfigServer中引入SpringCloudBus，将其引入到消息总线中。 /bus/refresh请求直接post给ConfigServer就可以了。并通过/bus/refresh?destination=customers:9000的形式来指定更新配置</p>
+<h2 id="kafaka-spring-cloud-bus"><a href="#kafaka-spring-cloud-bus" class="headerlink" title="kafaka + spring cloud bus"></a>kafaka + spring cloud bus</h2><p><em>pom需要引入spring-cloud-starter-bus-kafka
+</em>吧刚才的zookeeper+kafka启动起来，之前amqp整合中将破灭修改后，直接启动config-server和config-client</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="Chen Gong 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微服务/" rel="tag"># -微服务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/03/10-Linux-01-Cent-7最小化安装及网络配置/" rel="next" title="10-Linux-01-Cent 7最小化安装及网络配置">
+                <i class="fa fa-chevron-left"></i> 10-Linux-01-Cent 7最小化安装及网络配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/04/07-工程化-05-jenkins/" rel="prev" title="07-工程化-05-jenkins">
+                07-工程化-05-jenkins <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Chen Gong</p>
+              <p class="site-description motion-element" itemprop="description">java 学习 Spring Cloud 微服务 图解源码 陈功</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ实现消息总线"><span class="nav-number">1.</span> <span class="nav-text">RabbitMQ实现消息总线</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、整合spring-cloud-bus动态刷新配置"><span class="nav-number">2.</span> <span class="nav-text">一、整合spring cloud bus动态刷新配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#kafaka-spring-cloud-bus"><span class="nav-number">2.1.</span> <span class="nav-text">kafaka + spring cloud bus</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Gong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

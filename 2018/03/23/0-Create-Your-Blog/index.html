@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="-blog," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="食用指南：小白也可食用！author：ChenGong 使用GitHub和hexo博客打造工具可轻松完成博客部署，git上相关blog模板工具众多，总能找到你想要的模板。同时你也可以自己手动打造前端页面。这篇文章将详细将如何打造自己的hexo+github BlogWelcome to CG Blog!  Quick Start说白了，就是把github当作服务器托管你的页面代码，利用hexo生成">
+<meta name="keywords" content="-blog">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初、使用hexo+github进行blog构建">
+<meta property="og:url" content="http://yoursite.com/2018/03/23/0-Create-Your-Blog/index.html">
+<meta property="og:site_name" content="CGの开发万事屋">
+<meta property="og:description" content="食用指南：小白也可食用！author：ChenGong 使用GitHub和hexo博客打造工具可轻松完成博客部署，git上相关blog模板工具众多，总能找到你想要的模板。同时你也可以自己手动打造前端页面。这篇文章将详细将如何打造自己的hexo+github BlogWelcome to CG Blog!  Quick Start说白了，就是把github当作服务器托管你的页面代码，利用hexo生成">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/03/23/0-Create-Your-Blog/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/23/0-Create-Your-Blog/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/23/0-Create-Your-Blog/3.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/23/0-Create-Your-Blog/4.jpg">
+<meta property="og:updated_time" content="2018-03-23T06:38:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初、使用hexo+github进行blog构建">
+<meta name="twitter:description" content="食用指南：小白也可食用！author：ChenGong 使用GitHub和hexo博客打造工具可轻松完成博客部署，git上相关blog模板工具众多，总能找到你想要的模板。同时你也可以自己手动打造前端页面。这篇文章将详细将如何打造自己的hexo+github BlogWelcome to CG Blog!  Quick Start说白了，就是把github当作服务器托管你的页面代码，利用hexo生成">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/23/0-Create-Your-Blog/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/23/0-Create-Your-Blog/"/>
+
+
+
+
+
+  <title>初、使用hexo+github进行blog构建 | CGの开发万事屋</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CGの开发万事屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">欢迎来到黑铁酒吧，哦不，CG的万事屋(●'◡'●)</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/23/0-Create-Your-Blog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chen Gong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CGの开发万事屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">初、使用hexo+github进行blog构建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-23T00:50:23+08:00">
+                2018-03-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/0-玩儿-01-博客构建/" itemprop="url" rel="index">
+                    <span itemprop="name">-0.玩儿 -01.博客构建</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>食用指南：小白也可食用！<br>author：ChenGong</p>
+<p>使用GitHub和hexo博客打造工具可轻松完成博客部署，git上相关blog模板工具众多，总能找到你想要的模板。<br>同时你也可以自己手动打造前端页面。<br>这篇文章将详细将如何打造自己的hexo+github Blog<br>Welcome to <a href="https://nijigencg.github.io/" target="_blank" rel="noopener">CG Blog</a>! </p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>说白了，就是把github当作服务器托管你的页面代码，利用hexo生成代码，<br>并push到git上，通过域名访问就能看到你的Blog</p>
+<h3 id="一、github操作"><a href="#一、github操作" class="headerlink" title="一、github操作"></a>一、github操作</h3><p>首先你需要Github。注册你的<a href="https://github.com/" target="_blank" rel="noopener">Github</a>。并为自己取一个帅气的名字！<br>点击Repositories&gt;-New，建立你的Blog存放仓库。<br><img src="/2018/03/23/0-Create-Your-Blog/1.png" title="Blog代码仓库建立"><br>    命名blog仓库，需要保证两个圈的名字是一致的。不一致blog域名会访问不到你的gitblog的！<br><img src="/2018/03/23/0-Create-Your-Blog/2.png" title="Blog仓库命名"><br>    命名完成后，按下图设置你的GitPage。<br><img src="/2018/03/23/0-Create-Your-Blog/3.png" title="GitPage设置"><br>    设置完成后，你就可以点开page链接看到自己主页的原始样子了~</p>
+<h3 id="二、node-npm-gitBash安装"><a href="#二、node-npm-gitBash安装" class="headerlink" title="二、node npm gitBash安装"></a>二、node npm gitBash安装</h3><p>接下来，我们需要hexo帮助我们制作页面！<br>我们需要下载两个东西：<br>1.<a href="https://gitforwindows.org/" target="_blank" rel="noopener">Git下载</a> 简单说就是用来将你的代码上传下载到git的工具。<br>        直接下载下一步下一步完成安装。<br>2.<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">node.js下载</a> hexo通过npm安装。所以我们需要再Windows上安装npm；<br>        直接下载下一步下一步完成安装。<br>3.使用npm安装Hexo   </p>
+<pre><code>npm install -g hexo
+a)输入hexo -v，检查hexo是否安装成功
+b)建立你的blog文件夹并进入，在此右键，打开GitBashHere
+c)hexo init，初始化该文件夹
+d)输入hexo g，(生成页面)体验Hexo
+e)输入hexo s，开启服务器，访问该网址
+f)如果你不想再看，可按Ctrl+C结束该服务。
+</code></pre><img src="/2018/03/23/0-Create-Your-Blog/4.jpg" title="HEXO主页">
+<h3 id="三、配置hexo书写hello-word！"><a href="#三、配置hexo书写hello-word！" class="headerlink" title="三、配置hexo书写hello word！"></a>三、配置hexo书写hello word！</h3><p>进入你的blog文件夹source&gt;-_posts。文件夹下的md文件就是你写的blog。<br>使用命令创建blog文件</p>
+<pre><code>hexo new &quot;myHelloWorld&quot; 
+</code></pre><p>md文件可用文本编辑器（推荐微软VS Code）打开。<br>myHelloWorld.md<br>随便敲几行，保存，按照之前的hexo g，hexo s 生成页面，开启服务，看看你的页面。</p>
+<p>  更多的hexo及md语法请看相关文档<br><a href="http://wowubuntu.com/markdown/#precode" target="_blank" rel="noopener">1.MarkDown语法</a><br><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">2.HEXO</a>! </p>
+<h3 id="四、部署到远端"><a href="#四、部署到远端" class="headerlink" title="四、部署到远端"></a>四、部署到远端</h3><p>到目前为止，本地已经配好，如何发布到Git上，并通过互联网访问呢？<br>找到blog文件加的根目录下的_config.yml文件，用文本编辑器打开。<br>在最下面配置（冒号后有个空格！）</p>
+<pre><code>deploy:
+    type: git
+    repository: git@github.com:nijigenCG/nijigenCG.github.io.git
+    branch: master
+</code></pre><p>将repository里面的nijigenCG还成你的git用户名即可<br>配置完成后，到blog文件夹根目录。输入</p>
+<pre><code>hexo generate
+hexo deploy
+</code></pre><p>配置完成！！<br>通过<a href="https://nijigenCG.github.io即可访问" target="_blank" rel="noopener">https://nijigenCG.github.io即可访问</a></p>
+<h3 id="五、高级玩法（待续。。。）"><a href="#五、高级玩法（待续。。。）" class="headerlink" title="五、高级玩法（待续。。。）"></a>五、高级玩法（待续。。。）</h3><p>5.0更换主题<br>5.1添加图片视频等</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="Chen Gong 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/blog/" rel="tag"># -blog</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/25/01javaSE-20JDK8特性/" rel="prev" title="20、JDK8新特性">
+                20、JDK8新特性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Chen Gong</p>
+              <p class="site-description motion-element" itemprop="description">java 学习 Spring Cloud 微服务 图解源码 陈功</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、github操作"><span class="nav-number">1.1.</span> <span class="nav-text">一、github操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、node-npm-gitBash安装"><span class="nav-number">1.2.</span> <span class="nav-text">二、node npm gitBash安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、配置hexo书写hello-word！"><span class="nav-number">1.3.</span> <span class="nav-text">三、配置hexo书写hello word！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、部署到远端"><span class="nav-number">1.4.</span> <span class="nav-text">四、部署到远端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、高级玩法（待续。。。）"><span class="nav-number">1.5.</span> <span class="nav-text">五、高级玩法（待续。。。）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen Gong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
