@@ -383,6 +383,18 @@
 <li>本地调试，阻止本地https，本地页面调试速度加载更快<br>  nemostroefront下spring-security-config.xml 中 注释调如下代码</li>
 </ul>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--Whole site change to https--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">security:intercept-url</span> <span class="attr">pattern</span>=<span class="string">"/**"</span> <span class="attr">requires-channel</span>=<span class="string">"https"</span>  /&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="5-开启JRebel，实现代码热部署"><a href="#5-开启JRebel，实现代码热部署" class="headerlink" title="5.开启JRebel，实现代码热部署"></a>5.开启JRebel，实现代码热部署</h2><p>原有的Remote Debug实现了一小部分的代码热部署，但是添加方法或者删除方法等不可以使用热部署，下面下面介绍一下开启JRebel实现热部署的步骤：</p>
+<ol>
+<li>安装JRebel，可以买正版也可以破解，破解方法：<br> <a href="https://www.cnblogs.com/wang1024/p/7211194.html" target="_blank" rel="noopener">https://www.cnblogs.com/wang1024/p/7211194.html</a><br> 只需要看如何破解即可，配置和它有一些不同<br> 可以在这里下载(jr-ide-intellij-6.4.3_13-16.zip,jrebel6.4.3-cracked-破解文件.rar)：<br> <a href="http://10.109.19.50:9000/minio/soft/" target="_blank" rel="noopener">http://10.109.19.50:9000/minio/soft/</a></li>
+<li>更改配置</li>
+</ol>
+<img src="/2018/09/11/0-lenovo-01-hybris开发/9.png"> 
+<pre><code>勾选想要热部署的模块，如图：
+</code></pre><img src="/2018/09/11/0-lenovo-01-hybris开发/8.png"> 
+<pre><code>勾选后在模块下面的resources目录内会生成一个rebel.xml，即是JRebel用到的配置文件
+修改hybris.bat文件，内容如下：
+</code></pre><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">REM</span></span><br><span class="line"><span class="comment">REM 	This is a wrapper script, which would call the hybris scripts</span></span><br><span class="line"><span class="comment">REM 	<span class="doctag">Note:</span> arguments you can pass are</span></span><br><span class="line"><span class="comment">REM		start - to start the hybris as a service i.e. background process</span></span><br><span class="line"><span class="comment">REM		stop - to stop the hybris service if running.</span></span><br><span class="line"><span class="comment">REM		debug - to stop hybris in debug mode</span></span><br><span class="line"><span class="comment">REM		&lt;no_args&gt; - to start hybris in attached tty or currently logged in user account</span></span><br><span class="line"><span class="comment">REM</span></span><br><span class="line"><span class="built_in">set</span> REBEL_BASE=C:\Users\yourname\.jrebel</span><br><span class="line"><span class="built_in">set</span> JAVA_OPTS="-javaagent:C:\Users\yourname\.IntelliJIdea2018.<span class="number">2</span>\config\plugins\jr-ide-idea\lib\jrebel6\jrebel.jar"  <span class="variable">%JAVA_OPTS%</span></span><br><span class="line">hybris\bin\platform\hybrisserver.bat %<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>改成这个样子是为了和以前的使用方法一样，使用hybris.bat debug或者hybris.bat都可以<br>之后操作与往常无异，修改文件后重新编译文件就可以生效了（实际上是JRebel帮我们做了文件修改），此时添加方法删除方法，增加参数等操作均可以热部署，断点也可以即时生效了</p>
 
           
         
