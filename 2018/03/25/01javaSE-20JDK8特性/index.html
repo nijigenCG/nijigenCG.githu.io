@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="很多blog及文章对jdk的特性讲解不讲人话，我决定用人话来写一下java8的新特性，力求简单易懂！ 前几天发布了JDK10，现在JDK将极快的速度发布新版本加入新特性。JDK8带来了极大改变，在2014年就已然发布。然而国内还有大量公司使用着JDK7甚至JDK6。。。先回顾一下历代JDK的特性1）JDK5（特性多） 自动装箱拆箱、枚举、静态导入、可变长参数、泛型、foreach循环 2）JDK6">
+<meta name="description" content="历代JDK的特性1）JDK5（特性多） 自动装箱拆箱、枚举、静态导入、可变长参数、泛型、foreach循环 2）JDK6（特性少） Desktop类和SystemTray类、轻量级Http Server API 插入式注解处理API、用console开发的控制台程序。 3）JDK7（特性较多） 数字变量对下划线的支持（可读性高）、switch支持字符串、 try-cathe-resource自动关">
 <meta name="keywords" content="-java源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20、JDK8新特性">
 <meta property="og:url" content="http://yoursite.com/2018/03/25/01javaSE-20JDK8特性/index.html">
-<meta property="og:site_name" content="CGの开发万事屋">
-<meta property="og:description" content="很多blog及文章对jdk的特性讲解不讲人话，我决定用人话来写一下java8的新特性，力求简单易懂！ 前几天发布了JDK10，现在JDK将极快的速度发布新版本加入新特性。JDK8带来了极大改变，在2014年就已然发布。然而国内还有大量公司使用着JDK7甚至JDK6。。。先回顾一下历代JDK的特性1）JDK5（特性多） 自动装箱拆箱、枚举、静态导入、可变长参数、泛型、foreach循环 2）JDK6">
+<meta property="og:site_name" content="CGの笔记向开发万事屋">
+<meta property="og:description" content="历代JDK的特性1）JDK5（特性多） 自动装箱拆箱、枚举、静态导入、可变长参数、泛型、foreach循环 2）JDK6（特性少） Desktop类和SystemTray类、轻量级Http Server API 插入式注解处理API、用console开发的控制台程序。 3）JDK7（特性较多） 数字变量对下划线的支持（可读性高）、switch支持字符串、 try-cathe-resource自动关">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-13T05:38:52.000Z">
+<meta property="og:updated_time" content="2018-11-28T02:55:02.124Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20、JDK8新特性">
-<meta name="twitter:description" content="很多blog及文章对jdk的特性讲解不讲人话，我决定用人话来写一下java8的新特性，力求简单易懂！ 前几天发布了JDK10，现在JDK将极快的速度发布新版本加入新特性。JDK8带来了极大改变，在2014年就已然发布。然而国内还有大量公司使用着JDK7甚至JDK6。。。先回顾一下历代JDK的特性1）JDK5（特性多） 自动装箱拆箱、枚举、静态导入、可变长参数、泛型、foreach循环 2）JDK6">
+<meta name="twitter:description" content="历代JDK的特性1）JDK5（特性多） 自动装箱拆箱、枚举、静态导入、可变长参数、泛型、foreach循环 2）JDK6（特性少） Desktop类和SystemTray类、轻量级Http Server API 插入式注解处理API、用console开发的控制台程序。 3）JDK7（特性较多） 数字变量对下划线的支持（可读性高）、switch支持字符串、 try-cathe-resource自动关">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>20、JDK8新特性 | CGの开发万事屋</title>
+  <title>20、JDK8新特性 | CGの笔记向开发万事屋</title>
   
 
 
@@ -156,7 +156,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">CGの开发万事屋</span>
+        <span class="site-title">CGの笔记向开发万事屋</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -252,7 +252,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CGの开发万事屋">
+      <meta itemprop="name" content="CGの笔记向开发万事屋">
     </span>
 
     
@@ -332,8 +332,7 @@
       
 
       
-        <p>很多blog及文章对jdk的特性讲解<strong>不讲人话</strong>，我决定用人话来写一下java8的新特性，力求简单易懂！</p>
-<p>前几天发布了JDK10，现在JDK将极快的速度发布新版本加入新特性。JDK8带来了极大改变，在2014年就已然发布。然而国内还有大量公司使用着JDK7甚至JDK6。。。<br>先回顾一下历代JDK的特性<br>1）JDK5（特性多）</p>
+        <p>历代JDK的特性<br>1）JDK5（特性多）</p>
 <pre><code>自动装箱拆箱、枚举、静态导入、可变长参数、泛型、foreach循环
 </code></pre><p>2）JDK6（特性少）</p>
 <pre><code>Desktop类和SystemTray类、轻量级Http Server API
@@ -342,15 +341,14 @@
 <pre><code>数字变量对下划线的支持（可读性高）、switch支持字符串、
 try-cathe-resource自动关闭、捕获多种异常、
 创建泛型事类型推断（如List&lt;String&gt; list=new ArrayList&lt;&gt;();ArrayList尖括号不用再写String）
-</code></pre><h1 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h1><p>跳票多年的JDK8带来了大量新特性。</p>
+</code></pre><h1 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h1><p>JDK8新特性。</p>
 <pre><code>1.速度更快！垃圾回收机制的优化（永久区的取消，新增元空间MetaSpace，直接使用物理内存）
     底层代码优化（如hashMap的红黑树引入），并行的扩展；
 2.代码更简洁！ lambda语法的引入
 3.强大的Stream API
 4.非常便于并行。直接调用相关API就可以！
 5.干掉空指针！Optional
-</code></pre><p>而国内开发者停留在JDK6~7的时代过长，纯粹的不思考的代码民工过多，JDK8带来了新特性及新编程思维，按照新思维写出来的JDK8代码，会和JDK7的代码有很大的不同。</p>
-<h2 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h2><h3 id="Lambda是什么？"><a href="#Lambda是什么？" class="headerlink" title="Lambda是什么？"></a>Lambda是什么？</h3><p>Lambda其实就是一个没有名字的函数，是一串可以像参数一样去参数的代码片段。<br>所以说Lambda可以将函数像传数据一样去传递。<br>这样说不明白吧，来看个例子</p>
+</code></pre><h2 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h2><h3 id="Lambda是什么？"><a href="#Lambda是什么？" class="headerlink" title="Lambda是什么？"></a>Lambda是什么？</h3><p>Lambda其实就是一个没有名字的函数，是一串可以像参数一样去参数的代码片段。<br>所以说Lambda可以将函数像传数据一样去传递。<br>这样说不明白吧，来看个例子</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> value= <span class="number">1024</span>;</span><br><span class="line">String str=<span class="string">"hello"</span>;</span><br></pre></td></tr></table></figure>
 <p>那么可以把一块代码付给变量吗</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">blockOfCode = <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line">    System.out.print(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -825,8 +823,8 @@ public class TestMethodRef{
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/27/06-大后端-05架构-02微服务--01Spring Cloud-06 Zuul/" rel="prev" title="02、微服务-01、Spring Cloud之06、Zuul">
-                02、微服务-01、Spring Cloud之06、Zuul <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/27/06-大后端-05架构-02微服务--01Spring Cloud-01 QuickStart/" rel="prev" title="02、微服务-01、Spring Cloud之01、QucikStart">
+                02、微服务-01、Spring Cloud之01、QucikStart <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -915,7 +913,7 @@ public class TestMethodRef{
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
